@@ -5,3 +5,7 @@ plugins {
 group = 'com.gmail.roadtojob2019'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '15'
+
+dependencies {
+	implementation project (':repository-module')
+}

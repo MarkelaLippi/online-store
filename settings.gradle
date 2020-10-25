@@ -13,6 +13,7 @@ pluginManagement {
     }
 }
 rootProject.name = 'online-store'
-include 'controller-module',
-        'service-module',
-        'repository-module'
+include 'configuration'
+include 'controller-module'
+include 'service-module'
+include 'repository-module'

@@ -1,10 +1,12 @@
 dependencies {
-    implementation project(':service-module')
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    implementation 'org.junit.jupiter:junit-jupiter:5.4.2'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
     runtimeOnly 'com.h2database:h2'
+
+    implementation project(':service-module')
 }
 
 test {

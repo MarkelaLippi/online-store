@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "com.gmail.roadtojob2019.controller")
+@ComponentScan(basePackages = "com.gmail.roadtojob2019.onlinestore.controller")
 public class OnlineStoreApplication {
 
 	public static void main(String[] args) {

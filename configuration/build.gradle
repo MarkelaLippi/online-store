@@ -2,15 +2,13 @@ plugins {
     id 'org.springframework.boot' version '2.4.0-SNAPSHOT'
 }
 
+sourceCompatibility = '15'
+
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
     implementation project(':controller-module')
     implementation project(':service-module')
     implementation project(':repository-module')
-
-    implementation 'org.springframework.boot:spring-boot-starter'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-}
-
-test {
-    useJUnitPlatform()
 }

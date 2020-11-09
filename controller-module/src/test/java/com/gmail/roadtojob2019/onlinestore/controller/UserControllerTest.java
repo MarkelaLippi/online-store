@@ -1,9 +1,11 @@
 package com.gmail.roadtojob2019.onlinestore.controller;
 
+import com.gmail.roadtojob2019.onlinestore.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -16,10 +18,8 @@ class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-/*
     @MockBean
     UserRepository userRepository;
-*/
 
     @Test
     void testGetUsers() throws Exception {

@@ -1,4 +1,4 @@
-package com.gmail.roadtojob2019.configuration;
+package com.gmail.roadtojob2019.onlinestore.configuration;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

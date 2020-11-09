@@ -7,6 +7,8 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
 
     implementation project(':service-module')
+
+    testImplementation project(':repository-module')
 }
 
 test {

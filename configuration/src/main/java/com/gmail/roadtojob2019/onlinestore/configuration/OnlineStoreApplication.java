@@ -1,4 +1,4 @@
-package com.gmail.roadtojob2019.configuration;
+package com.gmail.roadtojob2019.onlinestore.configuration;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

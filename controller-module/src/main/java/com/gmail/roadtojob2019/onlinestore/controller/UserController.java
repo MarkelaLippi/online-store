@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class UserController {
 
+    //private UserService userService;
+
     @GetMapping("/users")
     String getUsers(){
         return "users";

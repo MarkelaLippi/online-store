@@ -16,8 +16,17 @@ class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+/*
+    @MockBean
+    UserRepository userRepository;
+*/
+
     @Test
     void testGetUsers() throws Exception {
+        //given
+        //when
+        //Mockito.when(userRepository.)
+        //then
         final String contentAsString = mockMvc.perform(get("/users"))
                 .andReturn()
                 .getResponse()

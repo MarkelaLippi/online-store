@@ -17,10 +17,10 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/users")
-    String getUsers(Model model,
-                    @RequestParam(required = false, defaultValue = "0") int pageNumber,
-                    @RequestParam(required = false, defaultValue = "10") int pageSize) {
-        final List<UserDto> users = userService.getUsers(pageNumber, pageSize);
+    String getPageOfUsersSortedByEmail(Model model,
+                                       @RequestParam(required = false, defaultValue = "0") int pageNumber,
+                                       @RequestParam(required = false, defaultValue = "10") int pageSize) {
+        final List<UserDto> users = userService.getPageOfUsersSortedByEmail(pageNumber, pageSize);
         model.addAttribute("users", users);
         return "users";
     }

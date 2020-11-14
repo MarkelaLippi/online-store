@@ -1,4 +1,4 @@
-package com.gmail.roadtojob2019.onlinestore.controller;
+package com.gmail.roadtojob2019.onlinestore.controller.integration;
 
 import com.gmail.roadtojob2019.onlinestore.repository.UserRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.Role;

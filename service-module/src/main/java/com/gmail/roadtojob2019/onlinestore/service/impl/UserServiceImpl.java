@@ -7,10 +7,15 @@ import com.gmail.roadtojob2019.onlinestore.service.dto.UserDto;
 import com.gmail.roadtojob2019.onlinestore.service.mapper.UserMapper;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,9 +25,11 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     @Override
-    public Set<UserDto> getUsers() {
-        final List<User> users = userRepository.findAll();
-
-        return null;
+    public List<UserDto> getUsers(int pageNumber, int pageSize) {
+        final PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, Sort.by("email"));
+        final Page<User> users = userRepository.findAll(pageRequest);
+        return users.stream()
+                .map(userMapper::fromUserToDto)
+                .collect(Collectors.toList());
     }
 }

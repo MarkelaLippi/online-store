@@ -8,6 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -29,10 +33,12 @@ class UserControllerTest {
     @Test
     void testGetUsers() throws Exception {
         //given
+        final PageRequest pageRequest = PageRequest.of(0, 10, Sort.by("email"));
         final User user = getUser();
-        final List<User> userList = List.of(user);
+        final List<User> users = List.of(user);
+        final Page<User> page = new PageImpl<>(users);
         //when
-        when(userRepository.findAll()).thenReturn(userList);
+        when(userRepository.findAll(pageRequest)).thenReturn(page);
         //then
         final String contentAsString = mockMvc.perform(get("/users"))
                 .andReturn()

@@ -12,10 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.List;
 
-import static org.mockito.Mockito.when;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -42,12 +45,16 @@ class UserControllerTest {
         final int pageSize=10;
         final UserDto userDto = getUserDto();
         final List<UserDto> userDtos = List.of(userDto);
-        final UsersPageDto usersPageDto = getUserPageDto(userDtos);
+        final UsersPageDto expectedUsersPageDto = getUserPageDto(userDtos);
         //when
-        when(userService.getPageOfUsersSortedByEmail(pageNumber, pageSize)).thenReturn(usersPageDto);
+        when(userService.getPageOfUsersSortedByEmail(pageNumber, pageSize)).thenReturn(expectedUsersPageDto);
         //then
-        mockMvc.perform(get("/users"))
-                .andExpect(status().isOk());
+        final MvcResult mvcResult = mockMvc.perform(get("/users"))
+                .andExpect(status().isOk())
+                .andReturn();
+        final String actualUsersPageDto = mvcResult.getResponse().getContentAsString();
+
+        verify(userService, times(1)).getPageOfUsersSortedByEmail(pageNumber, pageSize);
     }
 
     private UsersPageDto getUserPageDto(List<UserDto> userDtos) {

@@ -14,12 +14,15 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.io.File;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.samePropertyValuesAs;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = UserController.class)
@@ -49,11 +52,8 @@ class UserControllerTest {
         //when
         when(userService.getPageOfUsersSortedByEmail(pageNumber, pageSize)).thenReturn(expectedUsersPageDto);
         //then
-        final MvcResult mvcResult = mockMvc.perform(get("/users"))
-                .andExpect(status().isOk())
-                .andReturn();
-        final String actualUsersPageDto = mvcResult.getResponse().getContentAsString();
-
+        mockMvc.perform(get("/users"))
+                .andExpect(status().isOk());
         verify(userService, times(1)).getPageOfUsersSortedByEmail(pageNumber, pageSize);
     }
 

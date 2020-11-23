@@ -1,5 +1,6 @@
 package com.gmail.roadtojob2019.onlinestore.repository.entity;
 
+import com.gmail.roadtojob2019.onlinestore.repository.converter.RoleConverter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,5 +25,6 @@ public class User {
     @Column(name = "email")
     private String email;
     @Column(name = "user_role")
+    @Convert(converter = RoleConverter.class)
     private Role role;
 }

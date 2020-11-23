@@ -1,7 +1,6 @@
 package com.gmail.roadtojob2019.onlinestore.controller;
 
 import com.gmail.roadtojob2019.onlinestore.service.UserService;
-import com.gmail.roadtojob2019.onlinestore.service.dto.UserDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.UsersPageDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -10,8 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor

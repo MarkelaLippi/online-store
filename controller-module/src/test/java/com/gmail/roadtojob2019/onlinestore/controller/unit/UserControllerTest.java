@@ -63,6 +63,7 @@ class UserControllerTest {
         return UserDto.builder()
                 .id(1)
                 .lastName("Markelov")
+                .middleName("Alexandrovich")
                 .firstName("Sergey")
                 .email("S_markelov@tut.by")
                 .role(Role.ADMINISTRATOR)

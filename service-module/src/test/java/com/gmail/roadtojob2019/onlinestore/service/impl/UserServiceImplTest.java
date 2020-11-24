@@ -1,6 +1,7 @@
 package com.gmail.roadtojob2019.onlinestore.service.impl;
 
 import com.gmail.roadtojob2019.onlinestore.repository.UserRepository;
+import com.gmail.roadtojob2019.onlinestore.repository.entity.LastMiddleFirstName;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.Role;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.User;
 import com.gmail.roadtojob2019.onlinestore.service.dto.UserDto;
@@ -38,7 +39,8 @@ class UserServiceImplTest {
         final int pageSize = 10;
         final String SORTING_PARAMETER = "email";
         final PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, Sort.by(SORTING_PARAMETER));
-        final User user = getUser();
+        final LastMiddleFirstName lastMiddleFirstName = getLastMiddleFirstName();
+        final User user = getUser(lastMiddleFirstName);
         Page<User> usersPage = new PageImpl<User>(List.of(user));
         final UserDto userDto = getUserDto();
         //when
@@ -57,18 +59,26 @@ class UserServiceImplTest {
     private UserDto getUserDto() {
         return UserDto.builder()
                 .id(1)
-                .firstName("Sergey")
                 .lastName("Markelov")
+                .middleName("Alexandrovich")
+                .firstName("Sergey")
                 .email("S_markelov@tut.by")
                 .role(Role.ADMINISTRATOR)
                 .build();
     }
 
-    private User getUser() {
+    private LastMiddleFirstName getLastMiddleFirstName() {
+        return LastMiddleFirstName.builder()
+                .lastName("Markelov")
+                .middleName("Alexandrovich")
+                .firstName("Sergey")
+                .build();
+    }
+
+    private User getUser(LastMiddleFirstName lastMiddleFirstName) {
         return User.builder()
                 .id(1L)
-                .firstName("Sergey")
-                .lastName("Markelov")
+                .lastMiddleFirstName(lastMiddleFirstName)
                 .email("S_markelov@tut.by")
                 .role(Role.ADMINISTRATOR)
                 .build();

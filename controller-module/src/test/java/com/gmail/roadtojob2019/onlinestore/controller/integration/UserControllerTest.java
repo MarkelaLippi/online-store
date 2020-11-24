@@ -1,6 +1,7 @@
 package com.gmail.roadtojob2019.onlinestore.controller.integration;
 
 import com.gmail.roadtojob2019.onlinestore.repository.UserRepository;
+import com.gmail.roadtojob2019.onlinestore.repository.entity.LastMiddleFirstName;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.Role;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.User;
 import org.junit.jupiter.api.Test;
@@ -34,7 +35,8 @@ class UserControllerTest {
     void testGetUsers() throws Exception {
         //given
         final PageRequest pageRequest = PageRequest.of(0, 10, Sort.by("email"));
-        final User user = getUser();
+        final LastMiddleFirstName lastMiddleFirstName = getLastMiddleFirstName();
+        final User user = getUser(lastMiddleFirstName);
         final List<User> users = List.of(user);
         final Page<User> page = new PageImpl<>(users);
         //when
@@ -46,10 +48,18 @@ class UserControllerTest {
                 .getContentAsString();
     }
 
-    private User getUser() {
-        return User.builder()
+    private LastMiddleFirstName getLastMiddleFirstName() {
+        return LastMiddleFirstName.builder()
                 .lastName("Markelov")
+                .middleName("Alexandrovich")
                 .firstName("Sergey")
+                .build();
+    }
+
+    private User getUser(LastMiddleFirstName lastMiddleFirstName) {
+        return User.builder()
+                .id(1L)
+                .lastMiddleFirstName(lastMiddleFirstName)
                 .email("S_markelov@tut.by")
                 .role(Role.ADMINISTRATOR)
                 .build();

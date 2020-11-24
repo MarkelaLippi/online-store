@@ -13,6 +13,7 @@ public class UserDto {
     private int id;
     @NonNull
     private String lastName;
+    private String middleName;
     @NonNull
     private String firstName;
     @NonNull

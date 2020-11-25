@@ -1,0 +1,163 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: CREATE_TABLE-1
+      author: RoadToJob2019@gmail.com
+      changes:
+        - createTable:
+            tableName: USERS
+            remarks: Пользователи
+            columns:
+              - column:
+                  name: id
+                  type: integer
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: user_pk
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: varchar(50)
+                  remarks: Фамилия пользователя
+                  constraints:
+                    nullable: false
+              - column:
+                  name: middle_name
+                  type: varchar(50)
+                  remarks: Отчество пользователя
+                  constraints:
+                    nullable: true
+              - column:
+                  name: first_name
+                  type: varchar(50)
+                  remarks: Имя пользователя
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(50)
+                  remarks: Адрес электронной почты пользователя
+                  constraints:
+                    unique: true
+                    uniqueConstraintName: user_email_uq
+                    nullable: false
+              - column:
+                  name: user_role
+                  type: varchar(50)
+                  remarks: Роль пользователя
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: FILL_TABLE-1
+      author: RoadToJob2019@gmail.com
+      changes:
+        - insert:
+            tableName: USERS
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: last_name
+                  value: Markelov
+              - column:
+                  name: middle_name
+                  value: Aleksandrovich
+              - column:
+                  name: first_name
+                  value: Sergey
+              - column:
+                  name: email
+                  value: RoadToJob2019@gmail.com
+              - column:
+                  name: user_role
+                  value: ADMINISTRATOR
+        - insert:
+            tableName: USERS
+            columns:
+              - column:
+                  name: id
+                  value: 2
+              - column:
+                  name: last_name
+                  value: Ivanov
+              - column:
+                  name: middle_name
+                  value: Ivanovich
+              - column:
+                  name: first_name
+                  value: Ivan
+              - column:
+                  name: email
+                  value: Ivanov@gmail.com
+              - column:
+                  name: user_role
+                  value: SALE
+        - insert:
+            tableName: USERS
+            columns:
+              - column:
+                  name: id
+                  value: 3
+              - column:
+                  name: last_name
+                  value: Petrov
+              - column:
+                  name: middle_name
+                  value: Petrovich
+              - column:
+                  name: first_name
+                  value: Petr
+              - column:
+                  name: email
+                  value: Petrov@gmail.com
+              - column:
+                  name: user_role
+                  value: CUSTOMER
+        - insert:
+            tableName: USERS
+            columns:
+              - column:
+                  name: id
+                  value: 4
+              - column:
+                  name: last_name
+                  value: Pavlov
+              - column:
+                  name: middle_name
+                  value: Pavlovich
+              - column:
+                  name: first_name
+                  value: Pavel
+              - column:
+                  name: email
+                  value: Pavlov@gmail.com
+              - column:
+                  name: user_role
+                  value: SECURE
+        - insert:
+            tableName: USERS
+            columns:
+              - column:
+                  name: id
+                  value: 5
+              - column:
+                  name: last_name
+                  value: Shildt
+              - column:
+                  name: middle_name
+                  value:
+              - column:
+                  name: first_name
+                  value: Gerbert
+              - column:
+                  name: email
+                  value: Shildt@gmail.com
+              - column:
+                  name: user_role
+                  value: ADMINISTRATOR
+
+
+

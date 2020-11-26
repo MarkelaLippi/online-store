@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = UserController.class)
@@ -36,17 +36,17 @@ class UserControllerTest {
     }
 
     @Test
-    void getPageOfUsersSortedByEmail() throws Exception {
+    void getPageOfUsersSortedByEmailTest() throws Exception {
         //given
         final int pageNumber=0;
         final int pageSize=10;
         final UserDto userDto = getUserDto();
         final List<UserDto> userDtos = List.of(userDto);
         final UsersPageDto expectedUsersPageDto = getUserPageDto(userDtos);
-        //when
         when(userService.getPageOfUsersSortedByEmail(pageNumber, pageSize)).thenReturn(expectedUsersPageDto);
-        //then
+        //when
         mockMvc.perform(get("/users"))
+        //then
                 .andExpect(status().isOk());
         verify(userService, times(1)).getPageOfUsersSortedByEmail(pageNumber, pageSize);
     }
@@ -68,5 +68,17 @@ class UserControllerTest {
                 .email("S_markelov@tut.by")
                 .role(Role.ADMINISTRATOR)
                 .build();
+    }
+
+    @Test
+    void deleteSelectedUsersTest() throws Exception {
+        //given
+        final int[] usersIds={1, 3, 5};
+        when(userService.deleteSelectedUsers(usersIds)).thenReturn(true);
+        //when
+        mockMvc.perform(delete("/users/delete").requestAttr("ids", usersIds))
+        //then
+                .andExpect(status().isOk());
+        verify(userService, times(1)).deleteSelectedUsers(usersIds);
     }
 }

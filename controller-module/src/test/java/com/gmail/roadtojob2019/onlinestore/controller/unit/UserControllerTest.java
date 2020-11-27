@@ -71,14 +71,14 @@ class UserControllerTest {
     }
 
     @Test
-    void deleteSelectedUsersTest() throws Exception {
+    void deleteUsersByIdsTest() throws Exception {
         //given
         final int[] usersIds={1, 3, 5};
-        when(userService.deleteSelectedUsers(usersIds)).thenReturn(true);
+        doNothing().when(userService).deleteUsersByIds(usersIds);
         //when
         mockMvc.perform(delete("/users/delete").requestAttr("ids", usersIds))
         //then
                 .andExpect(status().isOk());
-        verify(userService, times(1)).deleteSelectedUsers(usersIds);
+        verify(userService, times(1)).deleteUsersByIds(usersIds);
     }
 }

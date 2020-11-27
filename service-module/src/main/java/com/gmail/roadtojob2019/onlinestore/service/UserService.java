@@ -5,5 +5,5 @@ import com.gmail.roadtojob2019.onlinestore.service.dto.UsersPageDto;
 public interface UserService {
     UsersPageDto getPageOfUsersSortedByEmail(int pageNumber, int pageSize);
 
-    boolean deleteSelectedUsers(int[] usersIds);
+    void deleteUsersByIds(int[] usersIds);
 }

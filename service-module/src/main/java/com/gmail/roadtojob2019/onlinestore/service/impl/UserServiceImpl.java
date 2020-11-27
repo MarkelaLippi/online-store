@@ -43,7 +43,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public boolean deleteSelectedUsers(int[] usersIds) {
-        return false;
+    public void deleteUsersByIds(int[] usersIds) {
+        final List<Long> usersIdsAsLong = Arrays.stream(usersIds)
+                .mapToLong(Long::valueOf)
+                .boxed()
+                .collect(Collectors.toList());
+        userRepository.deleteUsersByIds(usersIdsAsLong);
     }
 }

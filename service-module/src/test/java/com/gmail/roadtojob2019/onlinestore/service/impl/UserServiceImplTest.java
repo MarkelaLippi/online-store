@@ -41,7 +41,7 @@ class UserServiceImplTest {
         final PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, Sort.by(SORTING_PARAMETER));
         final LastMiddleFirstName lastMiddleFirstName = getLastMiddleFirstName();
         final User user = getUser(lastMiddleFirstName);
-        Page<User> usersPage = new PageImpl<User>(List.of(user));
+        final Page<User> usersPage = new PageImpl<User>(List.of(user));
         final UserDto userDto = getUserDto();
         //when
         when(userRepository.findAll(pageRequest)).thenReturn(usersPage);

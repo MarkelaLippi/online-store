@@ -18,8 +18,9 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -32,20 +33,24 @@ class UserControllerTest {
     UserRepository userRepository;
 
     @Test
-    void testGetUsers() throws Exception {
+    void getPageOfUsersSortedByEmailTest() throws Exception {
         //given
-        final PageRequest pageRequest = PageRequest.of(0, 10, Sort.by("email"));
+        final int pageNumber = 0;
+        final int pageSize = 10;
+        final Sort sortingParameter = Sort.by("email");
+        final PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, sortingParameter);
         final LastMiddleFirstName lastMiddleFirstName = getLastMiddleFirstName();
         final User user = getUser(lastMiddleFirstName);
         final List<User> users = List.of(user);
         final Page<User> page = new PageImpl<>(users);
-        //when
         when(userRepository.findAll(pageRequest)).thenReturn(page);
+        //when
         //then
-        final String contentAsString = mockMvc.perform(get("/users"))
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
+        mockMvc.perform(get("/users")
+                .param("number", String.valueOf(pageNumber))
+                .param("size", String.valueOf(pageSize)))
+                .andExpect(status().isOk());
+        verify(userRepository, times(1)).findAll(pageRequest);
     }
 
     private LastMiddleFirstName getLastMiddleFirstName() {

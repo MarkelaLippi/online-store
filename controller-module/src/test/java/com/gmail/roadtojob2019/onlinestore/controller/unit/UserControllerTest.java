@@ -38,15 +38,17 @@ class UserControllerTest {
     @Test
     void getPageOfUsersSortedByEmailTest() throws Exception {
         //given
-        final int pageNumber=0;
-        final int pageSize=10;
+        final int pageNumber = 0;
+        final int pageSize = 10;
         final UserDto userDto = getUserDto();
         final List<UserDto> userDtos = List.of(userDto);
         final UsersPageDto expectedUsersPageDto = getUserPageDto(userDtos);
         when(userService.getPageOfUsersSortedByEmail(pageNumber, pageSize)).thenReturn(expectedUsersPageDto);
         //when
-        mockMvc.perform(get("/users"))
-        //then
+        mockMvc.perform(get("/users")
+                .param("number", String.valueOf(pageNumber))
+                .param("size", String.valueOf(pageSize)))
+                //then
                 .andExpect(status().isOk());
         verify(userService, times(1)).getPageOfUsersSortedByEmail(pageNumber, pageSize);
     }
@@ -73,11 +75,11 @@ class UserControllerTest {
     @Test
     void deleteUsersByIdsTest() throws Exception {
         //given
-        final int[] usersIds={1, 3, 5};
+        final int[] usersIds = {1, 3, 5};
         doNothing().when(userService).deleteUsersByIds(usersIds);
         //when
         mockMvc.perform(delete("/users/delete").requestAttr("ids", usersIds))
-        //then
+                //then
                 .andExpect(status().isOk());
         verify(userService, times(1)).deleteUsersByIds(usersIds);
     }

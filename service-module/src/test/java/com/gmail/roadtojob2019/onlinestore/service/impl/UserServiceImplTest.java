@@ -43,11 +43,11 @@ class UserServiceImplTest {
         final User user = getUser(lastMiddleFirstName);
         final Page<User> usersPage = new PageImpl<User>(List.of(user));
         final UserDto userDto = getUserDto();
-        //when
         when(userRepository.findAll(pageRequest)).thenReturn(usersPage);
         when(userMapper.fromUserToDto(user)).thenReturn(userDto);
-        //then
+        //when
         final UsersPageDto usersPageDto = userService.getPageOfUsersSortedByEmail(pageNumber, pageSize);
+        //then
         verify(userRepository, times(1)).findAll(pageRequest);
         verify(userMapper, times(1)).fromUserToDto(user);
         assertThat(usersPageDto.getUsers(), hasSize(1));
@@ -82,5 +82,17 @@ class UserServiceImplTest {
                 .email("S_markelov@tut.by")
                 .role(Role.ADMINISTRATOR)
                 .build();
+    }
+
+    @Test
+    void deleteUsersByIdsTest() {
+        //given
+        final int[] usersIntIds={1,3,5};
+        final List <Long> usersLongIds=List.of(1L,3L,5L);
+        doNothing().when(userRepository).deleteUsersByIds(usersLongIds);
+        //when
+        userService.deleteUsersByIds(usersIntIds);
+        //then
+        verify(userRepository,times(1)).deleteUsersByIds(usersLongIds);
     }
 }

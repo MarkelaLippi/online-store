@@ -44,10 +44,14 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void deleteUsersByIds(int[] usersIds) {
-        final List<Long> usersIdsAsLong = Arrays.stream(usersIds)
+        final List<Long> usersIdsAsLong = convertIntIdsToLongIds(usersIds);
+        userRepository.deleteUsersByIds(usersIdsAsLong);
+    }
+
+    private List<Long> convertIntIdsToLongIds(int[] usersIds) {
+        return Arrays.stream(usersIds)
                 .mapToLong(Long::valueOf)
                 .boxed()
                 .collect(Collectors.toList());
-        userRepository.deleteUsersByIds(usersIdsAsLong);
     }
 }

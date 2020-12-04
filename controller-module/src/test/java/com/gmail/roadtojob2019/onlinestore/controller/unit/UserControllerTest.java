@@ -78,7 +78,8 @@ class UserControllerTest {
         final int[] usersIds = {1, 3, 5};
         doNothing().when(userService).deleteUsersByIds(usersIds);
         //when
-        mockMvc.perform(delete("/users/delete").requestAttr("ids", usersIds))
+        mockMvc.perform(post("/users/delete")
+                .requestAttr("ids", usersIds))
                 //then
                 .andExpect(status().isOk());
         verify(userService, times(1)).deleteUsersByIds(usersIds);

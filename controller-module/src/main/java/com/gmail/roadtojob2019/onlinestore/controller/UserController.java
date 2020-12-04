@@ -25,14 +25,14 @@ public class UserController {
         return "users";
     }
 
-    @DeleteMapping("/users/delete")
+    @PostMapping("/users/delete")
     @ResponseStatus(HttpStatus.OK)
-    String deleteSelectedUsers(@RequestAttribute(name = "ids") int[] usersIds) {
+    String deleteUsersByIds(@RequestAttribute(name = "ids") int[] usersIds) {
         if (usersIds == null) {
             return "error";
         } else {
             userService.deleteUsersByIds(usersIds);
-            return "forward:/users";
+            return "redirect:/users";
         }
     }
 }

@@ -58,7 +58,7 @@ class UserServiceImplTest {
 
     private UserDto getUserDto() {
         return UserDto.builder()
-                .id(1)
+                .id(1L)
                 .lastName("Markelov")
                 .middleName("Alexandrovich")
                 .firstName("Sergey")
@@ -89,6 +89,7 @@ class UserServiceImplTest {
         //given
         final int[] usersIntIds={1,3,5};
         final List <Long> usersLongIds=List.of(1L,3L,5L);
+        //doNothing().when(userRepository).deleteUsersByIds(usersLongIds);
         doNothing().when(userRepository).deleteUsersByIds(usersLongIds);
         //when
         userService.deleteUsersByIds(usersIntIds);

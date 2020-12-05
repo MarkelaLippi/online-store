@@ -10,7 +10,7 @@ import org.springframework.lang.NonNull;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class UserDto {
-    private int id;
+    private Long id;
     @NonNull
     private String lastName;
     private String middleName;

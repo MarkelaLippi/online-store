@@ -60,4 +60,10 @@ public class UserServiceImpl implements UserService {
                 .boxed()
                 .collect(Collectors.toList());
     }
+
+    @Override
+    @Transactional
+    public boolean changeUserPasswordAndSendItToEmail(Long userId) {
+        return false;
+    }
 }

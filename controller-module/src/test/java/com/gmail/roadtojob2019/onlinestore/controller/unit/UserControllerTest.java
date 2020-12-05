@@ -63,7 +63,7 @@ class UserControllerTest {
 
     private UserDto getUserDto() {
         return UserDto.builder()
-                .id(1)
+                .id(1L)
                 .lastName("Markelov")
                 .middleName("Alexandrovich")
                 .firstName("Sergey")
@@ -83,5 +83,17 @@ class UserControllerTest {
                 //then
                 .andExpect(status().isOk());
         verify(userService, times(1)).deleteUsersByIds(usersIds);
+    }
+
+    @Test
+    void changeUserPasswordAndSendItToEmailTest() throws Exception {
+        //given
+        final Long userId = 1L;
+        when(userService.changeUserPasswordAndSendItToEmail(userId)).thenReturn(true);
+        //when
+        mockMvc.perform(post("/users/change/password")
+                .param("userId", userId.toString()))
+                //then
+                .andExpect(status().isOk());
     }
 }

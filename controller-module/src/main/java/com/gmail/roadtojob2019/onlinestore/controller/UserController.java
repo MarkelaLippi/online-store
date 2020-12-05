@@ -35,4 +35,10 @@ public class UserController {
             return "redirect:/users";
         }
     }
+
+    @PostMapping("/users/change/password")
+    @ResponseStatus(HttpStatus.OK)
+    String changeUserPasswordAndSendItToEmail(@RequestParam final Long userId){
+        return "redirect:/users";
+    }
 }

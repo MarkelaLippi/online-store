@@ -6,4 +6,6 @@ public interface UserService {
     UsersPageDto getPageOfUsersSortedByEmail(int pageNumber, int pageSize);
 
     void deleteUsersByIds(int[] usersIds);
+
+    boolean changeUserPasswordAndSendItToEmail(Long userId);
 }

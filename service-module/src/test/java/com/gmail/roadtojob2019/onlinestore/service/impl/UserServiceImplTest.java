@@ -18,10 +18,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {
@@ -67,6 +70,33 @@ class UserServiceImplTest {
                 .build();
     }
 
+    @Test
+    void deleteUsersByIdsTest() {
+        //given
+        final int[] usersIntIds={1,3,5};
+        final List <Long> usersLongIds=List.of(1L,3L,5L);
+        //doNothing().when(userRepository).deleteUsersByIds(usersLongIds);
+        doNothing().when(userRepository).deleteUsersByIds(usersLongIds);
+        //when
+        userService.deleteUsersByIds(usersIntIds);
+        //then
+        verify(userRepository,times(1)).deleteUsersByIds(usersLongIds);
+    }
+
+    @Test
+    void changeUserPasswordAndSendItToEmailTest() throws Exception {
+        //given
+        final Long userId = 1L;
+        final LastMiddleFirstName lastMiddleFirstName = getLastMiddleFirstName();
+        final User user = getUser(lastMiddleFirstName);
+        final Optional<User> optionalUser = Optional.of(user);
+        when(userRepository.findById(userId)).thenReturn(optionalUser);
+        //when
+        final boolean b = userService.changeUserPasswordAndSendItToEmail(userId);
+        //then
+        verify(userRepository, times(1)).findById(userId);
+    }
+
     private LastMiddleFirstName getLastMiddleFirstName() {
         return LastMiddleFirstName.builder()
                 .lastName("Markelov")
@@ -84,16 +114,4 @@ class UserServiceImplTest {
                 .build();
     }
 
-    @Test
-    void deleteUsersByIdsTest() {
-        //given
-        final int[] usersIntIds={1,3,5};
-        final List <Long> usersLongIds=List.of(1L,3L,5L);
-        //doNothing().when(userRepository).deleteUsersByIds(usersLongIds);
-        doNothing().when(userRepository).deleteUsersByIds(usersLongIds);
-        //when
-        userService.deleteUsersByIds(usersIntIds);
-        //then
-        verify(userRepository,times(1)).deleteUsersByIds(usersLongIds);
-    }
 }

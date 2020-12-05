@@ -17,8 +17,8 @@ public class UserController {
     @GetMapping("/users")
     @ResponseStatus(HttpStatus.OK)
     String getPageOfUsersSortedByEmail(Model model,
-                                       @RequestParam(name = "number", required = false, defaultValue = "0") int pageNumber,
-                                       @RequestParam(name = "size", required = false, defaultValue = "3") int pageSize) {
+                                       @RequestParam(name = "number", required = false, defaultValue = "0") final int pageNumber,
+                                       @RequestParam(name = "size", required = false, defaultValue = "3") final int pageSize) {
         final UsersPageDto pageOfUsers = userService.getPageOfUsersSortedByEmail(pageNumber, pageSize);
         model.addAttribute("users", pageOfUsers.getUsers());
         model.addAttribute("pages", pageOfUsers.getTotalNumberOfPages());
@@ -38,7 +38,10 @@ public class UserController {
 
     @PostMapping("/users/change/password")
     @ResponseStatus(HttpStatus.OK)
-    String changeUserPasswordAndSendItToEmail(@RequestParam final Long userId){
+    String changeUserPasswordAndSendItToEmail(@RequestParam final Long userId) {
+        if (userId != null) {
+            userService.changeUserPasswordAndSendItToEmail(userId);
+        }
         return "redirect:/users";
     }
 }

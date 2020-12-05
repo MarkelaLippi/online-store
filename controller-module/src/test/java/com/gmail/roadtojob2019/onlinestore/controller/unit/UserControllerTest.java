@@ -95,5 +95,6 @@ class UserControllerTest {
                 .param("userId", userId.toString()))
                 //then
                 .andExpect(status().isOk());
+        verify(userService, times(1)).changeUserPasswordAndSendItToEmail(userId);
     }
 }

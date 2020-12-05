@@ -41,6 +41,12 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
+    private UserDto getSuperAdministrator(List<UserDto> usersOnPage) {
+        return usersOnPage.stream()
+                .filter(userDto -> userDto.getLastName().equals("Markelov"))
+                .collect(Collectors.toList()).get(0);
+    }
+
     @Override
     @Transactional
     public void deleteUsersByIds(int[] usersIds) {

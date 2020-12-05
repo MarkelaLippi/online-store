@@ -27,7 +27,7 @@ public class UserController {
 
     @PostMapping("/users/delete")
     @ResponseStatus(HttpStatus.OK)
-    String deleteUsersByIds(@RequestAttribute(name = "ids") int[] usersIds) {
+    String deleteUsersByIds(@RequestParam final int[] usersIds) {
         if (usersIds == null) {
             return "error";
         } else {

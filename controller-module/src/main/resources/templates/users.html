@@ -30,10 +30,13 @@
         <td th:text="${user.role}"/>
         <td>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="usersIds" th:value="${user.id}" id="deleteUserCheckBox"
+                <input th:unless="${user.lastName == 'Markelov'}" class="form-check-input" type="checkbox" name="usersIds" th:value="${user.id}" id="deleteUserCheckBox"
                        form="Delete users">
-                <label class="form-check-label" for="deleteUserCheckBox">
+                <label th:unless="${user.lastName == 'Markelov'}" class="form-check-label" for="deleteUserCheckBox">
                     Delete user
+                </label>
+                <label th:if="${user.lastName == 'Markelov'}" class="form-check-label" for="deleteUserCheckBox">
+                    Super administrator
                 </label>
             </div>
         </td>

@@ -4,6 +4,7 @@ import com.gmail.roadtojob2019.onlinestore.repository.UserRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.LastMiddleFirstName;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.Role;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.User;
+import com.gmail.roadtojob2019.onlinestore.service.RandomPasswordGenerator;
 import com.gmail.roadtojob2019.onlinestore.service.dto.UserDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.UsersPageDto;
 import com.gmail.roadtojob2019.onlinestore.service.exception.OnlineMarketSuchUserNotFoundException;
@@ -31,6 +32,8 @@ class UserServiceImplTest {
     private UserRepository userRepository;
     @Mock
     private UserMapper userMapper;
+    @Mock
+    private RandomPasswordGenerator randomPasswordGenerator;
     @InjectMocks
     private UserServiceImpl userService;
 
@@ -89,10 +92,16 @@ class UserServiceImplTest {
         final User user = getUser(lastMiddleFirstName);
         final Optional<User> optionalUser = Optional.of(user);
         when(userRepository.findById(userId)).thenReturn(optionalUser);
+        final String PASSWORD = "password";
+        when(randomPasswordGenerator.generateRandomPassword()).thenReturn(PASSWORD);
+        user.setPassword(PASSWORD);
+        when(userRepository.saveAndFlush(user)).thenReturn(user);
         //when
-        final boolean b = userService.changeUserPasswordAndSendItToEmail(userId);
+        final boolean result = userService.changeUserPasswordAndSendItToEmail(userId);
         //then
         verify(userRepository, times(1)).findById(userId);
+        verify(randomPasswordGenerator, times(1)).generateRandomPassword();
+        verify(userRepository, times(1)).saveAndFlush(user);
     }
 
     private LastMiddleFirstName getLastMiddleFirstName() {

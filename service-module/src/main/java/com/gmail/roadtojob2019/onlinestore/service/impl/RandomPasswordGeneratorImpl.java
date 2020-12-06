@@ -5,7 +5,9 @@ import org.passay.CharacterData;
 import org.passay.CharacterRule;
 import org.passay.EnglishCharacterData;
 import org.passay.PasswordGenerator;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RandomPasswordGeneratorImpl implements RandomPasswordGenerator {
     @Override
     public String generateRandomPassword() {

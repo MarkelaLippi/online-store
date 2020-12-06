@@ -21,4 +21,5 @@ public class User {
     @Column(name = "user_role")
     @Convert(converter = RoleConverter.class)
     private Role role;
+    private String password;
 }

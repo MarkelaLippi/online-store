@@ -48,6 +48,12 @@ databaseChangeLog:
                   remarks: Роль пользователя
                   constraints:
                     nullable: false
+              - column:
+                  name: password
+                  type: varchar(50)
+                  remarks: Пароль пользователя
+                  constraints:
+                    nullable: false
 
   - changeSet:
       id: FILL_TABLE-1
@@ -74,6 +80,9 @@ databaseChangeLog:
               - column:
                   name: user_role
                   value: ADMINISTRATOR
+              - column:
+                  name: password
+                  value: 12345678
         - insert:
             tableName: USERS
             columns:
@@ -95,6 +104,9 @@ databaseChangeLog:
               - column:
                   name: user_role
                   value: SALE
+              - column:
+                  name: password
+                  value: 12345678
         - insert:
             tableName: USERS
             columns:
@@ -116,6 +128,9 @@ databaseChangeLog:
               - column:
                   name: user_role
                   value: CUSTOMER
+              - column:
+                  name: password
+                  value: 12345678
         - insert:
             tableName: USERS
             columns:
@@ -137,6 +152,9 @@ databaseChangeLog:
               - column:
                   name: user_role
                   value: SECURE
+              - column:
+                  name: password
+                  value: 12345678
         - insert:
             tableName: USERS
             columns:
@@ -158,6 +176,10 @@ databaseChangeLog:
               - column:
                   name: user_role
                   value: ADMINISTRATOR
+              - column:
+                  name: password
+                  value: 12345678
+
 
 
 

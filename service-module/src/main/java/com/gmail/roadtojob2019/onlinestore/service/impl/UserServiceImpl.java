@@ -2,6 +2,7 @@ package com.gmail.roadtojob2019.onlinestore.service.impl;
 
 import com.gmail.roadtojob2019.onlinestore.repository.UserRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.User;
+import com.gmail.roadtojob2019.onlinestore.service.RandomPasswordGenerator;
 import com.gmail.roadtojob2019.onlinestore.service.UserService;
 import com.gmail.roadtojob2019.onlinestore.service.dto.UserDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.UsersPageDto;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final RandomPasswordGenerator randomPasswordGenerator;
 
     @Override
     @Transactional
@@ -68,6 +70,9 @@ public class UserServiceImpl implements UserService {
     public boolean changeUserPasswordAndSendItToEmail(Long userId) throws OnlineMarketSuchUserNotFoundException {
         final User user = userRepository.findById(userId)
                 .orElseThrow(() -> new OnlineMarketSuchUserNotFoundException("User with id = " + userId + " was not found"));
-        return true;
+        final String randomPassword = randomPasswordGenerator.generateRandomPassword();
+        user.setPassword(randomPassword);
+        final User userAfterChangingPassword = userRepository.saveAndFlush(user);
+        return userAfterChangingPassword.getPassword().equals(randomPassword);
     }
 }

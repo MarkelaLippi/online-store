@@ -2,6 +2,7 @@ package com.gmail.roadtojob2019.onlinestore.service.impl;
 
 import com.gmail.roadtojob2019.onlinestore.repository.UserRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.User;
+import com.gmail.roadtojob2019.onlinestore.service.EmailService;
 import com.gmail.roadtojob2019.onlinestore.service.RandomPasswordGenerator;
 import com.gmail.roadtojob2019.onlinestore.service.UserService;
 import com.gmail.roadtojob2019.onlinestore.service.dto.UserDto;
@@ -26,6 +27,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final RandomPasswordGenerator randomPasswordGenerator;
+    private final EmailService emailService;
 
     @Override
     @Transactional
@@ -73,6 +75,13 @@ public class UserServiceImpl implements UserService {
         final String randomPassword = randomPasswordGenerator.generateRandomPassword();
         user.setPassword(randomPassword);
         final User userAfterChangingPassword = userRepository.saveAndFlush(user);
+        sendNewUserPasswordToEmail(user, randomPassword);
         return userAfterChangingPassword.getPassword().equals(randomPassword);
+    }
+
+    private void sendNewUserPasswordToEmail(User user, String newUserPassword) {
+        final String userEmail = user.getEmail();
+        final String MAIL_SUBJECT = "Your password was changed";
+        emailService.sendNewUserPasswordToEmail(userEmail, MAIL_SUBJECT, newUserPassword);
     }
 }

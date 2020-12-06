@@ -4,6 +4,7 @@ import com.gmail.roadtojob2019.onlinestore.repository.UserRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.LastMiddleFirstName;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.Role;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.User;
+import com.gmail.roadtojob2019.onlinestore.service.EmailService;
 import com.gmail.roadtojob2019.onlinestore.service.RandomPasswordGenerator;
 import com.gmail.roadtojob2019.onlinestore.service.dto.UserDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.UsersPageDto;
@@ -34,6 +35,8 @@ class UserServiceImplTest {
     private UserMapper userMapper;
     @Mock
     private RandomPasswordGenerator randomPasswordGenerator;
+    @Mock
+    private EmailService emailService;
     @InjectMocks
     private UserServiceImpl userService;
 

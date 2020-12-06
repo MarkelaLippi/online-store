@@ -2,6 +2,7 @@ package com.gmail.roadtojob2019.onlinestore.controller;
 
 import com.gmail.roadtojob2019.onlinestore.service.UserService;
 import com.gmail.roadtojob2019.onlinestore.service.dto.UsersPageDto;
+import com.gmail.roadtojob2019.onlinestore.service.exception.OnlineMarketSuchUserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -38,7 +39,7 @@ public class UserController {
 
     @PostMapping("/users/change/password")
     @ResponseStatus(HttpStatus.OK)
-    String changeUserPasswordAndSendItToEmail(@RequestParam final Long userId) {
+    String changeUserPasswordAndSendItToEmail(@RequestParam final Long userId) throws OnlineMarketSuchUserNotFoundException {
         if (userId != null) {
             userService.changeUserPasswordAndSendItToEmail(userId);
         }

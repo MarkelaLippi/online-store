@@ -5,6 +5,7 @@ import com.gmail.roadtojob2019.onlinestore.repository.entity.User;
 import com.gmail.roadtojob2019.onlinestore.service.UserService;
 import com.gmail.roadtojob2019.onlinestore.service.dto.UserDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.UsersPageDto;
+import com.gmail.roadtojob2019.onlinestore.service.exception.OnlineMarketSuchUserNotFoundException;
 import com.gmail.roadtojob2019.onlinestore.service.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -64,8 +65,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public boolean changeUserPasswordAndSendItToEmail(Long userId) {
-        final Optional<User> byId = userRepository.findById(userId);
+    public boolean changeUserPasswordAndSendItToEmail(Long userId) throws OnlineMarketSuchUserNotFoundException {
+        final User user = userRepository.findById(userId)
+                .orElseThrow(() -> new OnlineMarketSuchUserNotFoundException("User with id = " + userId + " was not found"));
         return true;
     }
 }

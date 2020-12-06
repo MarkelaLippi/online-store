@@ -6,6 +6,7 @@ import com.gmail.roadtojob2019.onlinestore.repository.entity.Role;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.User;
 import com.gmail.roadtojob2019.onlinestore.service.dto.UserDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.UsersPageDto;
+import com.gmail.roadtojob2019.onlinestore.service.exception.OnlineMarketSuchUserNotFoundException;
 import com.gmail.roadtojob2019.onlinestore.service.mapper.UserMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,8 +24,6 @@ import java.util.Optional;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {
@@ -75,7 +74,6 @@ class UserServiceImplTest {
         //given
         final int[] usersIntIds={1,3,5};
         final List <Long> usersLongIds=List.of(1L,3L,5L);
-        //doNothing().when(userRepository).deleteUsersByIds(usersLongIds);
         doNothing().when(userRepository).deleteUsersByIds(usersLongIds);
         //when
         userService.deleteUsersByIds(usersIntIds);
@@ -84,7 +82,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void changeUserPasswordAndSendItToEmailTest() throws Exception {
+    void changeUserPasswordAndSendItToEmailTest() throws Exception, OnlineMarketSuchUserNotFoundException {
         //given
         final Long userId = 1L;
         final LastMiddleFirstName lastMiddleFirstName = getLastMiddleFirstName();

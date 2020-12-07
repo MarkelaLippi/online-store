@@ -4,6 +4,9 @@ import com.gmail.roadtojob2019.onlinestore.repository.UserRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.LastMiddleFirstName;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.Role;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.User;
+import com.gmail.roadtojob2019.onlinestore.service.EmailService;
+import com.gmail.roadtojob2019.onlinestore.service.RandomPasswordGenerator;
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -17,6 +20,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -33,6 +37,12 @@ class UserControllerTest {
     @MockBean
     UserRepository userRepository;
 
+    @MockBean
+    RandomPasswordGenerator randomPasswordGenerator;
+
+    @MockBean
+    EmailService emailService;
+
     @Test
     void getPageOfUsersSortedByEmailTest() throws Exception {
         //given
@@ -46,12 +56,50 @@ class UserControllerTest {
         final Page<User> page = new PageImpl<>(users);
         when(userRepository.findAll(pageRequest)).thenReturn(page);
         //when
-        //then
         mockMvc.perform(get("/users")
                 .param("number", String.valueOf(pageNumber))
                 .param("size", String.valueOf(pageSize)))
+                //then
                 .andExpect(status().isOk());
         verify(userRepository, times(1)).findAll(pageRequest);
+    }
+
+    @Test
+    void deleteUsersByIdsTest() throws Exception {
+        //given
+        final List<Long> usersIds = List.of(1L, 3L, 5L);
+        doNothing().when(userRepository).deleteUsersByIds(usersIds);
+        //when
+        mockMvc.perform(post("/users/delete")
+                .param("usersIds", "1, 3, 5"))
+                //then
+                .andExpect(status().isOk());
+        verify(userRepository, times(1)).deleteUsersByIds(usersIds);
+    }
+
+    @Test
+    void changeUserPasswordAndSendItToEmailTest() throws Exception {
+        //given
+        final Long userId = 1L;
+        final LastMiddleFirstName lastMiddleFirstName = getLastMiddleFirstName();
+        final User user = getUser(lastMiddleFirstName);
+        final Optional<User> optionalUser = Optional.of(user);
+        when(userRepository.findById(userId)).thenReturn(optionalUser);
+        final String randomPassword = "randomPassword";
+        when(randomPasswordGenerator.generateRandomPassword()).thenReturn(randomPassword);
+        user.setPassword(randomPassword);
+        when(userRepository.saveAndFlush(user)).thenReturn(user);
+        final String MAIL_SUBJECT = "Your password was changed";
+        doNothing().when(emailService).sendNewUserPasswordToEmail(user.getEmail(), MAIL_SUBJECT, randomPassword);
+        //when
+        mockMvc.perform(post("/users/change/password")
+                .param("userId", userId.toString()))
+                //then
+                .andExpect(status().isOk());
+        verify(userRepository, times(1)).findById(userId);
+        verify(randomPasswordGenerator, times(1)).generateRandomPassword();
+        verify(userRepository, times(1)).saveAndFlush(user);
+        verify(emailService, times(1)).sendNewUserPasswordToEmail(user.getEmail(), MAIL_SUBJECT, randomPassword);
     }
 
     private LastMiddleFirstName getLastMiddleFirstName() {
@@ -66,21 +114,9 @@ class UserControllerTest {
         return User.builder()
                 .id(1L)
                 .lastMiddleFirstName(lastMiddleFirstName)
-                .email("S_markelov@tut.by")
+                .email("MarkelaLippi@gmail.com")
                 .role(Role.ADMINISTRATOR)
+                .password("password")
                 .build();
-    }
-
-    @Test
-    void deleteUsersByIdsTest() throws Exception {
-        //given
-        final List<Long> usersIds = List.of(1L, 3L, 5L);
-        doNothing().when(userRepository).deleteUsersByIds(usersIds);
-        //when
-        mockMvc.perform(post("/users/delete")
-                .param("usersIds", "1, 3, 5"))
-                //then
-                .andExpect(status().isOk());
-        verify(userRepository, times(1)).deleteUsersByIds(usersIds);
     }
 }

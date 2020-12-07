@@ -179,6 +179,31 @@ databaseChangeLog:
               - column:
                   name: password
                   value: 12345678
+        - insert:
+            tableName: USERS
+            columns:
+              - column:
+                  name: id
+                  value: 6
+              - column:
+                  name: last_name
+                  value: Korzun
+              - column:
+                  name: middle_name
+                  value: Alexandrovna
+              - column:
+                  name: first_name
+                  value: Angelika
+              - column:
+                  name: email
+                  value: MarkelaLippi@gmail.com
+              - column:
+                  name: user_role
+                  value: SECURE
+              - column:
+                  name: password
+                  value: 12345678
+
 
 
 

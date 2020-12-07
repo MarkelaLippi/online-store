@@ -102,6 +102,7 @@ class UserServiceImplTest {
         //when
         final boolean result = userService.changeUserPasswordAndSendItToEmail(userId);
         //then
+        assertThat(result, is(true));
         verify(userRepository, times(1)).findById(userId);
         verify(randomPasswordGenerator, times(1)).generateRandomPassword();
         verify(userRepository, times(1)).saveAndFlush(user);

@@ -20,6 +20,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -68,5 +69,18 @@ class UserControllerTest {
                 .email("S_markelov@tut.by")
                 .role(Role.ADMINISTRATOR)
                 .build();
+    }
+
+    @Test
+    void deleteUsersByIdsTest() throws Exception {
+        //given
+        final List<Long> usersIds = List.of(1L, 3L, 5L);
+        doNothing().when(userRepository).deleteUsersByIds(usersIds);
+        //when
+        mockMvc.perform(post("/users/delete")
+                .param("usersIds", "1, 3, 5"))
+                //then
+                .andExpect(status().isOk());
+        verify(userRepository, times(1)).deleteUsersByIds(usersIds);
     }
 }

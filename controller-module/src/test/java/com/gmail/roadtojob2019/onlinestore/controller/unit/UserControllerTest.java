@@ -90,7 +90,8 @@ class UserControllerTest {
     void changeUserPasswordAndSendItToEmailTest() throws Exception {
         //given
         final Long userId = 1L;
-        when(userService.changeUserPasswordAndSendItToEmail(userId)).thenReturn(true);
+        final boolean result = true;
+        when(userService.changeUserPasswordAndSendItToEmail(userId)).thenReturn(result);
         //when
         mockMvc.perform(post("/users/change/password")
                 .param("userId", userId.toString()))

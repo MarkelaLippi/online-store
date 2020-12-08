@@ -45,4 +45,11 @@ public class UserController {
         }
         return "redirect:/users";
     }
+
+    @PostMapping("/users/change/role")
+    @ResponseStatus(HttpStatus.OK)
+    String changeUserRole(@RequestParam final Long userId, @RequestParam final String userRole) throws OnlineMarketSuchUserNotFoundException {
+        userService.changeUserRole(userId, userRole);
+        return "redirect:/users";
+    }
 }

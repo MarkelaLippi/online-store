@@ -1,6 +1,7 @@
 package com.gmail.roadtojob2019.onlinestore.service.impl;
 
 import com.gmail.roadtojob2019.onlinestore.repository.UserRepository;
+import com.gmail.roadtojob2019.onlinestore.repository.entity.Role;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.User;
 import com.gmail.roadtojob2019.onlinestore.service.EmailService;
 import com.gmail.roadtojob2019.onlinestore.service.RandomPasswordGenerator;
@@ -83,5 +84,15 @@ public class UserServiceImpl implements UserService {
         final String userEmail = user.getEmail();
         final String MAIL_SUBJECT = "Your password was changed";
         emailService.sendNewUserPasswordToEmail(userEmail, MAIL_SUBJECT, newUserPassword);
+    }
+
+    @Override
+    public boolean changeUserRole(Long userId, String userRole) throws OnlineMarketSuchUserNotFoundException {
+        final User user = userRepository.findById(userId)
+                .orElseThrow(() -> new OnlineMarketSuchUserNotFoundException("User with id = " + userId + " was not found"));
+        final Role newUserRole = Role.valueOf(userRole);
+        user.setRole(newUserRole);
+        final User userAfterChangingRole = userRepository.saveAndFlush(user);
+        return userAfterChangingRole.getRole().equals(newUserRole);
     }
 }

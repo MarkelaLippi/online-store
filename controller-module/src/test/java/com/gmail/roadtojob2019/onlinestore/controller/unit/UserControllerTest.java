@@ -99,4 +99,20 @@ class UserControllerTest {
                 .andExpect(status().isOk());
         verify(userService, times(1)).changeUserPasswordAndSendItToEmail(userId);
     }
+
+    @Test
+    void changeUserRoleTest() throws Exception {
+        //given
+        final Long userId = 1L;
+        final String userRole = "SECURE";
+        final boolean result = true;
+        when(userService.changeUserRole(userId, userRole)).thenReturn(result);
+        //when
+        mockMvc.perform(post("/users/change/role")
+                .param("userId", userId.toString())
+                .param("userRole", userRole))
+                //then
+                .andExpect(status().isOk());
+        verify(userService, times(1)).changeUserRole(userId, userRole);
+    }
 }

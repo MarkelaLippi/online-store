@@ -102,6 +102,28 @@ class UserControllerTest {
         verify(emailService, times(1)).sendNewUserPasswordToEmail(user.getEmail(), MAIL_SUBJECT, randomPassword);
     }
 
+    @Test
+    void changeUserRoleTest() throws Exception {
+        //given
+        final Long userId = 1L;
+        final String userRole = "SECURE";
+        final LastMiddleFirstName lastMiddleFirstName = getLastMiddleFirstName();
+        final User user = getUser(lastMiddleFirstName);
+        final Optional<User> optionalUser = Optional.of(user);
+        when(userRepository.findById(userId)).thenReturn(optionalUser);
+        final Role newUserRole = Role.SECURE;
+        user.setRole(newUserRole);
+        when(userRepository.saveAndFlush(user)).thenReturn(user);
+        //when
+        mockMvc.perform(post("/users/change/role")
+                .param("userId", userId.toString())
+                .param("userRole", userRole))
+                //then
+                .andExpect(status().isOk());
+        verify(userRepository, times(1)).findById(userId);
+        verify(userRepository, times(1)).saveAndFlush(user);
+    }
+
     private LastMiddleFirstName getLastMiddleFirstName() {
         return LastMiddleFirstName.builder()
                 .lastName("Markelov")

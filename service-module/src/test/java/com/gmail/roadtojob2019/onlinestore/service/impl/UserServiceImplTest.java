@@ -80,13 +80,13 @@ class UserServiceImplTest {
     @Test
     void deleteUsersByIdsTest() {
         //given
-        final int[] usersIntIds={1,3,5};
-        final List <Long> usersLongIds=List.of(1L,3L,5L);
+        final int[] usersIntIds = {1, 3, 5};
+        final List<Long> usersLongIds = List.of(1L, 3L, 5L);
         doNothing().when(userRepository).deleteUsersByIds(usersLongIds);
         //when
         userService.deleteUsersByIds(usersIntIds);
         //then
-        verify(userRepository,times(1)).deleteUsersByIds(usersLongIds);
+        verify(userRepository, times(1)).deleteUsersByIds(usersLongIds);
     }
 
     @Test
@@ -107,6 +107,24 @@ class UserServiceImplTest {
         assertThat(result, is(true));
         verify(userRepository, times(1)).findById(userId);
         verify(randomPasswordGenerator, times(1)).generateRandomPassword();
+        verify(userRepository, times(1)).saveAndFlush(user);
+    }
+
+    @Test
+    void changeUserRoleTest() throws OnlineMarketSuchUserNotFoundException {
+        //given
+        final Long userId = 1L;
+        final String userRole = "SECURE";
+        final LastMiddleFirstName lastMiddleFirstName = getLastMiddleFirstName();
+        final User user = getUser(lastMiddleFirstName);
+        final Optional<User> optionalUser = Optional.of(user);
+        when(userRepository.findById(userId)).thenReturn(optionalUser);
+        final Role newUserRole = Role.SECURE;
+        user.setRole(newUserRole);
+        when(userRepository.saveAndFlush(user)).thenReturn(user);
+        final boolean result = userService.changeUserRole(userId, userRole);
+        assertThat(result, is(true));
+        verify(userRepository, times(1)).findById(userId);
         verify(userRepository, times(1)).saveAndFlush(user);
     }
 

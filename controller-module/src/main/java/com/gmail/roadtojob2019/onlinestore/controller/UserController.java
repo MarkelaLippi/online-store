@@ -23,6 +23,7 @@ public class UserController {
         final UsersPageDto pageOfUsers = userService.getPageOfUsersSortedByEmail(pageNumber, pageSize);
         model.addAttribute("users", pageOfUsers.getUsers());
         model.addAttribute("pages", pageOfUsers.getTotalNumberOfPages());
+        model.addAttribute("roles", pageOfUsers.getRoles());
         return "users";
     }
 

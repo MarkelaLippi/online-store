@@ -7,6 +7,9 @@
           integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 </head>
 <body>
+<div>
+    <h1>All users <span class="badge badge-pill badge-success">ONLINE STORE</span></h1>
+</div>
 <table class="table table-striped">
     <thead class="thead-dark">
     <tr>
@@ -17,6 +20,9 @@
         <th scope="col">FirstName</th>
         <th scope="col">Email</th>
         <th scope="col">Role</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col">New user role</th>
     </tr>
     </thead>
     <tbody>
@@ -44,11 +50,23 @@
         <td>
             <div>
                 <form action="/users/change/password" method="post">
-                    <button type="submit" class="btn btn-warning" name="userId" th:value="${user.id}">
+                    <button th:unless="${user.lastName == 'Markelov'}" type="submit" class="btn btn-warning" name="userId" th:value="${user.id}">
                         Change password
                     </button>
                 </form>
             </div>
+        </td>
+        <td>
+            <form action="/users/change/role" method="post">
+                <input th:unless="${user.lastName == 'Markelov'}" type="hidden" name="userId" th:value="${user.id}"/>
+                <select th:unless="${user.lastName == 'Markelov'}" name="userRole">
+                    <option th:each="role : ${roles}" th:value="${role}" th:text="${role}">
+                    </option>
+                </select>
+                <button th:unless="${user.lastName == 'Markelov'}" type="submit" class="btn btn-danger">
+                    Change role
+                </button>
+            </form>
         </td>
     </tr>
     </tbody>

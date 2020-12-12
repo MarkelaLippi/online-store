@@ -41,10 +41,14 @@ public class UserServiceImpl implements UserService {
         final List<UserDto> usersOnPage = pageOfUsers.stream()
                 .map(userMapper::fromUserToDto)
                 .collect(Collectors.toList());
+        final List<String> roles = Arrays.stream(Role.values())
+                .map(Role::name)
+                .collect(Collectors.toList());
         return UsersPageDto.builder()
                 .totalNumberOfUsers(totalNumberOfUsers)
                 .totalNumberOfPages(totalNumberOfPages)
                 .users(usersOnPage)
+                .roles(roles)
                 .build();
     }
 

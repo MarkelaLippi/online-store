@@ -101,7 +101,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Long addUser(UserDto newUser) {
-        return null;
+    public Long addUser(UserDto newUserDto) {
+        final User newUser = userMapper.fromDtoToUser(newUserDto);
+        final User addedNewUser = userRepository.saveAndFlush(newUser);
+        return addedNewUser.getId();
     }
 }

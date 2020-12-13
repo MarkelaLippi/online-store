@@ -55,6 +55,12 @@ public class UserController {
         return "redirect:/users";
     }
 
+    @GetMapping("/users/add")
+    @ResponseStatus(HttpStatus.OK)
+    String getNewUserPage(){
+        return "user";
+    }
+
     @PostMapping("/users/add")
     @ResponseStatus(HttpStatus.CREATED)
     String addUser(@RequestBody final UserDto user) {

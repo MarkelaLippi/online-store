@@ -24,7 +24,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -49,31 +50,15 @@ class UserServiceImplTest {
         final PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, Sort.by(SORTING_PARAMETER));
         final LastMiddleFirstName lastMiddleFirstName = getLastMiddleFirstName();
         final User user = getUser(lastMiddleFirstName);
-        final Page<User> usersPage = new PageImpl<User>(List.of(user));
-        final UserDto userDto = getUserDto();
+        final Page<User> usersPage = new PageImpl<>(List.of(user));
         when(userRepository.findAll(pageRequest)).thenReturn(usersPage);
-        when(userMapper.fromUserToDto(user)).thenReturn(userDto);
         //when
         final UsersPageDto usersPageDto = userService.getPageOfUsersSortedByEmail(pageNumber, pageSize);
         //then
         verify(userRepository, times(1)).findAll(pageRequest);
-        verify(userMapper, times(1)).fromUserToDto(user);
         assertThat(usersPageDto.getUsers(), hasSize(1));
         assertThat(usersPageDto.getTotalNumberOfPages(), is(1));
         assertThat(usersPageDto.getTotalNumberOfUsers(), is(1));
-        assertThat(usersPageDto.getUsers().get(0), hasProperty("lastName", equalTo("Markelov")));
-    }
-
-    private UserDto getUserDto() {
-        return UserDto.builder()
-                .id(1L)
-                .lastName("Markelov")
-                .middleName("Alexandrovich")
-                .firstName("Sergey")
-                .email("S_markelov@tut.by")
-                .password("12345678")
-                .role(Role.ADMINISTRATOR)
-                .build();
     }
 
     @Test
@@ -121,10 +106,25 @@ class UserServiceImplTest {
         final Role newUserRole = Role.SECURE;
         user.setRole(newUserRole);
         when(userRepository.saveAndFlush(user)).thenReturn(user);
+        //when
         final boolean result = userService.changeUserRole(userId, userRole);
+        //then
         assertThat(result, is(true));
         verify(userRepository, times(1)).findById(userId);
         verify(userRepository, times(1)).saveAndFlush(user);
+    }
+
+    @Test
+    void addUserTest() {
+        //given
+        final UserDto newUserDto = getUserDto();
+        final LastMiddleFirstName lastMiddleFirstName = getLastMiddleFirstName();
+        final User newUser = getUser(lastMiddleFirstName);
+        when(userRepository.saveAndFlush(any())).thenReturn(newUser);
+        //when
+        final Long addedUserId = userService.addUser(newUserDto);
+        //then
+        verify(userRepository, times(1)).saveAndFlush(any());
     }
 
     private LastMiddleFirstName getLastMiddleFirstName() {
@@ -140,8 +140,20 @@ class UserServiceImplTest {
                 .id(1L)
                 .lastMiddleFirstName(lastMiddleFirstName)
                 .email("S_markelov@tut.by")
+                .password("12345678")
                 .role(Role.ADMINISTRATOR)
                 .build();
     }
 
+    private UserDto getUserDto() {
+        return UserDto.builder()
+                .id(1L)
+                .lastName("Markelov")
+                .middleName("Alexandrovich")
+                .firstName("Sergey")
+                .email("S_markelov@tut.by")
+                .password("12345678")
+                .role(Role.ADMINISTRATOR)
+                .build();
+    }
 }

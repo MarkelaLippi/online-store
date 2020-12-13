@@ -1,11 +1,13 @@
 package com.gmail.roadtojob2019.onlinestore.controller.integration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gmail.roadtojob2019.onlinestore.repository.UserRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.LastMiddleFirstName;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.Role;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.User;
 import com.gmail.roadtojob2019.onlinestore.service.EmailService;
 import com.gmail.roadtojob2019.onlinestore.service.RandomPasswordGenerator;
+import com.gmail.roadtojob2019.onlinestore.service.dto.UserDto;
 import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -33,6 +36,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @MockBean
     UserRepository userRepository;
@@ -124,6 +130,22 @@ class UserControllerTest {
         verify(userRepository, times(1)).saveAndFlush(user);
     }
 
+    @Test
+    void addUserTest() throws Exception {
+        //given
+        final LastMiddleFirstName lastMiddleFirstName = getLastMiddleFirstName();
+        final User newUser = getUser(lastMiddleFirstName);
+        when(userRepository.saveAndFlush(any())).thenReturn(newUser);
+        final UserDto newUserDto = getUserDto();
+        //when
+        mockMvc.perform(post("/users/add")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(newUserDto)))
+                //then
+                .andExpect(status().isCreated());
+        verify(userRepository, times(1)).saveAndFlush(any());
+    }
+
     private LastMiddleFirstName getLastMiddleFirstName() {
         return LastMiddleFirstName.builder()
                 .lastName("Markelov")
@@ -136,6 +158,17 @@ class UserControllerTest {
         return User.builder()
                 .id(1L)
                 .lastMiddleFirstName(lastMiddleFirstName)
+                .email("MarkelaLippi@gmail.com")
+                .role(Role.ADMINISTRATOR)
+                .password("password")
+                .build();
+    }
+
+    private UserDto getUserDto() {
+        return UserDto.builder()
+                .lastName("Markelov")
+                .middleName("Alexandrovich")
+                .firstName("Sergey")
                 .email("MarkelaLippi@gmail.com")
                 .role(Role.ADMINISTRATOR)
                 .password("password")

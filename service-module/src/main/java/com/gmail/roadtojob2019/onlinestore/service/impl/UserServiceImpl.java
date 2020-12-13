@@ -99,4 +99,9 @@ public class UserServiceImpl implements UserService {
         final User userAfterChangingRole = userRepository.saveAndFlush(user);
         return userAfterChangingRole.getRole().equals(newUserRole);
     }
+
+    @Override
+    public Long addUser(UserDto newUser) {
+        return null;
+    }
 }

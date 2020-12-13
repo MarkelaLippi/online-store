@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -69,6 +70,7 @@ class UserControllerTest {
                 .middleName("Alexandrovich")
                 .firstName("Sergey")
                 .email("S_markelov@tut.by")
+                .password("12345678")
                 .role(Role.ADMINISTRATOR)
                 .build();
     }
@@ -114,5 +116,31 @@ class UserControllerTest {
                 //then
                 .andExpect(status().isOk());
         verify(userService, times(1)).changeUserRole(userId, userRole);
+    }
+
+    @Test
+    void addUserTest() throws Exception {
+        //given
+        final UserDto newUser = getNewUser();
+        final Long userId = 10L;
+        when(userService.addUser(newUser)).thenReturn(userId);
+        //when
+        mockMvc.perform(post("/users/add")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(newUser)))
+                //then
+                .andExpect(status().isCreated());
+        verify(userService, times(1)).addUser(newUser);
+    }
+
+    private UserDto getNewUser() {
+        return UserDto.builder()
+                .lastName("Statkevich")
+                .middleName("Viktorovich")
+                .firstName("Nikolay")
+                .role(Role.SALE)
+                .email("Statkevich@gmail.com")
+                .password("12345678")
+                .build();
     }
 }

@@ -71,6 +71,7 @@ class UserServiceImplTest {
                 .middleName("Alexandrovich")
                 .firstName("Sergey")
                 .email("S_markelov@tut.by")
+                .password("12345678")
                 .role(Role.ADMINISTRATOR)
                 .build();
     }

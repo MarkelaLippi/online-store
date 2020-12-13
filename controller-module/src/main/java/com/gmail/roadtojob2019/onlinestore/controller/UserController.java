@@ -1,6 +1,7 @@
 package com.gmail.roadtojob2019.onlinestore.controller;
 
 import com.gmail.roadtojob2019.onlinestore.service.UserService;
+import com.gmail.roadtojob2019.onlinestore.service.dto.UserDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.UsersPageDto;
 import com.gmail.roadtojob2019.onlinestore.service.exception.OnlineMarketSuchUserNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -51,6 +52,13 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     String changeUserRole(@RequestParam final Long userId, @RequestParam final String userRole) throws OnlineMarketSuchUserNotFoundException {
         userService.changeUserRole(userId, userRole);
+        return "redirect:/users";
+    }
+
+    @PostMapping("/users/add")
+    @ResponseStatus(HttpStatus.CREATED)
+    String addUser(@RequestBody final UserDto user) {
+        final Long addedUserId = userService.addUser(user);
         return "redirect:/users";
     }
 }

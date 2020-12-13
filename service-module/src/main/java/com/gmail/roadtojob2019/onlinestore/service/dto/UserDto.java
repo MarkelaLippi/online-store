@@ -4,9 +4,11 @@ import com.gmail.roadtojob2019.onlinestore.repository.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.lang.NonNull;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class UserDto {
@@ -20,4 +22,6 @@ public class UserDto {
     private String email;
     @NonNull
     private Role role;
+    @NonNull
+    private String password;
 }

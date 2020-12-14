@@ -63,8 +63,8 @@ public class UserController {
 
     @PostMapping("/users/add")
     @ResponseStatus(HttpStatus.CREATED)
-    String addUser(@RequestBody final UserDto user) {
-        final Long addedUserId = userService.addUser(user);
+    String addUser(final @RequestBody UserDto userDto) {
+        final Long addedUserId = userService.addUser(userDto);
         return "redirect:/users";
     }
 }

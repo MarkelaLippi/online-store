@@ -57,13 +57,15 @@ public class UserController {
 
     @GetMapping("/users/add")
     @ResponseStatus(HttpStatus.OK)
-    String getNewUserPage(){
+    String getNewUserPage(Model model){
+        final UserDto user = new UserDto();
+        model.addAttribute("user", user);
         return "user";
     }
 
     @PostMapping("/users/add")
     @ResponseStatus(HttpStatus.CREATED)
-    String addUser(final @RequestBody UserDto userDto) {
+    String addUser(final @ModelAttribute(name = "user") UserDto userDto) {
         final Long addedUserId = userService.addUser(userDto);
         return "redirect:/users";
     }

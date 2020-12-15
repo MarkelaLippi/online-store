@@ -7,8 +7,6 @@ import com.gmail.roadtojob2019.onlinestore.repository.entity.Role;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.User;
 import com.gmail.roadtojob2019.onlinestore.service.EmailService;
 import com.gmail.roadtojob2019.onlinestore.service.RandomPasswordGenerator;
-import com.gmail.roadtojob2019.onlinestore.service.dto.UserDto;
-import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -18,7 +16,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -136,11 +133,14 @@ class UserControllerTest {
         final LastMiddleFirstName lastMiddleFirstName = getLastMiddleFirstName();
         final User newUser = getUser(lastMiddleFirstName);
         when(userRepository.saveAndFlush(any())).thenReturn(newUser);
-        final UserDto newUserDto = getUserDto();
         //when
         mockMvc.perform(post("/users/add")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(newUserDto)))
+                .param("lastName", "Statkevich")
+                .param("middleName", "Viktorovich")
+                .param("firstName", "Nikolay")
+                .param("role", "SALE")
+                .param("email", "Statkevich@gmail.com")
+                .param("password", "12345678"))
                 //then
                 .andExpect(status().isCreated());
         verify(userRepository, times(1)).saveAndFlush(any());
@@ -158,17 +158,6 @@ class UserControllerTest {
         return User.builder()
                 .id(1L)
                 .lastMiddleFirstName(lastMiddleFirstName)
-                .email("MarkelaLippi@gmail.com")
-                .role(Role.ADMINISTRATOR)
-                .password("password")
-                .build();
-    }
-
-    private UserDto getUserDto() {
-        return UserDto.builder()
-                .lastName("Markelov")
-                .middleName("Alexandrovich")
-                .firstName("Sergey")
                 .email("MarkelaLippi@gmail.com")
                 .role(Role.ADMINISTRATOR)
                 .password("password")

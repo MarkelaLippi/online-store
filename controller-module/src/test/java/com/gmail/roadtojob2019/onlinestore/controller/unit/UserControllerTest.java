@@ -6,19 +6,18 @@ import com.gmail.roadtojob2019.onlinestore.repository.entity.Role;
 import com.gmail.roadtojob2019.onlinestore.service.UserService;
 import com.gmail.roadtojob2019.onlinestore.service.dto.UserDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.UsersPageDto;
-import com.gmail.roadtojob2019.onlinestore.service.exception.OnlineMarketSuchUserNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = UserController.class)
@@ -121,19 +120,23 @@ class UserControllerTest {
     @Test
     void addUserTest() throws Exception {
         //given
-        final UserDto newUser = getNewUser();
+        final UserDto newUser = getNewUserDto();
         final Long userId = 10L;
         when(userService.addUser(newUser)).thenReturn(userId);
         //when
         mockMvc.perform(post("/users/add")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(newUser)))
+                .param("lastName", "Statkevich")
+                .param("middleName", "Viktorovich")
+                .param("firstName", "Nikolay")
+                .param("role", "SALE")
+                .param("email", "Statkevich@gmail.com")
+                .param("password", "12345678"))
                 //then
                 .andExpect(status().isCreated());
         verify(userService, times(1)).addUser(newUser);
     }
 
-    private UserDto getNewUser() {
+    private UserDto getNewUserDto() {
         return UserDto.builder()
                 .lastName("Statkevich")
                 .middleName("Viktorovich")

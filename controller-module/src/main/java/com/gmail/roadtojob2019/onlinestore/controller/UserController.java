@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -65,7 +66,7 @@ public class UserController {
 
     @PostMapping("/users/add")
     @ResponseStatus(HttpStatus.CREATED)
-    String addUser(final @ModelAttribute(name = "user") UserDto userDto) {
+    String addUser(final @Validated @ModelAttribute(name = "user") UserDto userDto) {
         final Long addedUserId = userService.addUser(userDto);
         return "redirect:/users";
     }

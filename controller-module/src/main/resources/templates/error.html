@@ -7,6 +7,18 @@
           integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 </head>
 <body>
-Empty user ids attribute
+<div>
+    <p>Errors</p>
+</div>
+<div>
+    <table>
+        <th:block th:each="error: ${errors}">
+            <tr>
+                <td th:text="${error.fieldName}"/>
+                <td th:text="${error.message}"/>
+            <tr/>
+        </th:block>
+    </table>
+</div>
 </body>
 </html>

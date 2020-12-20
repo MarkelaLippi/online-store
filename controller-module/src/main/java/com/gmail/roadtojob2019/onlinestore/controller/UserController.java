@@ -4,12 +4,17 @@ import com.gmail.roadtojob2019.onlinestore.service.UserService;
 import com.gmail.roadtojob2019.onlinestore.service.dto.UserDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.UsersPageDto;
 import com.gmail.roadtojob2019.onlinestore.service.exception.OnlineMarketSuchUserNotFoundException;
+import com.gmail.roadtojob2019.onlinestore.validation.ValidationErrorResponse;
+import com.gmail.roadtojob2019.onlinestore.validation.Violation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 @RequiredArgsConstructor
@@ -56,9 +61,9 @@ public class UserController {
         return "redirect:/users";
     }
 
-    @GetMapping("/users/add")
+    @GetMapping("/users/form")
     @ResponseStatus(HttpStatus.OK)
-    String getNewUserPage(Model model){
+    String getNewUserPage(Model model) {
         final UserDto user = new UserDto();
         model.addAttribute("user", user);
         return "user";
@@ -66,7 +71,7 @@ public class UserController {
 
     @PostMapping("/users/add")
     @ResponseStatus(HttpStatus.CREATED)
-    String addUser(final @Validated @ModelAttribute(name = "user") UserDto userDto) {
+    String addUser(final @Valid @ModelAttribute(name = "user") UserDto userDto) {
         final Long addedUserId = userService.addUser(userDto);
         return "redirect:/users";
     }

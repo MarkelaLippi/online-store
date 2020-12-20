@@ -2,6 +2,7 @@ dependencies {
     implementation project(':service-module')
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation('org.springframework.boot:spring-boot-starter-validation')
 
     testImplementation project(':repository-module')
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

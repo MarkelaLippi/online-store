@@ -8,9 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {
-		"com.gmail.roadtojob2019.onlinestore.repository",
-		"com.gmail.roadtojob2019.onlinestore.service",
-		"com.gmail.roadtojob2019.onlinestore.controller"
+		"com.gmail.roadtojob2019.onlinestore"
 		})
 @EnableJpaRepositories(basePackages = "com.gmail.roadtojob2019.onlinestore.repository")
 @EntityScan(basePackages = "com.gmail.roadtojob2019.onlinestore.repository.entity")

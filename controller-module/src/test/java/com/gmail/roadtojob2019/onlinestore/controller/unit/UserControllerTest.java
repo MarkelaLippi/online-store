@@ -6,7 +6,6 @@ import com.gmail.roadtojob2019.onlinestore.repository.entity.Role;
 import com.gmail.roadtojob2019.onlinestore.service.UserService;
 import com.gmail.roadtojob2019.onlinestore.service.dto.UserDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.UsersPageDto;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -31,10 +30,6 @@ class UserControllerTest {
 
     @MockBean
     private UserService userService;
-
-    @BeforeEach
-    void setUp() {
-    }
 
     @Test
     void getPageOfUsersSortedByEmailTest() throws Exception {

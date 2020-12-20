@@ -14,10 +14,10 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @GetMapping("/reviews")
-    String getPageOfReviews(Model model,
+    String getPageOfReviewsSortedByCreationTime(Model model,
                             @RequestParam(name = "number", required = false, defaultValue = "0") final int pageNumber,
                             @RequestParam(name = "size", required = false, defaultValue = "3") final int pageSize) {
-        reviewService.getPageOfReviews(pageNumber, pageSize);
+        reviewService.getPageOfReviewsSortedByCreationTime(pageNumber, pageSize);
         return "reviews";
     }
 }

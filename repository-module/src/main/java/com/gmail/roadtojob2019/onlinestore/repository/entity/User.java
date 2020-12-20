@@ -18,7 +18,7 @@ public class User {
     private Long id;
     private LastMiddleFirstName lastMiddleFirstName;
     private String email;
-    @Column(name = "user_role")
+    @Column(name = "USER_ROLE")
     @Convert(converter = RoleConverter.class)
     private Role role;
     private String password;

@@ -1,7 +1,6 @@
 package com.gmail.roadtojob2019.onlinestore.controller.unit;
 
 import com.gmail.roadtojob2019.onlinestore.controller.ReviewController;
-import com.gmail.roadtojob2019.onlinestore.controller.UserController;
 import com.gmail.roadtojob2019.onlinestore.service.ReviewService;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ReviewDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ReviewsPageDto;
@@ -26,29 +25,21 @@ public class ReviewControllerTest {
     private ReviewService reviewService;
 
     @Test
-    void getPageOfReviewsTest() throws Exception {
+    void getPageOfReviewsSortedByCreationTimeTest() throws Exception {
         //given
         final int pageNumber = 0;
         final int pageSize = 3;
         final ReviewDto reviewDto = getReviewDto();
         final List<ReviewDto> reviewDtos = List.of(reviewDto);
         final ReviewsPageDto reviewsPageDto = getReviewsPageDto(reviewDtos);
-        when(reviewService.getPageOfReviews(pageNumber, pageSize)).thenReturn(reviewsPageDto);
+        when(reviewService.getPageOfReviewsSortedByCreationTime(pageNumber, pageSize)).thenReturn(reviewsPageDto);
         //when
         mockMvc.perform(get("/reviews")
                 .param("number", String.valueOf(pageNumber))
                 .param("size", String.valueOf(pageSize)))
                 //then
                 .andExpect(status().isOk());
-        verify(reviewService, times(1)).getPageOfReviews(pageNumber, pageSize);
-    }
-
-    private ReviewsPageDto getReviewsPageDto(List<ReviewDto> reviewDtos) {
-        return ReviewsPageDto.builder()
-                .totalNumberOfReviews(1)
-                .totalNumberOfPages(1)
-                .reviews(reviewDtos)
-                .build();
+        verify(reviewService, times(1)).getPageOfReviewsSortedByCreationTime(pageNumber, pageSize);
     }
 
     private ReviewDto getReviewDto() {
@@ -57,6 +48,14 @@ public class ReviewControllerTest {
                 .content("I wood like to express my opinion about...")
                 .creationTime(LocalDateTime.of(2020, 12, 20, 19, 48, 33))
                 .isDisplayed(true)
+                .build();
+    }
+
+    private ReviewsPageDto getReviewsPageDto(List<ReviewDto> reviewDtos) {
+        return ReviewsPageDto.builder()
+                .totalNumberOfReviews(1L)
+                .totalNumberOfPages(1)
+                .reviews(reviewDtos)
                 .build();
     }
 }

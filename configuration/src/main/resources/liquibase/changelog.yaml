@@ -9,7 +9,7 @@ databaseChangeLog:
             remarks: Пользователи
             columns:
               - column:
-                  name: id
+                  name: ID
                   type: integer
                   autoIncrement: true
                   constraints:
@@ -17,25 +17,25 @@ databaseChangeLog:
                     primaryKeyName: user_pk
                     nullable: false
               - column:
-                  name: last_name
+                  name: LAST_NAME
                   type: varchar(50)
                   remarks: Фамилия пользователя
                   constraints:
                     nullable: false
               - column:
-                  name: middle_name
+                  name: MIDDLE_NAME
                   type: varchar(50)
                   remarks: Отчество пользователя
                   constraints:
                     nullable: true
               - column:
-                  name: first_name
+                  name: FIRST_NAME
                   type: varchar(50)
                   remarks: Имя пользователя
                   constraints:
                     nullable: false
               - column:
-                  name: email
+                  name: EMAIL
                   type: varchar(50)
                   remarks: Адрес электронной почты пользователя
                   constraints:
@@ -43,13 +43,13 @@ databaseChangeLog:
                     uniqueConstraintName: user_email_uq
                     nullable: false
               - column:
-                  name: user_role
+                  name: USER_ROLE
                   type: varchar(50)
                   remarks: Роль пользователя
                   constraints:
                     nullable: false
               - column:
-                  name: password
+                  name: PASSWORD
                   type: varchar(50)
                   remarks: Пароль пользователя
                   constraints:
@@ -63,145 +63,145 @@ databaseChangeLog:
             tableName: USERS
             columns:
               - column:
-                  name: id
+                  name: ID
                   value: 1
               - column:
-                  name: last_name
+                  name: LAST_NAME
                   value: Markelov
               - column:
-                  name: middle_name
+                  name: MIDDLE_NAME
                   value: Aleksandrovich
               - column:
-                  name: first_name
+                  name: FIRST_NAME
                   value: Sergey
               - column:
-                  name: email
+                  name: EMAIL
                   value: RoadToJob2019@gmail.com
               - column:
-                  name: user_role
+                  name: USER_ROLE
                   value: ADMINISTRATOR
               - column:
-                  name: password
+                  name: PASSWORD
                   value: 12345678
         - insert:
             tableName: USERS
             columns:
               - column:
-                  name: id
+                  name: ID
                   value: 2
               - column:
-                  name: last_name
+                  name: LAST_NAME
                   value: Ivanov
               - column:
-                  name: middle_name
+                  name: MIDDLE_NAME
                   value: Ivanovich
               - column:
-                  name: first_name
+                  name: FIRST_NAME
                   value: Ivan
               - column:
-                  name: email
+                  name: EMAIL
                   value: Ivanov@gmail.com
               - column:
-                  name: user_role
+                  name: USER_ROLE
                   value: SALE
               - column:
-                  name: password
+                  name: PASSWORD
                   value: 12345678
         - insert:
             tableName: USERS
             columns:
               - column:
-                  name: id
+                  name: ID
                   value: 3
               - column:
-                  name: last_name
+                  name: LAST_NAME
                   value: Petrov
               - column:
-                  name: middle_name
+                  name: MIDDLE_NAME
                   value: Petrovich
               - column:
-                  name: first_name
+                  name: FIRST_NAME
                   value: Petr
               - column:
-                  name: email
+                  name: EMAIL
                   value: Petrov@gmail.com
               - column:
-                  name: user_role
+                  name: USER_ROLE
                   value: CUSTOMER
               - column:
-                  name: password
+                  name: PASSWORD
                   value: 12345678
         - insert:
             tableName: USERS
             columns:
               - column:
-                  name: id
+                  name: ID
                   value: 4
               - column:
-                  name: last_name
+                  name: LAST_NAME
                   value: Pavlov
               - column:
-                  name: middle_name
+                  name: MIDDLE_NAME
                   value: Pavlovich
               - column:
-                  name: first_name
+                  name: FIRST_NAME
                   value: Pavel
               - column:
-                  name: email
+                  name: EMAIL
                   value: Pavlov@gmail.com
               - column:
-                  name: user_role
+                  name: USER_ROLE
                   value: SECURE
               - column:
-                  name: password
+                  name: PASSWORD
                   value: 12345678
         - insert:
             tableName: USERS
             columns:
               - column:
-                  name: id
+                  name: ID
                   value: 5
               - column:
-                  name: last_name
+                  name: LAST_NAME
                   value: Shildt
               - column:
-                  name: middle_name
+                  name: MIDDLE_NAME
                   value:
               - column:
-                  name: first_name
+                  name: FIRST_NAME
                   value: Gerbert
               - column:
-                  name: email
+                  name: EMAIL
                   value: Shildt@gmail.com
               - column:
-                  name: user_role
+                  name: USER_ROLE
                   value: ADMINISTRATOR
               - column:
-                  name: password
+                  name: PASSWORD
                   value: 12345678
         - insert:
             tableName: USERS
             columns:
               - column:
-                  name: id
+                  name: ID
                   value: 6
               - column:
-                  name: last_name
+                  name: LAST_NAME
                   value: Korzun
               - column:
-                  name: middle_name
+                  name: MIDDLE_NAME
                   value: Alexandrovna
               - column:
-                  name: first_name
+                  name: FIRST_NAME
                   value: Angelika
               - column:
-                  name: email
+                  name: EMAIL
                   value: MarkelaLippi@gmail.com
               - column:
-                  name: user_role
+                  name: USER_ROLE
                   value: SECURE
               - column:
-                  name: password
+                  name: PASSWORD
                   value: 12345678
 
 

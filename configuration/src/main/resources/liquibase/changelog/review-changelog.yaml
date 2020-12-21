@@ -1,0 +1,43 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: CREATE_TABLE-REVIEWS
+      author: RoadToJob2019@gmail.com
+      changes:
+        - createTable:
+            tableName: REVIEWS
+            remarks: Отзывы
+            columns:
+              - column:
+                  name: ID
+                  type: integer
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: review_pk
+                    nullable: false
+              - column:
+                  name: CONTENT
+                  type: varchar(255)
+                  remarks: Содержание отзыва
+                  constraints:
+                    nullable: false
+              - column:
+                  name: CREATION_TIME
+                  type: timestamp
+                  remarks: Время создания отзыва
+                  constraints:
+                    nullable: true
+              - column:
+                  name: DISPLAYED
+                  type: boolean
+                  remarks: Флаг (отображается/не отображается на экране)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: USER_ID
+                  type: integer
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_reviews_user
+                    references: USERS(ID)

@@ -22,6 +22,7 @@ public class Review {
     private LocalDateTime creationTime;
     @Column(name = "DISPLAYED")
     private Boolean isDisplayed;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "USER_ID", nullable = false)
     private User user;

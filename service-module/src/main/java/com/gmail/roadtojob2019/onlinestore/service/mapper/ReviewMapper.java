@@ -11,12 +11,26 @@ import org.mapstruct.Mappings;
 @Mapper(componentModel = "spring")
 public interface ReviewMapper {
     @Mappings({
-            @Mapping(target="displayed", source="isDisplayed")
+            @Mapping(target = "displayed", source = "isDisplayed")
     })
     ReviewDto fromReviewToDto(Review review);
 
     @Mappings({
-            @Mapping(target="isDisplayed", source="displayed")
+            @Mapping(target = "isDisplayed", source = "displayed")
     })
     Review fromDtoToReview(ReviewDto reviewDto);
+
+    @Mappings({
+            @Mapping(target = "lastName", source = "lastMiddleFirstName.lastName"),
+            @Mapping(target = "middleName", source = "lastMiddleFirstName.middleName"),
+            @Mapping(target = "firstName", source = "lastMiddleFirstName.firstName")
+    })
+    UserDto fromUserToDto(User user);
+
+    @Mappings({
+            @Mapping(target = "lastMiddleFirstName.lastName", source = "lastName"),
+            @Mapping(target = "lastMiddleFirstName.middleName", source = "middleName"),
+            @Mapping(target = "lastMiddleFirstName.firstName", source = "firstName")
+    })
+    User fromDtoToUser(UserDto userDto);
 }

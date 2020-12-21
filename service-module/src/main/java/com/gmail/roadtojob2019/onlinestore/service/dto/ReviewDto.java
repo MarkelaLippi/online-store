@@ -16,4 +16,5 @@ public class ReviewDto {
     private String content;
     private LocalDateTime creationTime;
     private boolean isDisplayed;
+    private UserDto user;
 }

@@ -7,6 +7,7 @@ import com.gmail.roadtojob2019.onlinestore.service.dto.ReviewDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ReviewsPageDto;
 import com.gmail.roadtojob2019.onlinestore.service.mapper.ReviewMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -23,10 +24,12 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewMapper reviewMapper;
 
     @Override
-    public ReviewsPageDto getPageOfReviewsSortedByCreationTime(int pageNumber, int pageSize) {
+    public ReviewsPageDto getPageOfReviewsSortedByCreationTime(final int pageNumber, final int pageSize) {
         final String SORTING_PARAMETER = "creationTime";
-        final PageRequest pageRequest = PageRequest.of(pageSize, pageNumber, Sort.by(SORTING_PARAMETER));
-        final Page<Review> pageOfReviews = reviewRepository.findAll(pageRequest);
+        final PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, Sort.by(SORTING_PARAMETER));
+        final Review displayedReview = Review.builder().isDisplayed(true).build();
+        final Example<Review> reviewPattern = Example.of(displayedReview);
+        final Page<Review> pageOfReviews = reviewRepository.findAll(reviewPattern, pageRequest);
         final long totalNumberOfReviews = pageOfReviews.getTotalElements();
         final int totalNumberOfPages = pageOfReviews.getTotalPages();
         final List<ReviewDto> reviewsOnPage = pageOfReviews.stream()

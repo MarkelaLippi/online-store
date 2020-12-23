@@ -41,4 +41,9 @@ public class ReviewServiceImpl implements ReviewService {
                 .reviews(reviewsOnPage)
                 .build();
     }
+
+    @Override
+    public void deleteSelectedReviews(int[] reviewsIds) {
+
+    }
 }

@@ -8,5 +8,5 @@ public interface ReviewService {
 
     ReviewsPageDto getPageOfReviewsSortedByCreationTime(int pageNumber, int pageSize);
 
-    void deleteSelectedReviews(int[] reviewsIds);
+    void deleteReviewsByIds(int[] reviewsIds);
 }

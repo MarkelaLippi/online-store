@@ -37,7 +37,7 @@ public class ReviewController {
     @PostMapping("/reviews/delete")
     @ResponseStatus(HttpStatus.OK)
     String deleteSelectedReviews(@RequestParam @NotNull final int[] reviewsIds) {
-        reviewService.deleteSelectedReviews(reviewsIds);
+        reviewService.deleteReviewsByIds(reviewsIds);
         return "redirect:/reviews";
     }
 }

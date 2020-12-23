@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,7 +44,15 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void deleteSelectedReviews(int[] reviewsIds) {
+    public void deleteReviewsByIds(final int[] reviewsIds) {
+        final List<Long> reviewsIdsAsLong = convertIntIdsToLongIds(reviewsIds);
+        reviewRepository.deleteReviewsByIds(reviewsIdsAsLong);
+    }
 
+    private List<Long> convertIntIdsToLongIds(int[] reviewsIds) {
+        return Arrays.stream(reviewsIds)
+                .mapToLong(Long::valueOf)
+                .boxed()
+                .collect(Collectors.toList());
     }
 }

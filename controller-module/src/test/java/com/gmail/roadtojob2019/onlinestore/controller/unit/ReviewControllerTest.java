@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.bind.annotation.RequestAttribute;
 
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -46,16 +44,16 @@ public class ReviewControllerTest {
     }
 
     @Test
-    void deleteSelectedReviews() throws Exception {
+    void deleteSelectedReviewsTest() throws Exception {
         //given
         final int[] reviewsIds = {2, 4};
-        doNothing().when(reviewService).deleteSelectedReviews(reviewsIds);
+        doNothing().when(reviewService).deleteReviewsByIds(reviewsIds);
         //when
         mockMvc.perform(post("/reviews/delete")
                 .param("reviewsIds", "2, 4"))
                 //then
                 .andExpect(status().isOk());
-        verify(reviewService, times(1)).deleteSelectedReviews(reviewsIds);
+        verify(reviewService, times(1)).deleteReviewsByIds(reviewsIds);
     }
 
     private ReviewDto getReviewDto() {

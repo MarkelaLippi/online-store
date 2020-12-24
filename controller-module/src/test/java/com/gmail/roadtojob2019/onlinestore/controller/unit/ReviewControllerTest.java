@@ -59,7 +59,7 @@ public class ReviewControllerTest {
     }
 
     @Test
-    void makeReviewHidden() throws Exception {
+    void makeReviewHiddenTest() throws Exception {
         //given
         final Long reviewId=1L;
         when(reviewService.makeReviewHidden(reviewId)).thenReturn(reviewId);

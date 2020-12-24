@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -57,7 +58,7 @@ public class ReviewControllerTest {
     }
 
     @Test
-    void deleteReviewsByIds() throws Exception {
+    void deleteReviewsByIdsTest() throws Exception {
         //given
         final List<Long> reviewsIds = List.of(2L, 4L);
         doNothing().when(reviewRepository).deleteReviewsByIds(reviewsIds);
@@ -67,6 +68,24 @@ public class ReviewControllerTest {
                 //then
                 .andExpect(status().isOk());
         verify(reviewRepository, times(1)).deleteReviewsByIds(reviewsIds);
+    }
+
+    @Test
+    void makeReviewHidden() throws Exception {
+        //given
+        final Long reviewId = 1L;
+        final Optional<Review> reviewDisplayed = Optional.of(getReview());
+        when(reviewRepository.findById(reviewId)).thenReturn(reviewDisplayed);
+        final Review reviewHidden = getReview();
+        reviewHidden.setIsDisplayed(false);
+        when(reviewRepository.saveAndFlush(reviewHidden)).thenReturn(reviewHidden);
+        //when
+        mockMvc.perform(post("/reviews/hidden")
+                .param("reviewId", reviewId.toString()))
+                //then
+                .andExpect(status().isOk());
+        verify(reviewRepository, times(1)).findById(reviewId);
+        verify(reviewRepository, times(1)).saveAndFlush(reviewHidden);
     }
 
     private LastMiddleFirstName getLastMiddleFirstName() {

@@ -2,9 +2,12 @@ package com.gmail.roadtojob2019.onlinestore.service.impl;
 
 import com.gmail.roadtojob2019.onlinestore.repository.ReviewRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.Review;
+import com.gmail.roadtojob2019.onlinestore.repository.entity.User;
 import com.gmail.roadtojob2019.onlinestore.service.ReviewService;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ReviewDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ReviewsPageDto;
+import com.gmail.roadtojob2019.onlinestore.service.exception.OnlineMarketSuchReviewNotFoundException;
+import com.gmail.roadtojob2019.onlinestore.service.exception.OnlineMarketSuchUserNotFoundException;
 import com.gmail.roadtojob2019.onlinestore.service.mapper.ReviewMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
@@ -50,6 +53,16 @@ public class ReviewServiceImpl implements ReviewService {
     public void deleteReviewsByIds(final int[] reviewsIds) {
         final List<Long> reviewsIdsAsLong = convertIntIdsToLongIds(reviewsIds);
         reviewRepository.deleteReviewsByIds(reviewsIdsAsLong);
+    }
+
+    @Override
+    @Transactional
+    public Long makeReviewHidden(final Long reviewId) throws OnlineMarketSuchReviewNotFoundException {
+        final Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new OnlineMarketSuchReviewNotFoundException("Review with id = " + reviewId + " was not found"));
+        review.setIsDisplayed(false);
+        final Review hiddenReview = reviewRepository.saveAndFlush(review);
+        return hiddenReview.getId();
     }
 
     private List<Long> convertIntIdsToLongIds(int[] reviewsIds) {

@@ -58,6 +58,19 @@ public class ReviewControllerTest {
         verify(reviewService, times(1)).deleteReviewsByIds(reviewsIds);
     }
 
+    @Test
+    void makeReviewHidden() throws Exception {
+        //given
+        final Long reviewId=1L;
+        when(reviewService.makeReviewHidden(reviewId)).thenReturn(reviewId);
+        //when
+        mockMvc.perform(post("/reviews/hidden")
+        .param("reviewId", reviewId.toString()))
+                //then
+        .andExpect(status().isOk());
+        verify(reviewService, times(1)).makeReviewHidden(reviewId);
+    }
+
     private UserDto getUserDto() {
         return UserDto.builder()
                 .id(1L)

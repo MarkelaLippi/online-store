@@ -10,14 +10,8 @@ import org.mapstruct.Mappings;
 
 @Mapper(componentModel = "spring")
 public interface ReviewMapper {
-    @Mappings({
-            @Mapping(target = "displayed", source = "isDisplayed")
-    })
     ReviewDto fromReviewToDto(Review review);
 
-    @Mappings({
-            @Mapping(target = "isDisplayed", source = "displayed")
-    })
     Review fromDtoToReview(ReviewDto reviewDto);
 
     @Mappings({

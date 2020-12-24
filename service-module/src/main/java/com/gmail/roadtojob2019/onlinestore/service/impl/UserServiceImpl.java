@@ -91,6 +91,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public boolean changeUserRole(Long userId, String userRole) throws OnlineMarketSuchUserNotFoundException {
         final User user = userRepository.findById(userId)
                 .orElseThrow(() -> new OnlineMarketSuchUserNotFoundException("User with id = " + userId + " was not found"));

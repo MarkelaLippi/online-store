@@ -4,7 +4,6 @@ import com.gmail.roadtojob2019.onlinestore.repository.ReviewRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.Review;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ReviewsPageDto;
 import com.gmail.roadtojob2019.onlinestore.service.mapper.ReviewMapper;
-import org.assertj.core.util.VisibleForTesting;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -56,7 +55,7 @@ public class ReviewServiceImpTest {
     }
 
     @Test
-    void deleteReviewsByIds(){
+    void deleteReviewsByIdsTest() {
         //given
         final int[] reviewsIntIds = {2, 4};
         final List<Long> reviewsLongIds = List.of(2L, 4L);

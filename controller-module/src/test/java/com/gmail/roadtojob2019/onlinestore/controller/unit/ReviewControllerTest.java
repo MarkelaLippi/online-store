@@ -1,9 +1,11 @@
 package com.gmail.roadtojob2019.onlinestore.controller.unit;
 
 import com.gmail.roadtojob2019.onlinestore.controller.ReviewController;
+import com.gmail.roadtojob2019.onlinestore.repository.entity.Role;
 import com.gmail.roadtojob2019.onlinestore.service.ReviewService;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ReviewDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ReviewsPageDto;
+import com.gmail.roadtojob2019.onlinestore.service.dto.UserDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -56,12 +58,25 @@ public class ReviewControllerTest {
         verify(reviewService, times(1)).deleteReviewsByIds(reviewsIds);
     }
 
+    private UserDto getUserDto() {
+        return UserDto.builder()
+                .id(1L)
+                .lastName("Markelov")
+                .middleName("Alexandrovich")
+                .firstName("Sergey")
+                .email("S_markelov@tut.by")
+                .password("12345678")
+                .role(Role.ADMINISTRATOR)
+                .build();
+    }
+
     private ReviewDto getReviewDto() {
         return ReviewDto.builder()
                 .id(1L)
                 .content("I wood like to express my opinion about...")
                 .creationTime(LocalDateTime.of(2020, 12, 20, 19, 48, 33))
                 .isDisplayed(true)
+                .user(getUserDto())
                 .build();
     }
 

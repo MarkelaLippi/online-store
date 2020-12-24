@@ -1,7 +1,10 @@
 package com.gmail.roadtojob2019.onlinestore.controller.integration;
 
 import com.gmail.roadtojob2019.onlinestore.repository.ReviewRepository;
+import com.gmail.roadtojob2019.onlinestore.repository.entity.LastMiddleFirstName;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.Review;
+import com.gmail.roadtojob2019.onlinestore.repository.entity.Role;
+import com.gmail.roadtojob2019.onlinestore.repository.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -19,6 +22,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -52,12 +56,44 @@ public class ReviewControllerTest {
         verify(reviewRepository, times(1)).findAll(reviewPattern, pageRequest);
     }
 
+    @Test
+    void deleteReviewsByIds() throws Exception {
+        //given
+        final List<Long> reviewsIds = List.of(2L, 4L);
+        doNothing().when(reviewRepository).deleteReviewsByIds(reviewsIds);
+        //when
+        mockMvc.perform(post("/reviews/delete")
+                .param("reviewsIds", "2, 4"))
+                //then
+                .andExpect(status().isOk());
+        verify(reviewRepository, times(1)).deleteReviewsByIds(reviewsIds);
+    }
+
+    private LastMiddleFirstName getLastMiddleFirstName() {
+        return LastMiddleFirstName.builder()
+                .lastName("Markelov")
+                .middleName("Alexandrovich")
+                .firstName("Sergey")
+                .build();
+    }
+
+    private User getUser() {
+        return User.builder()
+                .id(1L)
+                .lastMiddleFirstName(getLastMiddleFirstName())
+                .email("MarkelaLippi@gmail.com")
+                .role(Role.ADMINISTRATOR)
+                .password("password")
+                .build();
+    }
+
     private Review getReview() {
         return Review.builder()
                 .id(1L)
                 .content("I wood like to express my opinion about...")
                 .creationTime(LocalDateTime.of(2020, 12, 20, 19, 48, 33))
                 .isDisplayed(true)
+                .user(getUser())
                 .build();
     }
 }

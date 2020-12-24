@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,6 +26,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewMapper reviewMapper;
 
     @Override
+    @Transactional
     public ReviewsPageDto getPageOfReviewsSortedByCreationTime(final int pageNumber, final int pageSize) {
         final String SORTING_PARAMETER = "creationTime";
         final PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, Sort.by(SORTING_PARAMETER));
@@ -44,6 +46,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    @Transactional
     public void deleteReviewsByIds(final int[] reviewsIds) {
         final List<Long> reviewsIdsAsLong = convertIntIdsToLongIds(reviewsIds);
         reviewRepository.deleteReviewsByIds(reviewsIdsAsLong);

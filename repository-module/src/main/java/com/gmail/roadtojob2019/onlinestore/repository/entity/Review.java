@@ -18,7 +18,6 @@ public class Review {
     private Long id;
     private String content;
     @Column(name = "CREATION_TIME")
-    //@Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime creationTime;
     @Column(name = "DISPLAYED")
     private Boolean isDisplayed;

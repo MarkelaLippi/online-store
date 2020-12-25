@@ -1,5 +1,6 @@
 package com.gmail.roadtojob2019.onlinestore.service.impl;
 
+import com.gmail.roadtojob2019.onlinestore.repository.ReviewRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.UserRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.LastMiddleFirstName;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.Role;
@@ -32,6 +33,8 @@ import static org.mockito.Mockito.*;
 class UserServiceImplTest {
     @Mock
     private UserRepository userRepository;
+    @Mock
+    private ReviewRepository reviewRepository;
     @Mock
     private UserMapper userMapper;
     @Mock
@@ -67,9 +70,11 @@ class UserServiceImplTest {
         final int[] usersIntIds = {1, 3, 5};
         final List<Long> usersLongIds = List.of(1L, 3L, 5L);
         doNothing().when(userRepository).deleteUsersByIds(usersLongIds);
+        doNothing().when(reviewRepository).deleteReviewsByUsersIds(usersLongIds);
         //when
         userService.deleteUsersByIds(usersIntIds);
         //then
+        verify(reviewRepository, times(1)).deleteReviewsByUsersIds(usersLongIds);
         verify(userRepository, times(1)).deleteUsersByIds(usersLongIds);
     }
 

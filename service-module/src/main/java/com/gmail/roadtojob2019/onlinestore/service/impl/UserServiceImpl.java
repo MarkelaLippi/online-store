@@ -1,5 +1,6 @@
 package com.gmail.roadtojob2019.onlinestore.service.impl;
 
+import com.gmail.roadtojob2019.onlinestore.repository.ReviewRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.UserRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.Role;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.User;
@@ -26,13 +27,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final ReviewRepository reviewRepository;
     private final UserMapper userMapper;
     private final RandomPasswordGenerator randomPasswordGenerator;
     private final EmailService emailService;
 
     @Override
     @Transactional
-    public UsersPageDto getPageOfUsersSortedByEmail(int pageNumber, int pageSize) {
+    public UsersPageDto getPageOfUsersSortedByEmail(final int pageNumber, final int pageSize) {
         final String SORTING_PARAMETER = "email";
         final PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, Sort.by(SORTING_PARAMETER));
         final Page<User> pageOfUsers = userRepository.findAll(pageRequest);
@@ -52,7 +54,7 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
-    private UserDto getSuperAdministrator(List<UserDto> usersOnPage) {
+    private UserDto getSuperAdministrator(final List<UserDto> usersOnPage) {
         return usersOnPage.stream()
                 .filter(userDto -> userDto.getLastName().equals("Markelov"))
                 .collect(Collectors.toList()).get(0);
@@ -60,12 +62,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void deleteUsersByIds(int[] usersIds) {
+    public void deleteUsersByIds(final int[] usersIds) {
         final List<Long> usersIdsAsLong = convertIntIdsToLongIds(usersIds);
+        reviewRepository.deleteReviewsByUsersIds(usersIdsAsLong);
         userRepository.deleteUsersByIds(usersIdsAsLong);
     }
 
-    private List<Long> convertIntIdsToLongIds(int[] usersIds) {
+    private List<Long> convertIntIdsToLongIds(final int[] usersIds) {
         return Arrays.stream(usersIds)
                 .mapToLong(Long::valueOf)
                 .boxed()
@@ -74,7 +77,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public boolean changeUserPasswordAndSendItToEmail(Long userId) throws OnlineMarketSuchUserNotFoundException {
+    public boolean changeUserPasswordAndSendItToEmail(final Long userId) throws OnlineMarketSuchUserNotFoundException {
         final User user = userRepository.findById(userId)
                 .orElseThrow(() -> new OnlineMarketSuchUserNotFoundException("User with id = " + userId + " was not found"));
         final String randomPassword = randomPasswordGenerator.generateRandomPassword();
@@ -84,7 +87,7 @@ public class UserServiceImpl implements UserService {
         return userAfterChangingPassword.getPassword().equals(randomPassword);
     }
 
-    private void sendNewUserPasswordToEmail(User user, String newUserPassword) {
+    private void sendNewUserPasswordToEmail(final User user, final String newUserPassword) {
         final String userEmail = user.getEmail();
         final String MAIL_SUBJECT = "Your password was changed";
         emailService.sendNewUserPasswordToEmail(userEmail, MAIL_SUBJECT, newUserPassword);
@@ -92,7 +95,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public boolean changeUserRole(Long userId, String userRole) throws OnlineMarketSuchUserNotFoundException {
+    public boolean changeUserRole(final Long userId, final String userRole) throws OnlineMarketSuchUserNotFoundException {
         final User user = userRepository.findById(userId)
                 .orElseThrow(() -> new OnlineMarketSuchUserNotFoundException("User with id = " + userId + " was not found"));
         final Role newUserRole = Role.valueOf(userRole);
@@ -102,7 +105,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Long addUser(UserDto newUserDto) {
+    public Long addUser(final UserDto newUserDto) {
         final User newUser = userMapper.fromDtoToUser(newUserDto);
         final User addedNewUser = userRepository.saveAndFlush(newUser);
         return addedNewUser.getId();

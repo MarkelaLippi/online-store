@@ -1,6 +1,7 @@
 package com.gmail.roadtojob2019.onlinestore.controller.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gmail.roadtojob2019.onlinestore.repository.ReviewRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.UserRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.LastMiddleFirstName;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.Role;
@@ -41,6 +42,9 @@ class UserControllerTest {
     UserRepository userRepository;
 
     @MockBean
+    ReviewRepository reviewRepository;
+
+    @MockBean
     RandomPasswordGenerator randomPasswordGenerator;
 
     @MockBean
@@ -71,12 +75,14 @@ class UserControllerTest {
     void deleteUsersByIdsTest() throws Exception {
         //given
         final List<Long> usersIds = List.of(1L, 3L, 5L);
+        doNothing().when(reviewRepository).deleteReviewsByUsersIds(usersIds);
         doNothing().when(userRepository).deleteUsersByIds(usersIds);
         //when
         mockMvc.perform(post("/users/delete")
                 .param("usersIds", "1, 3, 5"))
                 //then
                 .andExpect(status().isOk());
+        verify(reviewRepository, times(1)).deleteReviewsByUsersIds(usersIds);
         verify(userRepository, times(1)).deleteUsersByIds(usersIds);
     }
 

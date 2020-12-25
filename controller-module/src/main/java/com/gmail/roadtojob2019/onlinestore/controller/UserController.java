@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @Controller
 @RequiredArgsConstructor
@@ -32,14 +33,16 @@ public class UserController {
 
     @PostMapping("/users/delete")
     @ResponseStatus(HttpStatus.OK)
-    String deleteUsersByIds(@RequestParam final int[] usersIds) {
+    String deleteUsersByIds(@RequestParam @NotNull final int[] usersIds) {
+/*
         if (usersIds == null) {
             return "error";
         } else {
+*/
             userService.deleteUsersByIds(usersIds);
             return "redirect:/users";
         }
-    }
+//    }
 
     @PostMapping("/users/change/password")
     @ResponseStatus(HttpStatus.OK)

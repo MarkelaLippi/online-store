@@ -39,9 +39,9 @@ public class UserController {
             return "error";
         } else {
 */
-            userService.deleteUsersByIds(usersIds);
-            return "redirect:/users";
-        }
+        userService.deleteUsersByIds(usersIds);
+        return "redirect:/users";
+    }
 //    }
 
     @PostMapping("/users/change/password")

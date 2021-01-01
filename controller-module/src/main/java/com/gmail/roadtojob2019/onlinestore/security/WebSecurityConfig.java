@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -20,7 +20,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
         PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        auth.userDetailsService(userDetailsService);
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 
     @Override
@@ -32,13 +32,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/sale/**").hasRole("SALE")
                 .antMatchers("/customer/**").hasRole("CUSTOMER")
                 .antMatchers("/secure/**").hasRole("SECURE")
-                .anyRequest().permitAll()
+                .antMatchers("/login*").permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .formLogin()
-//                .loginPage("/login.html")
+                .loginPage("/login")
                 .loginProcessingUrl("/perform_login")
-                .defaultSuccessUrl("/homepage.html", true)
-                .failureUrl("/login.html?error=true")
+                .defaultSuccessUrl("/homepage", true)
+                .failureUrl("/login?error=true")
 //                .failureHandler(authenticationFailureHandler())
                 .and()
                 .logout()

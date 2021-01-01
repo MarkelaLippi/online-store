@@ -50,7 +50,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: PASSWORD
-                  type: varchar(50)
+                  type: varchar(70)
                   remarks: Пароль пользователя
                   constraints:
                     nullable: false
@@ -82,7 +82,7 @@ databaseChangeLog:
                   value: ADMINISTRATOR
               - column:
                   name: PASSWORD
-                  value: 12345678
+                  value: "{bcrypt}$2a$10$rQAoKumFy.fm/RDdMK8RzOQl.ORSy1sSwZGbMUq/jau4JPB2eAA0C"
         - insert:
             tableName: USERS
             columns:
@@ -106,7 +106,7 @@ databaseChangeLog:
                   value: SALE
               - column:
                   name: PASSWORD
-                  value: 12345678
+                  value: "{bcrypt}$2a$10$rQAoKumFy.fm/RDdMK8RzOQl.ORSy1sSwZGbMUq/jau4JPB2eAA0C"
         - insert:
             tableName: USERS
             columns:
@@ -130,7 +130,7 @@ databaseChangeLog:
                   value: CUSTOMER
               - column:
                   name: PASSWORD
-                  value: 12345678
+                  value: "{bcrypt}$2a$10$rQAoKumFy.fm/RDdMK8RzOQl.ORSy1sSwZGbMUq/jau4JPB2eAA0C"
         - insert:
             tableName: USERS
             columns:
@@ -154,7 +154,7 @@ databaseChangeLog:
                   value: SECURE
               - column:
                   name: PASSWORD
-                  value: 12345678
+                  value: "{bcrypt}$2a$10$rQAoKumFy.fm/RDdMK8RzOQl.ORSy1sSwZGbMUq/jau4JPB2eAA0C"
         - insert:
             tableName: USERS
             columns:
@@ -178,7 +178,7 @@ databaseChangeLog:
                   value: ADMINISTRATOR
               - column:
                   name: PASSWORD
-                  value: 12345678
+                  value: "{bcrypt}$2a$10$rQAoKumFy.fm/RDdMK8RzOQl.ORSy1sSwZGbMUq/jau4JPB2eAA0C"
         - insert:
             tableName: USERS
             columns:
@@ -202,7 +202,7 @@ databaseChangeLog:
                   value: SECURE
               - column:
                   name: PASSWORD
-                  value: 12345678
+                  value: "{bcrypt}$2a$10$rQAoKumFy.fm/RDdMK8RzOQl.ORSy1sSwZGbMUq/jau4JPB2eAA0C"
 
 
 

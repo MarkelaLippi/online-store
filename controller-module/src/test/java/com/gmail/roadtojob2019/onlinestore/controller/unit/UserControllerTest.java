@@ -43,7 +43,7 @@ class UserControllerTest {
         final UsersPageDto expectedUsersPageDto = getUserPageDto(userDtos);
         when(userService.getPageOfUsersSortedByEmail(pageNumber, pageSize)).thenReturn(expectedUsersPageDto);
         //when
-        mockMvc.perform(get("/users")
+        mockMvc.perform(get("/admin/users")
                 .param("number", String.valueOf(pageNumber))
                 .param("size", String.valueOf(pageSize)))
                 //then
@@ -77,10 +77,10 @@ class UserControllerTest {
         final int[] usersIds = {1, 3, 5};
         doNothing().when(userService).deleteUsersByIds(usersIds);
         //when
-        mockMvc.perform(post("/users/delete")
+        mockMvc.perform(post("/admin/users/delete")
                 .param("usersIds", "1, 3, 5"))
                 //then
-                .andExpect(status().isOk());
+                .andExpect(status().isFound());
         verify(userService, times(1)).deleteUsersByIds(usersIds);
     }
 
@@ -91,7 +91,7 @@ class UserControllerTest {
         final boolean result = true;
         when(userService.changeUserPasswordAndSendItToEmail(userId)).thenReturn(result);
         //when
-        mockMvc.perform(post("/users/change/password")
+        mockMvc.perform(post("/admin/users/change/password")
                 .param("userId", userId.toString()))
                 //then
                 .andExpect(status().isOk());
@@ -106,7 +106,7 @@ class UserControllerTest {
         final boolean result = true;
         when(userService.changeUserRole(userId, userRole)).thenReturn(result);
         //when
-        mockMvc.perform(post("/users/change/role")
+        mockMvc.perform(post("/admin/users/change/role")
                 .param("userId", userId.toString())
                 .param("userRole", userRole))
                 //then
@@ -121,7 +121,7 @@ class UserControllerTest {
         final Long userId = 10L;
         when(userService.addUser(newUser)).thenReturn(userId);
         //when
-        mockMvc.perform(post("/users/add")
+        mockMvc.perform(post("/admin/users/add")
                 .param("lastName", "Statkevich")
                 .param("middleName", "Viktorovich")
                 .param("firstName", "Nikolay")

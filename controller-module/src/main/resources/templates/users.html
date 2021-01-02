@@ -49,7 +49,7 @@
         </td>
         <td>
             <div>
-                <form action="/users/change/password" method="post">
+                <form action="/admin/users/change/password" method="post">
                     <button th:unless="${user.lastName == 'Markelov'}" type="submit" class="btn btn-warning" name="userId" th:value="${user.id}">
                         Change password
                     </button>
@@ -57,7 +57,7 @@
             </div>
         </td>
         <td>
-            <form action="/users/change/role" method="post">
+            <form action="/admin/users/change/role" method="post">
                 <input th:unless="${user.lastName == 'Markelov'}" type="hidden" name="userId" th:value="${user.id}"/>
                 <select th:unless="${user.lastName == 'Markelov'}" name="userRole">
                     <option th:each="role : ${roles}" th:value="${role}" th:text="${role}">
@@ -74,11 +74,11 @@
 <div>
     <th:block th:if="${pages}>0"
               th:each="pageNumber:${#numbers.sequence(1,pages)}">
-        <a th:href="@{/users?number={page}(page=${pageNumber-1})}">
+        <a th:href="@{/admin/users?number={page}(page=${pageNumber-1})}">
             <span th:text="${pageNumber}">...</span></a>
     </th:block>
 </div>
-<form id="Delete users" action="/users/delete" method="post">
+<form id="Delete users" action="/admin/users/delete" method="post">
     <button type="submit" class="btn btn-primary">
         Delete selected users
     </button>

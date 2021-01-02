@@ -49,7 +49,7 @@ public class ReviewControllerTest {
         final PageImpl<Review> pageOfReviews = new PageImpl<>(reviews);
         when(reviewRepository.findAll(reviewPattern, pageRequest)).thenReturn(pageOfReviews);
         //when
-        mockMvc.perform(get("/reviews")
+        mockMvc.perform(get("/admin/reviews")
                 .param("number", String.valueOf(pageNumber))
                 .param("size", String.valueOf(pageSize)))
                 //then
@@ -63,7 +63,7 @@ public class ReviewControllerTest {
         final List<Long> reviewsIds = List.of(2L, 4L);
         doNothing().when(reviewRepository).deleteReviewsByIds(reviewsIds);
         //when
-        mockMvc.perform(post("/reviews/delete")
+        mockMvc.perform(post("/admin/reviews/delete")
                 .param("reviewsIds", "2, 4"))
                 //then
                 .andExpect(status().isOk());
@@ -80,7 +80,7 @@ public class ReviewControllerTest {
         reviewHidden.setIsDisplayed(false);
         when(reviewRepository.saveAndFlush(reviewHidden)).thenReturn(reviewHidden);
         //when
-        mockMvc.perform(post("/reviews/hidden")
+        mockMvc.perform(post("/admin/reviews/hidden")
                 .param("reviewId", reviewId.toString()))
                 //then
                 .andExpect(status().isOk());

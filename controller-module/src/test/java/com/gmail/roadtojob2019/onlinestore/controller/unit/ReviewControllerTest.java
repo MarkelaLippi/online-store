@@ -39,7 +39,7 @@ public class ReviewControllerTest {
         final ReviewsPageDto reviewsPageDto = getReviewsPageDto(reviewDtos);
         when(reviewService.getPageOfReviewsSortedByCreationTime(pageNumber, pageSize)).thenReturn(reviewsPageDto);
         //when
-        mockMvc.perform(get("/reviews")
+        mockMvc.perform(get("/admin/reviews")
                 .param("number", String.valueOf(pageNumber))
                 .param("size", String.valueOf(pageSize)))
                 //then
@@ -53,7 +53,7 @@ public class ReviewControllerTest {
         final int[] reviewsIds = {2, 4};
         doNothing().when(reviewService).deleteReviewsByIds(reviewsIds);
         //when
-        mockMvc.perform(post("/reviews/delete")
+        mockMvc.perform(post("/admin/reviews/delete")
                 .param("reviewsIds", "2, 4"))
                 //then
                 .andExpect(status().isOk());
@@ -66,7 +66,7 @@ public class ReviewControllerTest {
         final Long reviewId=1L;
         when(reviewService.makeReviewHidden(reviewId)).thenReturn(reviewId);
         //when
-        mockMvc.perform(post("/reviews/hidden")
+        mockMvc.perform(post("/admin/reviews/hidden")
         .param("reviewId", reviewId.toString()))
                 //then
         .andExpect(status().isOk());

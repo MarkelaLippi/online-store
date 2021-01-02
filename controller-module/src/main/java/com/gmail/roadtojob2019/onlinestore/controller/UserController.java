@@ -10,18 +10,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.io.IOException;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/admin")
 public class UserController {
 
     private final UserService userService;
 
     @GetMapping("/users")
     @ResponseStatus(HttpStatus.OK)
-    String getPageOfUsersSortedByEmail(Model model,
+    String getPageOfUsersSortedByEmail(final Model model,
                                        @RequestParam(name = "number", required = false, defaultValue = "0") final int pageNumber,
                                        @RequestParam(name = "size", required = false, defaultValue = "3") final int pageSize) {
         final UsersPageDto pageOfUsers = userService.getPageOfUsersSortedByEmail(pageNumber, pageSize);
@@ -32,17 +35,11 @@ public class UserController {
     }
 
     @PostMapping("/users/delete")
-    @ResponseStatus(HttpStatus.OK)
-    String deleteUsersByIds(@RequestParam @NotNull final int[] usersIds) {
-/*
-        if (usersIds == null) {
-            return "error";
-        } else {
-*/
+    @ResponseStatus(HttpStatus.FOUND)
+    void deleteUsersByIds(@RequestParam @NotNull final int[] usersIds, final HttpServletResponse response) throws IOException {
         userService.deleteUsersByIds(usersIds);
-        return "redirect:/users";
+        response.sendRedirect("/admin/users");
     }
-//    }
 
     @PostMapping("/users/change/password")
     @ResponseStatus(HttpStatus.OK)

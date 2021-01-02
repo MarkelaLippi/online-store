@@ -14,7 +14,7 @@ public class ErrorHandlingControllerAdvice {
 
     @ExceptionHandler({BindException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    String onBindException(BindException e, final Model model) {
+    String onBindException(final BindException e, final Model model) {
         ValidationErrorResponse errors = new ValidationErrorResponse();
         for (FieldError fieldError : e.getBindingResult().getFieldErrors()) {
             errors.getViolations().add(
@@ -26,7 +26,7 @@ public class ErrorHandlingControllerAdvice {
 
     @ExceptionHandler({MissingServletRequestParameterException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    String onMissingServletRequestParameterException(MissingServletRequestParameterException e, final Model model) {
+    String onMissingServletRequestParameterException(final MissingServletRequestParameterException e, final Model model) {
         ValidationErrorResponse errors = new ValidationErrorResponse();
         errors.getViolations().add(new Violation(e.getParameterName(), e.getMessage()));
         model.addAttribute("errors", errors.getViolations());

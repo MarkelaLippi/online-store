@@ -63,7 +63,7 @@ class UserControllerTest {
         final Page<User> page = new PageImpl<>(users);
         when(userRepository.findAll(pageRequest)).thenReturn(page);
         //when
-        mockMvc.perform(get("/users")
+        mockMvc.perform(get("/admin/users")
                 .param("number", String.valueOf(pageNumber))
                 .param("size", String.valueOf(pageSize)))
                 //then
@@ -78,10 +78,10 @@ class UserControllerTest {
         doNothing().when(reviewRepository).deleteReviewsByUsersIds(usersIds);
         doNothing().when(userRepository).deleteUsersByIds(usersIds);
         //when
-        mockMvc.perform(post("/users/delete")
+        mockMvc.perform(post("/admin/users/delete")
                 .param("usersIds", "1, 3, 5"))
                 //then
-                .andExpect(status().isOk());
+                .andExpect(status().isFound());
         verify(reviewRepository, times(1)).deleteReviewsByUsersIds(usersIds);
         verify(userRepository, times(1)).deleteUsersByIds(usersIds);
     }
@@ -101,7 +101,7 @@ class UserControllerTest {
         final String MAIL_SUBJECT = "Your password was changed";
         doNothing().when(emailService).sendNewUserPasswordToEmail(user.getEmail(), MAIL_SUBJECT, randomPassword);
         //when
-        mockMvc.perform(post("/users/change/password")
+        mockMvc.perform(post("/admin/users/change/password")
                 .param("userId", userId.toString()))
                 //then
                 .andExpect(status().isOk());
@@ -124,7 +124,7 @@ class UserControllerTest {
         user.setRole(newUserRole);
         when(userRepository.saveAndFlush(user)).thenReturn(user);
         //when
-        mockMvc.perform(post("/users/change/role")
+        mockMvc.perform(post("/admin/users/change/role")
                 .param("userId", userId.toString())
                 .param("userRole", userRole))
                 //then
@@ -140,7 +140,7 @@ class UserControllerTest {
         final User newUser = getUser(lastMiddleFirstName);
         when(userRepository.saveAndFlush(any())).thenReturn(newUser);
         //when
-        mockMvc.perform(post("/users/add")
+        mockMvc.perform(post("/admin/users/add")
                 .param("lastName", "Statkevich")
                 .param("middleName", "Viktorovich")
                 .param("firstName", "Nikolay")

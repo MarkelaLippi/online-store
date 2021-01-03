@@ -57,7 +57,7 @@ public class UserController {
 
     @GetMapping("/users/form")
     @ResponseStatus(HttpStatus.OK)
-    String getNewUserPage(final Model model) {
+    String getNewUserForm(final Model model) {
         final UserDto user = new UserDto();
         model.addAttribute("user", user);
         return "user";
@@ -65,7 +65,7 @@ public class UserController {
 
     @PostMapping("/users/add")
     @ResponseStatus(HttpStatus.CREATED)
-    String addUser(final @Valid @ModelAttribute(name = "user") UserDto userDto) {
+    String addNewUser(final @Valid @ModelAttribute(name = "user") UserDto userDto) {
         final Long addedUserId = userService.addUser(userDto);
         return "redirect:/users";
     }

@@ -50,7 +50,8 @@
         <td>
             <div>
                 <form action="/admin/users/change/password" method="post">
-                    <button th:unless="${user.lastName == 'Markelov'}" type="submit" class="btn btn-warning" name="userId" th:value="${user.id}">
+                    <button th:unless="${user.lastName == 'Markelov'}" type="submit" class="btn btn-warning"
+                            name="userId" th:value="${user.id}">
                         Change password
                     </button>
                 </form>
@@ -78,10 +79,15 @@
             <span th:text="${pageNumber}">...</span></a>
     </th:block>
 </div>
-<form id="Delete users" action="/admin/users/delete" method="post">
-    <button type="submit" class="btn btn-primary">
-        Delete selected users
-    </button>
-</form>
+<div>
+    <form id="Delete users" action="/admin/users/delete" method="post">
+        <button type="submit" class="btn btn-primary">
+            Delete selected users
+        </button>
+    </form>
+</div>
+<div>
+    <a href="/admin/users/form" class="badge badge-success">Go to form for creating a new user</a>
+</div>
 </body>
 </html>

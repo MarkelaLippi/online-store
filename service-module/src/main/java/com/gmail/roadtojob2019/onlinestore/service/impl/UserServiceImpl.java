@@ -12,9 +12,11 @@ import com.gmail.roadtojob2019.onlinestore.service.dto.UsersPageDto;
 import com.gmail.roadtojob2019.onlinestore.service.exception.OnlineMarketSuchUserNotFoundException;
 import com.gmail.roadtojob2019.onlinestore.service.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -31,6 +33,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final RandomPasswordGenerator randomPasswordGenerator;
     private final EmailService emailService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional
@@ -54,12 +57,6 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
-    private UserDto getSuperAdministrator(final List<UserDto> usersOnPage) {
-        return usersOnPage.stream()
-                .filter(userDto -> userDto.getLastName().equals("Markelov"))
-                .collect(Collectors.toList()).get(0);
-    }
-
     @Override
     @Transactional
     public void deleteUsersByIds(final int[] usersIds) {
@@ -81,10 +78,11 @@ public class UserServiceImpl implements UserService {
         final User user = userRepository.findById(userId)
                 .orElseThrow(() -> new OnlineMarketSuchUserNotFoundException("User with id = " + userId + " was not found"));
         final String randomPassword = randomPasswordGenerator.generateRandomPassword();
-        user.setPassword(randomPassword);
+        final String encodedRandomPassword = passwordEncoder.encode(randomPassword);
+        user.setPassword(encodedRandomPassword);
         final User userAfterChangingPassword = userRepository.saveAndFlush(user);
         sendNewUserPasswordToEmail(user, randomPassword);
-        return userAfterChangingPassword.getPassword().equals(randomPassword);
+        return userAfterChangingPassword.getPassword().equals(encodedRandomPassword);
     }
 
     private void sendNewUserPasswordToEmail(final User user, final String newUserPassword) {

@@ -110,7 +110,7 @@ class UserControllerTest {
                 .param("userId", userId.toString())
                 .param("userRole", userRole))
                 //then
-                .andExpect(status().isOk());
+                .andExpect(status().isFound());
         verify(userService, times(1)).changeUserRole(userId, userRole);
     }
 

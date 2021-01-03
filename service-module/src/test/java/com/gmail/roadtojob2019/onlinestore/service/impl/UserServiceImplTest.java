@@ -20,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,6 +42,8 @@ class UserServiceImplTest {
     private RandomPasswordGenerator randomPasswordGenerator;
     @Mock
     private EmailService emailService;
+    @Mock
+    private PasswordEncoder passwordEncoder;
     @InjectMocks
     private UserServiceImpl userService;
 
@@ -86,9 +89,11 @@ class UserServiceImplTest {
         final User user = getUser(lastMiddleFirstName);
         final Optional<User> optionalUser = Optional.of(user);
         when(userRepository.findById(userId)).thenReturn(optionalUser);
-        final String PASSWORD = "password";
-        when(randomPasswordGenerator.generateRandomPassword()).thenReturn(PASSWORD);
-        user.setPassword(PASSWORD);
+        final String password = "12345678";
+        final String encodedPassword = "********";
+        when(randomPasswordGenerator.generateRandomPassword()).thenReturn(password);
+        when(passwordEncoder.encode(password)).thenReturn(encodedPassword);
+        user.setPassword(password);
         when(userRepository.saveAndFlush(user)).thenReturn(user);
         //when
         final boolean result = userService.changeUserPasswordAndSendItToEmail(userId);
@@ -96,6 +101,7 @@ class UserServiceImplTest {
         assertThat(result, is(true));
         verify(userRepository, times(1)).findById(userId);
         verify(randomPasswordGenerator, times(1)).generateRandomPassword();
+        verify(passwordEncoder, times(1)).encode(password);
         verify(userRepository, times(1)).saveAndFlush(user);
     }
 

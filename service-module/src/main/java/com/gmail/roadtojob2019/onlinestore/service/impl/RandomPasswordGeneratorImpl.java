@@ -7,6 +7,8 @@ import org.passay.EnglishCharacterData;
 import org.passay.PasswordGenerator;
 import org.springframework.stereotype.Service;
 
+import static org.passay.IllegalCharacterRule.ERROR_CODE;
+
 @Service
 public class RandomPasswordGeneratorImpl implements RandomPasswordGenerator {
     @Override
@@ -25,12 +27,24 @@ public class RandomPasswordGeneratorImpl implements RandomPasswordGenerator {
         CharacterRule digitRule = new CharacterRule(digitChars);
         digitRule.setNumberOfCharacters(2);
 
-        CharacterData specialChars = EnglishCharacterData.Special;
+        CharacterData specialChars = new CharacterData() {
+            public String getErrorCode() {
+                return ERROR_CODE;
+            }
+
+            public String getCharacters() {
+                return "!@#$%^&*()_+";
+            }
+        };
+
         CharacterRule specialCharRule = new CharacterRule(specialChars);
         specialCharRule.setNumberOfCharacters(2);
 
-        String password = gen.generatePassword(8, lowerCaseRule,
-                upperCaseRule, digitRule, specialCharRule);
-        return password;
+        return gen.generatePassword(
+                8,
+                lowerCaseRule,
+                upperCaseRule,
+                digitRule,
+                specialCharRule);
     }
 }

@@ -128,7 +128,7 @@ class UserControllerTest {
                 .param("userId", userId.toString())
                 .param("userRole", userRole))
                 //then
-                .andExpect(status().isOk());
+                .andExpect(status().isFound());
         verify(userRepository, times(1)).findById(userId);
         verify(userRepository, times(1)).saveAndFlush(user);
     }

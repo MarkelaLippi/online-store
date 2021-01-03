@@ -43,23 +43,21 @@ public class UserController {
 
     @PostMapping("/users/change/password")
     @ResponseStatus(HttpStatus.OK)
-    String changeUserPasswordAndSendItToEmail(@RequestParam final Long userId) throws OnlineMarketSuchUserNotFoundException {
-        if (userId != null) {
-            userService.changeUserPasswordAndSendItToEmail(userId);
-        }
-        return "redirect:/users";
+    String changeUserPasswordAndSendItToEmail(@RequestParam @NotNull final Long userId) throws OnlineMarketSuchUserNotFoundException {
+        userService.changeUserPasswordAndSendItToEmail(userId);
+        return "success";
     }
 
     @PostMapping("/users/change/role")
-    @ResponseStatus(HttpStatus.OK)
-    String changeUserRole(@RequestParam final Long userId, @RequestParam final String userRole) throws OnlineMarketSuchUserNotFoundException {
+    @ResponseStatus(HttpStatus.FOUND)
+    void changeUserRole(@RequestParam final Long userId, @RequestParam final String userRole, final HttpServletResponse response) throws OnlineMarketSuchUserNotFoundException, IOException {
         userService.changeUserRole(userId, userRole);
-        return "redirect:/users";
+        response.sendRedirect("/admin/users");
     }
 
     @GetMapping("/users/form")
     @ResponseStatus(HttpStatus.OK)
-    String getNewUserPage(Model model) {
+    String getNewUserPage(final Model model) {
         final UserDto user = new UserDto();
         model.addAttribute("user", user);
         return "user";

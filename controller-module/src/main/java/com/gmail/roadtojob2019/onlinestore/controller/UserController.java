@@ -43,8 +43,10 @@ public class UserController {
 
     @PostMapping("/users/change/password")
     @ResponseStatus(HttpStatus.OK)
-    String changeUserPasswordAndSendItToEmail(@RequestParam @NotNull final Long userId) throws OnlineMarketSuchUserNotFoundException {
-        userService.changeUserPasswordAndSendItToEmail(userId);
+    String changeUserPasswordAndSendItToEmail(@RequestParam @NotNull final Long userId, final Model model) throws OnlineMarketSuchUserNotFoundException {
+        final boolean result = userService.changeUserPasswordAndSendItToEmail(userId);
+        model.addAttribute("result", result);
+        model.addAttribute("userWithChangedPasswordId", userId);
         return "success";
     }
 

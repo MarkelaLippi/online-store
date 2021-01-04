@@ -12,10 +12,16 @@
 </div>
 <div class="alert alert-success" role="alert">
     The action was completed successfully!
-    <th:block th:if="${addedUserId != 'null'}">
-        <span class="letter">User with ID</span>
+    <th:block>
+        <span th:text="${addedUserId} ? 'User with ID' : '' " class="letter"></span>
         <span class="letter" th:text="${addedUserId}"></span>
-        <span class="letter">was created.</span>
+        <span th:text="${addedUserId} ? 'was created.' : '' " class="letter"></span>
+    </th:block>
+
+    <th:block th:if="${result}">
+        <span class="letter">Password of user with ID</span>
+        <span class="letter" th:text="${userWithChangedPasswordId}"></span>
+        <span class="letter">was changed.</span>
     </th:block>
     <a href="/admin/users" class="alert-link">Go back to the page "All users"</a>.
 </div>

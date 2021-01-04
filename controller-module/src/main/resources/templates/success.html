@@ -11,7 +11,13 @@
     <h1>Successfully <span class="badge badge-pill badge-success">ONLINE STORE</span></h1>
 </div>
 <div class="alert alert-success" role="alert">
-    The action was completed successfully! <a href="/admin/users" class="alert-link">Go back to the page "All users"</a>.
+    The action was completed successfully!
+    <th:block th:if="${addedUserId != 'null'}">
+        <span class="letter">User with ID</span>
+        <span class="letter" th:text="${addedUserId}"></span>
+        <span class="letter">was created.</span>
+    </th:block>
+    <a href="/admin/users" class="alert-link">Go back to the page "All users"</a>.
 </div>
 </body>
 </html>

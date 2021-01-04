@@ -65,8 +65,9 @@ public class UserController {
 
     @PostMapping("/users/add")
     @ResponseStatus(HttpStatus.CREATED)
-    String addNewUser(final @Valid @ModelAttribute(name = "user") UserDto userDto) {
+    String addNewUser(final @Valid @ModelAttribute(name = "user") UserDto userDto, final Model model) {
         final Long addedUserId = userService.addUser(userDto);
-        return "redirect:/users";
+        model.addAttribute("addedUserId", addedUserId);
+        return "success";
     }
 }

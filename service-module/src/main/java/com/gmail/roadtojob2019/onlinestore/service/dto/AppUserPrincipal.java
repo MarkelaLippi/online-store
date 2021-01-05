@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class AppUserPrincipal implements UserDetails {
-    private User user;
+    private final User user;
     private Set<GrantedAuthority> roles = new HashSet<>();
 
     public AppUserPrincipal(User user) {

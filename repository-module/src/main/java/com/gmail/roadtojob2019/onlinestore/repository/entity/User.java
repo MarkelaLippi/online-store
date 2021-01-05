@@ -5,16 +5,16 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
+@Entity
 @Table(name = "USERS")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Setter(value=AccessLevel.NONE)
+    @Setter(value = AccessLevel.NONE)
     private Long id;
     private LastMiddleFirstName lastMiddleFirstName;
     private String email;

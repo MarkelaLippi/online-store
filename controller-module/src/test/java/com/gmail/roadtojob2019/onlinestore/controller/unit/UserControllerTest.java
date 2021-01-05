@@ -27,9 +27,6 @@ class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @MockBean
     private UserService userService;
 
@@ -51,7 +48,7 @@ class UserControllerTest {
         verify(userService, times(1)).getPageOfUsersSortedByEmail(pageNumber, pageSize);
     }
 
-    private UsersPageDto getUserPageDto(List<UserDto> userDtos) {
+    private UsersPageDto getUserPageDto(final List<UserDto> userDtos) {
         return UsersPageDto.builder()
                 .totalNumberOfUsers(1)
                 .totalNumberOfPages(1)

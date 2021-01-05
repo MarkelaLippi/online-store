@@ -2,12 +2,10 @@ package com.gmail.roadtojob2019.onlinestore.service.impl;
 
 import com.gmail.roadtojob2019.onlinestore.repository.ReviewRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.Review;
-import com.gmail.roadtojob2019.onlinestore.repository.entity.User;
 import com.gmail.roadtojob2019.onlinestore.service.ReviewService;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ReviewDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ReviewsPageDto;
 import com.gmail.roadtojob2019.onlinestore.service.exception.OnlineMarketSuchReviewNotFoundException;
-import com.gmail.roadtojob2019.onlinestore.service.exception.OnlineMarketSuchUserNotFoundException;
 import com.gmail.roadtojob2019.onlinestore.service.mapper.ReviewMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;

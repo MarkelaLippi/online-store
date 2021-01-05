@@ -1,6 +1,5 @@
 package com.gmail.roadtojob2019.onlinestore.service.dto;
 
-import com.gmail.roadtojob2019.onlinestore.repository.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

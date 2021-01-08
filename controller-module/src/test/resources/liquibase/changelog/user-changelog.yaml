@@ -1,0 +1,210 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: CREATE-TABLE-USERS
+      author: RoadToJob2019@gmail.com
+      changes:
+        - createTable:
+            tableName: USERS
+            remarks: Пользователи
+            columns:
+              - column:
+                  name: ID
+                  type: integer
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: user_pk
+                    nullable: false
+              - column:
+                  name: LAST_NAME
+                  type: varchar(50)
+                  remarks: Фамилия пользователя
+                  constraints:
+                    nullable: false
+              - column:
+                  name: MIDDLE_NAME
+                  type: varchar(50)
+                  remarks: Отчество пользователя
+                  constraints:
+                    nullable: true
+              - column:
+                  name: FIRST_NAME
+                  type: varchar(50)
+                  remarks: Имя пользователя
+                  constraints:
+                    nullable: false
+              - column:
+                  name: EMAIL
+                  type: varchar(50)
+                  remarks: Адрес электронной почты пользователя
+                  constraints:
+                    unique: true
+                    uniqueConstraintName: user_email_uq
+                    nullable: false
+              - column:
+                  name: USER_ROLE
+                  type: varchar(50)
+                  remarks: Роль пользователя
+                  constraints:
+                    nullable: false
+              - column:
+                  name: PASSWORD
+                  type: varchar(70)
+                  remarks: Пароль пользователя
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: FILL-TABLE-USERS
+      author: RoadToJob2019@gmail.com
+      changes:
+        - insert:
+            tableName: USERS
+            columns:
+              - column:
+                  name: ID
+                  value: 1
+              - column:
+                  name: LAST_NAME
+                  value: Markelov
+              - column:
+                  name: MIDDLE_NAME
+                  value: Aleksandrovich
+              - column:
+                  name: FIRST_NAME
+                  value: Sergey
+              - column:
+                  name: EMAIL
+                  value: RoadToJob2019@gmail.com
+              - column:
+                  name: USER_ROLE
+                  value: ADMINISTRATOR
+              - column:
+                  name: PASSWORD
+                  value: "{bcrypt}$2a$10$rQAoKumFy.fm/RDdMK8RzOQl.ORSy1sSwZGbMUq/jau4JPB2eAA0C"
+        - insert:
+            tableName: USERS
+            columns:
+              - column:
+                  name: ID
+                  value: 2
+              - column:
+                  name: LAST_NAME
+                  value: Ivanov
+              - column:
+                  name: MIDDLE_NAME
+                  value: Ivanovich
+              - column:
+                  name: FIRST_NAME
+                  value: Ivan
+              - column:
+                  name: EMAIL
+                  value: Ivanov@gmail.com
+              - column:
+                  name: USER_ROLE
+                  value: SALE
+              - column:
+                  name: PASSWORD
+                  value: "{bcrypt}$2a$10$rQAoKumFy.fm/RDdMK8RzOQl.ORSy1sSwZGbMUq/jau4JPB2eAA0C"
+        - insert:
+            tableName: USERS
+            columns:
+              - column:
+                  name: ID
+                  value: 3
+              - column:
+                  name: LAST_NAME
+                  value: Petrov
+              - column:
+                  name: MIDDLE_NAME
+                  value: Petrovich
+              - column:
+                  name: FIRST_NAME
+                  value: Petr
+              - column:
+                  name: EMAIL
+                  value: Petrov@gmail.com
+              - column:
+                  name: USER_ROLE
+                  value: CUSTOMER
+              - column:
+                  name: PASSWORD
+                  value: "{bcrypt}$2a$10$rQAoKumFy.fm/RDdMK8RzOQl.ORSy1sSwZGbMUq/jau4JPB2eAA0C"
+        - insert:
+            tableName: USERS
+            columns:
+              - column:
+                  name: ID
+                  value: 4
+              - column:
+                  name: LAST_NAME
+                  value: Pavlov
+              - column:
+                  name: MIDDLE_NAME
+                  value: Pavlovich
+              - column:
+                  name: FIRST_NAME
+                  value: Pavel
+              - column:
+                  name: EMAIL
+                  value: Pavlov@gmail.com
+              - column:
+                  name: USER_ROLE
+                  value: SECURE
+              - column:
+                  name: PASSWORD
+                  value: "{bcrypt}$2a$10$rQAoKumFy.fm/RDdMK8RzOQl.ORSy1sSwZGbMUq/jau4JPB2eAA0C"
+        - insert:
+            tableName: USERS
+            columns:
+              - column:
+                  name: ID
+                  value: 5
+              - column:
+                  name: LAST_NAME
+                  value: Shildt
+              - column:
+                  name: MIDDLE_NAME
+                  value:
+              - column:
+                  name: FIRST_NAME
+                  value: Gerbert
+              - column:
+                  name: EMAIL
+                  value: Shildt@gmail.com
+              - column:
+                  name: USER_ROLE
+                  value: ADMINISTRATOR
+              - column:
+                  name: PASSWORD
+                  value: "{bcrypt}$2a$10$rQAoKumFy.fm/RDdMK8RzOQl.ORSy1sSwZGbMUq/jau4JPB2eAA0C"
+        - insert:
+            tableName: USERS
+            columns:
+              - column:
+                  name: ID
+                  value: 6
+              - column:
+                  name: LAST_NAME
+                  value: Korzun
+              - column:
+                  name: MIDDLE_NAME
+                  value: Alexandrovna
+              - column:
+                  name: FIRST_NAME
+                  value: Angelika
+              - column:
+                  name: EMAIL
+                  value: MarkelaLippi@gmail.com
+              - column:
+                  name: USER_ROLE
+                  value: SECURE
+              - column:
+                  name: PASSWORD
+                  value: "{bcrypt}$2a$10$rQAoKumFy.fm/RDdMK8RzOQl.ORSy1sSwZGbMUq/jau4JPB2eAA0C"
+
+
+
+
+

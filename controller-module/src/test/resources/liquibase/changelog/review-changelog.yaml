@@ -1,0 +1,138 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: CREATE-TABLE-REVIEWS
+      author: RoadToJob2019@gmail.com
+      changes:
+        - createTable:
+            tableName: REVIEWS
+            remarks: Отзывы
+            columns:
+              - column:
+                  name: ID
+                  type: integer
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: review_pk
+                    nullable: false
+              - column:
+                  name: CONTENT
+                  type: varchar(255)
+                  remarks: Содержание отзыва
+                  constraints:
+                    nullable: false
+              - column:
+                  name: CREATION_TIME
+                  type: timestamp
+                  remarks: Время создания отзыва
+                  constraints:
+                    nullable: true
+              - column:
+                  name: DISPLAYED
+                  type: boolean
+                  remarks: Флаг (отображается/не отображается на экране)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: USER_ID
+                  type: integer
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_reviews_user
+                    references: USERS(ID)
+
+  - changeSet:
+      id: FILL-TABLE-REVIEWS
+      author: RoadToJob2019@gmail.com
+      changes:
+        - insert:
+            tableName: REVIEWS
+            columns:
+              - column:
+                  name: ID
+                  value: 1
+              - column:
+                  name: CONTENT
+                  value: I wood like to express my opinion about...
+              - column:
+                  name: CREATION_TIME
+                  valueDate: 2020-12-20T19:48:33
+              - column:
+                  name: DISPLAYED
+                  value: true
+              - column:
+                  name: USER_ID
+                  value: 3
+        - insert:
+            tableName: REVIEWS
+            columns:
+              - column:
+                  name: ID
+                  value: 2
+              - column:
+                  name: CONTENT
+                  value: I bought this laptop two months ago...
+              - column:
+                  name: CREATION_TIME
+                  valueDate: 2020-12-21T11:15:21
+              - column:
+                  name: DISPLAYED
+                  value: true
+              - column:
+                  name: USER_ID
+                  value: 4
+        - insert:
+            tableName: REVIEWS
+            columns:
+              - column:
+                  name: ID
+                  value: 3
+              - column:
+                  name: CONTENT
+                  value: The worst phone i ever seen. Do not buy...
+              - column:
+                  name: CREATION_TIME
+                  valueDate: 2020-12-22T16:44:55
+              - column:
+                  name: DISPLAYED
+                  value: false
+              - column:
+                  name: USER_ID
+                  value: 2
+        - insert:
+            tableName: REVIEWS
+            columns:
+              - column:
+                  name: ID
+                  value: 4
+              - column:
+                  name: CONTENT
+                  value: I want to share my experience of buying in this store...
+              - column:
+                  name: CREATION_TIME
+                  valueDate: 2020-12-20T19:10:32
+              - column:
+                  name: DISPLAYED
+                  value: true
+              - column:
+                  name: USER_ID
+                  value: 2
+        - insert:
+            tableName: REVIEWS
+            columns:
+              - column:
+                  name: ID
+                  value: 5
+              - column:
+                  name: CONTENT
+                  value: I want begin my review of this item...
+              - column:
+                  name: CREATION_TIME
+                  valueDate: 2020-12-19T09:02:14
+              - column:
+                  name: DISPLAYED
+                  value: true
+              - column:
+                  name: USER_ID
+                  value: 5

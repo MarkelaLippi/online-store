@@ -17,13 +17,25 @@
         <span class="letter" th:text="${addedUserId}"></span>
         <span th:text="${addedUserId} ? 'was created.' : '' " class="letter"></span>
     </th:block>
-
     <th:block th:if="${result}">
-        <span class="letter">Password of user with ID</span>
-        <span class="letter" th:text="${userWithChangedPasswordId}"></span>
-        <span class="letter">was changed.</span>
+        <span th:text="${result} ? 'Password of user with ID' : '' " class="letter"></span>
+        <span th:text="${userWithChangedPasswordId}" class="letter"></span>
+        <span th:text="${result} ? 'was changed.' : '' " class="letter"></span>
     </th:block>
-    <a href="/admin/users" class="alert-link">Go back to the page "All users"</a>.
+    <th:block th:if="${addedUserId} or ${result}">
+        <a th:if="${addedUserId} or ${result}" th:href="@{/admin/users}" class="alert-link">Go back to the page "All
+            users"</a>.
+    </th:block>
+
+    <th:block>
+        <span th:text="${hiddenReviewId} ? 'Review with ID' : '' " class="letter"></span>
+        <span class="letter" th:text="${hiddenReviewId}"></span>
+        <span th:text="${hiddenReviewId} ? 'was hidden.' : '' " class="letter"></span>
+    </th:block>
+    <th:block th:if="${hiddenReviewId}">
+        <a th:if="${hiddenReviewId}" th:href="@{/admin/reviews}" class="alert-link">Go back to the page "All
+            reviews"</a>.
+    </th:block>
 </div>
 </body>
 </html>

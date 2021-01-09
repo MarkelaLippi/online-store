@@ -66,7 +66,7 @@ public class ReviewControllerTest {
         mockMvc.perform(post("/admin/reviews/delete")
                 .param("reviewsIds", "2, 4"))
                 //then
-                .andExpect(status().isOk());
+                .andExpect(status().isFound());
         verify(reviewRepository, times(1)).deleteReviewsByIds(reviewsIds);
     }
 

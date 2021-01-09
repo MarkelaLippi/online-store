@@ -37,7 +37,7 @@
         <td th:text="${review.creationTime}"/>
         <td th:text="${review.isDisplayed}"/>
         <td>
-            <form th:if="${review.isDisplayed == true}" id="Do not display" action="/reviews/hidden" method="post">
+            <form th:if="${review.isDisplayed == true}" id="Do not display" action="/admin/reviews/hidden" method="post">
                 <button type="submit" class="btn btn-warning" name="reviewId" th:value="${review.id}">
                     Make review hidden
                 </button>
@@ -59,11 +59,11 @@
 <div>
     <th:block th:if="${pages}>0"
               th:each="pageNumber:${#numbers.sequence(1,pages)}">
-        <a th:href="@{/reviews?number={page}(page=${pageNumber-1})}">
+        <a th:href="@{/admin/reviews?number={page}(page=${pageNumber-1})}">
             <span th:text="${pageNumber}">...</span></a>
     </th:block>
 </div>
-<form id="Delete reviews" action="/reviews/delete" method="post">
+<form id="Delete reviews" action="/admin/reviews/delete" method="post">
     <button type="submit" class="btn btn-primary">
         Delete selected reviews
     </button>

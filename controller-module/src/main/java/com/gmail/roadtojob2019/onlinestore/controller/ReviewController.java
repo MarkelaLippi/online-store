@@ -10,7 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -22,7 +24,7 @@ public class ReviewController {
 
     @GetMapping("/reviews")
     @ResponseStatus(HttpStatus.OK)
-    String getPageOfReviewsSortedByCreationTime(Model model,
+    String getPageOfReviewsSortedByCreationTime(final Model model,
                                                 @RequestParam(name = "number", required = false, defaultValue = "0") final int pageNumber,
                                                 @RequestParam(name = "size", required = false, defaultValue = "3") final int pageSize) {
         final ReviewsPageDto reviewsPageDto = reviewService.getPageOfReviewsSortedByCreationTime(pageNumber, pageSize);
@@ -34,16 +36,17 @@ public class ReviewController {
     }
 
     @PostMapping("/reviews/delete")
-    @ResponseStatus(HttpStatus.OK)
-    String deleteSelectedReviews(@RequestParam @NotNull final int[] reviewsIds) {
+    @ResponseStatus(HttpStatus.FOUND)
+    void deleteReviewsByIds(@RequestParam @NotNull final int[] reviewsIds, final HttpServletResponse response) throws IOException {
         reviewService.deleteReviewsByIds(reviewsIds);
-        return "redirect:/reviews";
+        response.sendRedirect("/admin/reviews");
     }
 
     @PostMapping("/reviews/hidden")
     @ResponseStatus(HttpStatus.OK)
-    String makeReviewHidden(@RequestParam @NotNull final Long reviewId) throws OnlineMarketSuchReviewNotFoundException {
+    String makeReviewHidden(@RequestParam @NotNull final Long reviewId, final Model model) throws OnlineMarketSuchReviewNotFoundException {
         final Long hiddenReviewId = reviewService.makeReviewHidden(reviewId);
-        return "redirect:/reviews";
+        model.addAttribute("hiddenReviewId", hiddenReviewId);
+        return "success";
     }
 }

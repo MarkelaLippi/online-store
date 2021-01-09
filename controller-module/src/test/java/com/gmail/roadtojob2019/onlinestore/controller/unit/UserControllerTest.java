@@ -1,6 +1,5 @@
 package com.gmail.roadtojob2019.onlinestore.controller.unit;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gmail.roadtojob2019.onlinestore.controller.UserController;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.Role;
 import com.gmail.roadtojob2019.onlinestore.service.UserService;

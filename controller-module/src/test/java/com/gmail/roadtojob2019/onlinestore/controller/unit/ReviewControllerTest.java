@@ -63,13 +63,13 @@ public class ReviewControllerTest {
     @Test
     void makeReviewHiddenTest() throws Exception {
         //given
-        final Long reviewId=1L;
+        final Long reviewId = 1L;
         when(reviewService.makeReviewHidden(reviewId)).thenReturn(reviewId);
         //when
         mockMvc.perform(post("/admin/reviews/hidden")
-        .param("reviewId", reviewId.toString()))
+                .param("reviewId", reviewId.toString()))
                 //then
-        .andExpect(status().isOk());
+                .andExpect(status().isOk());
         verify(reviewService, times(1)).makeReviewHidden(reviewId);
     }
 

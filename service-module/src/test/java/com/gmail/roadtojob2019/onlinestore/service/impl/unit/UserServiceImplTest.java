@@ -1,4 +1,4 @@
-package com.gmail.roadtojob2019.onlinestore.service.impl;
+package com.gmail.roadtojob2019.onlinestore.service.impl.unit;
 
 import com.gmail.roadtojob2019.onlinestore.repository.ReviewRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.UserRepository;
@@ -10,6 +10,7 @@ import com.gmail.roadtojob2019.onlinestore.service.RandomPasswordGenerator;
 import com.gmail.roadtojob2019.onlinestore.service.dto.UserDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.UsersPageDto;
 import com.gmail.roadtojob2019.onlinestore.service.exception.OnlineMarketSuchUserNotFoundException;
+import com.gmail.roadtojob2019.onlinestore.service.impl.UserServiceImpl;
 import com.gmail.roadtojob2019.onlinestore.service.mapper.UserMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

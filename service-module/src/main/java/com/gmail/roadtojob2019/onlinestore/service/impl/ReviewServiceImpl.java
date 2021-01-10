@@ -31,9 +31,7 @@ public class ReviewServiceImpl implements ReviewService {
     public ReviewsPageDto getPageOfReviewsSortedByCreationTime(final int pageNumber, final int pageSize) {
         final String SORTING_PARAMETER = "creationTime";
         final PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, Sort.by(SORTING_PARAMETER));
-        final Review displayedReview = Review.builder().isDisplayed(true).build();
-        final Example<Review> reviewPattern = Example.of(displayedReview);
-        final Page<Review> pageOfReviews = reviewRepository.findAll(reviewPattern, pageRequest);
+        final Page<Review> pageOfReviews = reviewRepository.findAll(pageRequest);
         final long totalNumberOfReviews = pageOfReviews.getTotalElements();
         final int totalNumberOfPages = pageOfReviews.getTotalPages();
         final List<ReviewDto> reviewsOnPage = pageOfReviews.stream()
@@ -63,7 +61,7 @@ public class ReviewServiceImpl implements ReviewService {
         return hiddenReview.getId();
     }
 
-    private List<Long> convertIntIdsToLongIds(int[] reviewsIds) {
+    private List<Long> convertIntIdsToLongIds(final int[] reviewsIds) {
         return Arrays.stream(reviewsIds)
                 .mapToLong(Long::valueOf)
                 .boxed()

@@ -1,8 +1,9 @@
-package com.gmail.roadtojob2019.onlinestore.service.impl;
+package com.gmail.roadtojob2019.onlinestore.service.impl.unit;
 
 import com.gmail.roadtojob2019.onlinestore.repository.ReviewRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.Review;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ReviewsPageDto;
+import com.gmail.roadtojob2019.onlinestore.service.impl.ReviewServiceImpl;
 import com.gmail.roadtojob2019.onlinestore.service.mapper.ReviewMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,19 +43,17 @@ public class ReviewServiceImpTest {
         final int pageSize = 3;
         final String sortingParameter = "creationTime";
         final PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, Sort.by(sortingParameter));
-        final Review displayedReview = Review.builder().isDisplayed(true).build();
-        final Example<Review> reviewPattern = Example.of(displayedReview);
         final Review review = getReview();
         final List<Review> reviews = List.of(review);
         final PageImpl<Review> pageOfReviews = new PageImpl<>(reviews);
-        when(reviewRepository.findAll(reviewPattern, pageRequest)).thenReturn(pageOfReviews);
+        when(reviewRepository.findAll(pageRequest)).thenReturn(pageOfReviews);
         //when
         final ReviewsPageDto reviewsPageDto = reviewService.getPageOfReviewsSortedByCreationTime(pageNumber, pageSize);
         //then
         assertThat(reviewsPageDto.getReviews(), hasSize(1));
         assertThat(reviewsPageDto.getTotalNumberOfPages(), is(1));
         assertThat(reviewsPageDto.getTotalNumberOfReviews(), is(1L));
-        verify(reviewRepository, times(1)).findAll(reviewPattern, pageRequest);
+        verify(reviewRepository, times(1)).findAll(pageRequest);
     }
 
     @Test

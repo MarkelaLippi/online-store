@@ -6,3 +6,6 @@ databaseChangeLog:
   - include:
       file: liquibase/changelog/review-changelog.yaml
 
+  - include:
+      file: liquibase/changelog/article-changelog.yaml
+

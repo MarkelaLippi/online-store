@@ -1,5 +1,6 @@
 package com.gmail.roadtojob2019.onlinestore.service.impl.unit;
 
+import com.gmail.roadtojob2019.onlinestore.repository.ArticleRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.ReviewRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.UserRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.LastMiddleFirstName;
@@ -38,6 +39,8 @@ class UserServiceImplTest {
     @Mock
     private ReviewRepository reviewRepository;
     @Mock
+    private ArticleRepository articleRepository;
+    @Mock
     private UserMapper userMapper;
     @Mock
     private RandomPasswordGenerator randomPasswordGenerator;
@@ -75,10 +78,12 @@ class UserServiceImplTest {
         final List<Long> usersLongIds = List.of(1L, 3L, 5L);
         doNothing().when(userRepository).deleteUsersByIds(usersLongIds);
         doNothing().when(reviewRepository).deleteReviewsByUsersIds(usersLongIds);
+        doNothing().when(articleRepository).deleteArticlesByUsersIds(usersLongIds);
         //when
         userService.deleteUsersByIds(usersIntIds);
         //then
         verify(reviewRepository, times(1)).deleteReviewsByUsersIds(usersLongIds);
+        verify(articleRepository, times(1)).deleteArticlesByUsersIds(usersLongIds);
         verify(userRepository, times(1)).deleteUsersByIds(usersLongIds);
     }
 

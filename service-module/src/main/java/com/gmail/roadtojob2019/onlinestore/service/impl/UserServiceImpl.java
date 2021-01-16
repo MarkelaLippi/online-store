@@ -1,5 +1,6 @@
 package com.gmail.roadtojob2019.onlinestore.service.impl;
 
+import com.gmail.roadtojob2019.onlinestore.repository.ArticleRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.ReviewRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.UserRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.Role;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ReviewRepository reviewRepository;
+    private final ArticleRepository articleRepository;
     private final UserMapper userMapper;
     private final RandomPasswordGenerator randomPasswordGenerator;
     private final EmailService emailService;
@@ -60,6 +62,7 @@ public class UserServiceImpl implements UserService {
     public void deleteUsersByIds(final int[] usersIds) {
         final List<Long> usersIdsAsLong = convertIntIdsToLongIds(usersIds);
         reviewRepository.deleteReviewsByUsersIds(usersIdsAsLong);
+        articleRepository.deleteArticlesByUsersIds(usersIdsAsLong);
         userRepository.deleteUsersByIds(usersIdsAsLong);
     }
 

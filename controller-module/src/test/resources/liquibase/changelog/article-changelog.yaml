@@ -1,0 +1,121 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: CREATE-TABLE-ARTICLES
+      author: RoadToJob2019@gmail.com
+      changes:
+        - createTable:
+            tableName: ARTICLES
+            remarks: Articles
+            columns:
+              - column:
+                  name: ID
+                  type: integer
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: article_pk
+                    nullable: false
+              - column:
+                  name: TITLE
+                  type: varchar(50)
+                  remarks: Title of the article
+                  constraints:
+                    nullable: false
+              - column:
+                  name: SUMMARY
+                  type: varchar(200)
+                  remarks: Summary of the article
+                  constraints:
+                    nullable: false
+              - column:
+                  name: CREATION_TIME
+                  type: timestamp
+                  remarks: Time of article creation
+                  constraints:
+                    nullable: true
+              - column:
+                  name: USER_ID
+                  type: integer
+                  remarks: Id of the author of the article creation
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_articles_user
+                    references: USERS(ID)
+
+  - changeSet:
+      id: FILL-TABLE-ARTICLES
+      author: RoadToJob2019@gmail.com
+      changes:
+        - insert:
+            tableName: ARTICLES
+            columns:
+              - column:
+                  name: ID
+                  value: 1
+              - column:
+                  name: TITLE
+                  value: The most popular products
+              - column:
+                  name: SUMMARY
+                  value: In this article, the author analyzes customer requests for the last 3 months
+              - column:
+                  name: CREATION_TIME
+                  valueDate: 2021-01-16T16:01:44
+              - column:
+                  name: USER_ID
+                  value: 3
+        - insert:
+            tableName: ARTICLES
+            columns:
+              - column:
+                  name: ID
+                  value: 2
+              - column:
+                  name: TITLE
+                  value: Choosing car tires
+              - column:
+                  name: SUMMARY
+                  value: Expert buyer shares his experience with newcomers
+              - column:
+                  name: CREATION_TIME
+                  valueDate: 2021-01-10T09:15:30
+              - column:
+                  name: USER_ID
+                  value: 6
+        - insert:
+            tableName: ARTICLES
+            columns:
+              - column:
+                  name: ID
+                  value: 3
+              - column:
+                  name: TITLE
+                  value: Buying a high-quality mobile phone is easy.
+              - column:
+                  name: SUMMARY
+                  value: The author gives his useful tips on choosing a mobile phone as a gift
+              - column:
+                  name: CREATION_TIME
+                  valueDate: 2021-01-10T09:15:30
+              - column:
+                  name: USER_ID
+                  value: 6
+        - insert:
+            tableName: ARTICLES
+            columns:
+              - column:
+                  name: ID
+                  value: 4
+              - column:
+                  name: TITLE
+                  value: Why are laptop prices rising?
+              - column:
+                  name: SUMMARY
+                  value: The author has done a lot of analytical work. Here are its results.
+              - column:
+                  name: CREATION_TIME
+                  valueDate: 2021-01-15T11:44:55
+              - column:
+                  name: USER_ID
+                  value: 3

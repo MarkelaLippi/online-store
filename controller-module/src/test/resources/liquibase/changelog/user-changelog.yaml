@@ -199,7 +199,7 @@ databaseChangeLog:
                   value: MarkelaLippi@gmail.com
               - column:
                   name: USER_ROLE
-                  value: SECURE
+                  value: CUSTOMER
               - column:
                   name: PASSWORD
                   value: "{bcrypt}$2a$10$rQAoKumFy.fm/RDdMK8RzOQl.ORSy1sSwZGbMUq/jau4JPB2eAA0C"

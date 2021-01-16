@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 @Builder(toBuilder = true)
 public class ArticleDto {
     private long id;
-    private String title;
-    private String content;
     private LocalDateTime creationTime;
+    private String title;
+    private String summary;
     private UserDto user;
 }

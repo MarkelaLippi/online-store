@@ -1,9 +1,11 @@
 package com.gmail.roadtojob2019.onlinestore.controller.unit;
 
 import com.gmail.roadtojob2019.onlinestore.controller.ArticleController;
+import com.gmail.roadtojob2019.onlinestore.repository.entity.Role;
 import com.gmail.roadtojob2019.onlinestore.service.ArticleService;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ArticleDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ArticlesPageDto;
+import com.gmail.roadtojob2019.onlinestore.service.dto.UserDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -33,7 +35,8 @@ public class ArticleControllerTest {
         //given
         final int pageNumber = 0;
         final int pageSize = 10;
-        final ArticleDto articleDto = getArticleDto();
+        final UserDto userDto = getUserDto();
+        final ArticleDto articleDto = getArticleDto(userDto);
         final List<ArticleDto> articleDtos = List.of(articleDto);
         final ArticlesPageDto articlesPageDto = getArticlesPageDto(articleDtos);
         when(articleService.getPageOfArticlesSortedByDateDesc(pageNumber, pageSize)).thenReturn(articlesPageDto);
@@ -46,20 +49,33 @@ public class ArticleControllerTest {
         verify(articleService, times(1)).getPageOfArticlesSortedByDateDesc(pageNumber, pageSize);
     }
 
-    private ArticlesPageDto getArticlesPageDto(List<ArticleDto> articleDtos) {
-        return ArticlesPageDto.builder()
-                .totalNumberOfArticles(5)
-                .totalNumberOfPages(1)
-                .articles(articleDtos)
+    private UserDto getUserDto() {
+        return UserDto.builder()
+                .id(1L)
+                .lastName("Markelov")
+                .middleName("Alexandrovich")
+                .firstName("Sergey")
+                .email("S_markelov@tut.by")
+                .password("12345678")
+                .role(Role.ADMINISTRATOR)
                 .build();
     }
 
-    private ArticleDto getArticleDto() {
+    private ArticleDto getArticleDto(UserDto userDto) {
         return ArticleDto.builder()
                 .id(1)
-                .title("Title")
-                .content("Content")
                 .creationTime(LocalDateTime.of(2020, 12, 20, 19, 48, 33))
+                .title("Title")
+                .summary("Content")
+                .user(userDto)
+                .build();
+    }
+
+    private ArticlesPageDto getArticlesPageDto(List<ArticleDto> articleDtos) {
+        return ArticlesPageDto.builder()
+                .totalNumberOfArticles(1)
+                .totalNumberOfPages(1)
+                .articles(articleDtos)
                 .build();
     }
 }

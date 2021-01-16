@@ -1,6 +1,8 @@
 package com.gmail.roadtojob2019.onlinestore.controller;
 
 import com.gmail.roadtojob2019.onlinestore.service.ArticleService;
+import com.gmail.roadtojob2019.onlinestore.service.dto.ArticleDto;
+import com.gmail.roadtojob2019.onlinestore.service.dto.ArticlesPageDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -10,19 +12,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/customer")
 public class ArticleController {
 
-    private ArticleService articleService;
+    private final ArticleService articleService;
 
     @GetMapping("/articles")
     @ResponseStatus(HttpStatus.OK)
     String getPageOfArticlesSortedByDateDesc(final Model model,
                                              @RequestParam(name = "number", required = false, defaultValue = "0") final int pageNumber,
                                              @RequestParam(name = "size", required = false, defaultValue = "3") final int pageSize){
-        articleService.getPageOfArticlesSortedByDateDesc(pageNumber, pageSize);
-        return null;
+        final ArticlesPageDto articlesPageDto = articleService.getPageOfArticlesSortedByDateDesc(pageNumber, pageSize);
+        final List<ArticleDto> articlesOnPage = articlesPageDto.getArticles();
+        final int totalNumberOfPages = articlesPageDto.getTotalNumberOfPages();
+        model.addAttribute("articles", articlesOnPage);
+        model.addAttribute("pages", totalNumberOfPages);
+        return "articles";
     }
 }

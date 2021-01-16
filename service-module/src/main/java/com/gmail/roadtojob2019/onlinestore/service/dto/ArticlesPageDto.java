@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class ArticlesPageDto {
-    private int totalNumberOfArticles;
+    private long totalNumberOfArticles;
     private int totalNumberOfPages;
     @Builder.Default
     private List<ArticleDto> articles = new ArrayList<>();

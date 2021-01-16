@@ -31,7 +31,7 @@
         <td th:text="${article.user.firstName}"/>
         <td th:text="${article.summary}"/>
         <td>
-            <a th:href="@{/customer/article/{id}(id=${article.id})}">More detailed...</a>.
+            <a th:href="@{/customer/articles/{id}(id=${article.id})}">More detailed...</a>.
         </td>
     </tr>
     </tbody>

@@ -30,4 +30,14 @@ public class ArticleControllerTest {
                 //then
                 .andExpect(status().isOk());
     }
+
+    @Test
+    void getArticleByIdTest() throws Exception {
+        //given
+        final long articleId = 1;
+        //when
+        mockMvc.perform(get("/customer/articles/" + articleId))
+                //then
+                .andExpect(status().isOk());
+    }
 }

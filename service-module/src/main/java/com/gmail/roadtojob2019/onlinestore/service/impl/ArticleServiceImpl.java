@@ -5,6 +5,7 @@ import com.gmail.roadtojob2019.onlinestore.repository.entity.Article;
 import com.gmail.roadtojob2019.onlinestore.service.ArticleService;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ArticleDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ArticlesPageDto;
+import com.gmail.roadtojob2019.onlinestore.service.exception.OnlineMarketSuchArticleNotFoundException;
 import com.gmail.roadtojob2019.onlinestore.service.mapper.ArticleMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -41,5 +42,13 @@ public class ArticleServiceImpl implements ArticleService {
                 .totalNumberOfPages(totalNumberOfPages)
                 .articles(articlesOnPage)
                 .build();
+    }
+
+    @Override
+    @Transactional
+    public ArticleDto getArticleById(final long articleId) throws OnlineMarketSuchArticleNotFoundException {
+        final Article article = articleRepository.findById(articleId)
+                .orElseThrow(() -> new OnlineMarketSuchArticleNotFoundException("Article with id = " + articleId + " was not found"));
+        return articleMapper.fromArticleToDto(article);
     }
 }

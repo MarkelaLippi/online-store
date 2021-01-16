@@ -20,6 +20,7 @@ public class Article {
     private LocalDateTime creationTime;
     private String title;
     private String summary;
+    private String content;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "USER_ID", nullable = false)

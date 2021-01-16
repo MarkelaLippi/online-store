@@ -16,5 +16,6 @@ public class ArticleDto {
     private LocalDateTime creationTime;
     private String title;
     private String summary;
+    private String content;
     private UserDto user;
 }

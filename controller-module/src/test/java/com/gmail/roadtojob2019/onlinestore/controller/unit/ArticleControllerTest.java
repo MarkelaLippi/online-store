@@ -49,6 +49,19 @@ public class ArticleControllerTest {
         verify(articleService, times(1)).getPageOfArticlesSortedByDateDesc(pageNumber, pageSize);
     }
 
+    @Test
+    void getArticleByIdTest() throws Exception {
+        //given
+        final long articleId=1;
+        final UserDto userDto = getUserDto();
+        final ArticleDto articleDto = getArticleDto(userDto);
+        when(articleService.getArticleById(articleId)).thenReturn(articleDto);
+        //when
+        mockMvc.perform(get("/customer/articles/1"))
+                //then
+                .andExpect(status().isOk());
+    }
+
     private UserDto getUserDto() {
         return UserDto.builder()
                 .id(1L)

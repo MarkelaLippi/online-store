@@ -3,6 +3,7 @@ package com.gmail.roadtojob2019.onlinestore.service.impl.unit;
 import com.gmail.roadtojob2019.onlinestore.repository.ArticleRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.Article;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.User;
+import com.gmail.roadtojob2019.onlinestore.service.dto.ArticleDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ArticlesPageDto;
 import com.gmail.roadtojob2019.onlinestore.service.impl.ArticleServiceImpl;
 import com.gmail.roadtojob2019.onlinestore.service.mapper.ArticleMapper;
@@ -17,6 +18,7 @@ import org.springframework.data.domain.Sort;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
@@ -41,7 +43,6 @@ public class ArticleServiceImplTest {
         final String sortingParameter = "creationTime";
         final PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, Sort.Direction.DESC, sortingParameter);
         final Article article = getArticle();
-
         final List<Article> articles = List.of(article);
         final PageImpl<Article> pageOfArticles = new PageImpl<>(articles);
         when(articleRepository.findAll(pageRequest)).thenReturn(pageOfArticles);
@@ -52,6 +53,19 @@ public class ArticleServiceImplTest {
         assertThat(articlesPageDto.getTotalNumberOfPages(), is(1));
         assertThat(articlesPageDto.getTotalNumberOfArticles(), is(1L));
         verify(articleRepository, times(1)).findAll(pageRequest);
+    }
+
+    @Test
+    void getArticleByIdTest() throws Exception {
+        //given
+        final long articleId = 1;
+        final Article article = getArticle();
+        final Optional<Article> articleOptional = Optional.of(article);
+        when(articleRepository.findById(articleId)).thenReturn(articleOptional);
+        //when
+        final ArticleDto articleDto = articleService.getArticleById(articleId);
+        //then
+        verify(articleRepository, times(1)).findById(articleId);
     }
 
     private Article getArticle() {

@@ -29,6 +29,12 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: CONTENT
+                  type: varchar(1000)
+                  remarks: Сontent of the article
+                  constraints:
+                    nullable: false
+              - column:
                   name: CREATION_TIME
                   type: timestamp
                   remarks: Time of article creation
@@ -60,6 +66,11 @@ databaseChangeLog:
                   name: SUMMARY
                   value: In this article, the author analyzes customer requests for the last 3 months
               - column:
+                  name: CONTENT
+                  value: These products are real legends of the modern market. Behind them are amazing, funny and
+                         often paradoxical stories of creation. The best-selling products in the world not only bring
+                         huge profits to brand owners, but also reflect the main preferences of consumers...
+              - column:
                   name: CREATION_TIME
                   valueDate: 2021-01-16T16:01:44
               - column:
@@ -77,6 +88,14 @@ databaseChangeLog:
               - column:
                   name: SUMMARY
                   value: Expert buyer shares his experience with newcomers
+              - column:
+                  name: CONTENT
+                  value: The choice of tires is an important process, it depends on the handling of the car, dynamics,
+                         fuel consumption and other parameters. Gradation of automobile rubber is performed according
+                         to the established criteria and parameters. In the summer a single type of rubber,
+                         the other in winter. An important criterion is the wear resistance of tires. It is influenced
+                         by factors-natural (ambient temperature and road surface, precipitation, humidity), driving
+                         style (aggressive, calm), road quality, intensity of operation, temperature overboard...
               - column:
                   name: CREATION_TIME
                   valueDate: 2021-01-10T09:15:30
@@ -96,6 +115,13 @@ databaseChangeLog:
                   name: SUMMARY
                   value: The author gives his useful tips on choosing a mobile phone as a gift
               - column:
+                  name: CONTENT
+                  value: I think every person today has a mobile phone, even little children do. For many people it is
+                         a necessary thing for everyday life. Moreover their whole life is in their mobile phone.
+                         As for me I can’t imagine my life without a telephone now. Lately mobile phones have become
+                         not only a thing which is used to call people but a lot more. Mobiles have taken the place of
+                         computers and laptops...
+              - column:
                   name: CREATION_TIME
                   valueDate: 2021-01-10T09:15:30
               - column:
@@ -113,6 +139,17 @@ databaseChangeLog:
               - column:
                   name: SUMMARY
                   value: The author has done a lot of analytical work. Here are its results.
+              - column:
+                  name: CONTENT
+                  value: Computers have become an important part of our everyday life. We use computers every day,
+                         though not everyone realizes it. Even smartphones that are hidden in our bags and pockets are
+                         actually small computers. Most people think that a computer is a big thing with a display,
+                         a keyboard and a mouse. Old computers of the 1990-th really looked like this. Computers contain
+                         a bunch of useful programs such as Word, Excel, an Internet browser with e-mail boxes and
+                         social networks. You can install video games and play all day long.
+                         Modern computers are not very big, laptops are actually small and light. But they are as fast
+                         as desktop computers or even faster. I like laptops because they are portable and you don’t
+                         need to replace and upgrade hardware...
               - column:
                   name: CREATION_TIME
                   valueDate: 2021-01-15T11:44:55

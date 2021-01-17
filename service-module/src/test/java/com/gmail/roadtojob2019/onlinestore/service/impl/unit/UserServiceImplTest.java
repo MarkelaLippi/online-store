@@ -141,6 +141,7 @@ class UserServiceImplTest {
         //when
         final Long addedUserId = userService.addUser(newUserDto);
         //then
+        assertThat(addedUserId, is(1L));
         verify(userRepository, times(1)).saveAndFlush(any());
     }
 

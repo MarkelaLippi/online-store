@@ -5,6 +5,7 @@ import com.gmail.roadtojob2019.onlinestore.repository.entity.Article;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.User;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ArticleDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ArticlesPageDto;
+import com.gmail.roadtojob2019.onlinestore.service.dto.UserDto;
 import com.gmail.roadtojob2019.onlinestore.service.impl.ArticleServiceImpl;
 import com.gmail.roadtojob2019.onlinestore.service.mapper.ArticleMapper;
 import org.junit.jupiter.api.Test;
@@ -62,10 +63,14 @@ public class ArticleServiceImplTest {
         final Article article = getArticle();
         final Optional<Article> articleOptional = Optional.of(article);
         when(articleRepository.findById(articleId)).thenReturn(articleOptional);
+        final ArticleDto articleDto = getArticleDto();
+        when(articleMapper.fromArticleToDto(article)).thenReturn(articleDto);
         //when
-        final ArticleDto articleDto = articleService.getArticleById(articleId);
+        final ArticleDto expectedArticleDto = articleService.getArticleById(articleId);
         //then
+        assertThat(expectedArticleDto.getSummary(), is("Summary..."));
         verify(articleRepository, times(1)).findById(articleId);
+        verify(articleMapper, times(1)).fromArticleToDto(article);
     }
 
     private Article getArticle() {
@@ -75,6 +80,16 @@ public class ArticleServiceImplTest {
                 .summary("Summary...")
                 .creationTime(LocalDateTime.of(2020, 12, 20, 19, 48, 33))
                 .user(User.builder().id(3L).build())
+                .build();
+    }
+
+    private ArticleDto getArticleDto() {
+        return ArticleDto.builder()
+                .id(1L)
+                .title("Title")
+                .summary("Summary...")
+                .creationTime(LocalDateTime.of(2020, 12, 20, 19, 48, 33))
+                .user(UserDto.builder().id(3L).build())
                 .build();
     }
 }

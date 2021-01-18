@@ -9,3 +9,6 @@ databaseChangeLog:
   - include:
       file: liquibase/changelog/article-changelog.yaml
 
+  - include:
+      file: liquibase/changelog/comment-changelog.yaml
+

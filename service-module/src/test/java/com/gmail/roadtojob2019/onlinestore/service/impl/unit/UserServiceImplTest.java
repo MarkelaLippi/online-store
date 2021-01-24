@@ -1,6 +1,7 @@
 package com.gmail.roadtojob2019.onlinestore.service.impl.unit;
 
 import com.gmail.roadtojob2019.onlinestore.repository.ArticleRepository;
+import com.gmail.roadtojob2019.onlinestore.repository.CommentRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.ReviewRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.UserRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.LastMiddleFirstName;
@@ -41,6 +42,8 @@ class UserServiceImplTest {
     @Mock
     private ArticleRepository articleRepository;
     @Mock
+    private CommentRepository commentRepository;
+    @Mock
     private UserMapper userMapper;
     @Mock
     private RandomPasswordGenerator randomPasswordGenerator;
@@ -79,12 +82,16 @@ class UserServiceImplTest {
         doNothing().when(userRepository).deleteUsersByIds(usersLongIds);
         doNothing().when(reviewRepository).deleteReviewsByUsersIds(usersLongIds);
         doNothing().when(articleRepository).deleteArticlesByUsersIds(usersLongIds);
+        doNothing().when(commentRepository).deleteCommentsByUsersIds(usersLongIds);
+        doNothing().when(commentRepository).deleteCommentsByArticlesIds(any());
         //when
         userService.deleteUsersByIds(usersIntIds);
         //then
         verify(reviewRepository, times(1)).deleteReviewsByUsersIds(usersLongIds);
         verify(articleRepository, times(1)).deleteArticlesByUsersIds(usersLongIds);
         verify(userRepository, times(1)).deleteUsersByIds(usersLongIds);
+        verify(commentRepository, times(1)).deleteCommentsByUsersIds(usersLongIds);
+        verify(commentRepository, times(1)).deleteCommentsByArticlesIds(any());
     }
 
     @Test

@@ -54,7 +54,7 @@ public class ArticleControllerTest {
     }
 
     @Test
-    void getArticleByIdTest() throws Exception {
+    void getArticleByIdWithCommentsSortedByDateDescTest() throws Exception {
         //given
         final long articleId=1;
         final UserDto userDto = getUserDto();

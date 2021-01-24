@@ -1,8 +1,10 @@
 package com.gmail.roadtojob2019.onlinestore.service.impl;
 
 import com.gmail.roadtojob2019.onlinestore.repository.ArticleRepository;
+import com.gmail.roadtojob2019.onlinestore.repository.CommentRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.ReviewRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.UserRepository;
+import com.gmail.roadtojob2019.onlinestore.repository.entity.Article;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.Role;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.User;
 import com.gmail.roadtojob2019.onlinestore.service.EmailService;
@@ -30,6 +32,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ReviewRepository reviewRepository;
     private final ArticleRepository articleRepository;
+    private final CommentRepository commentRepository;
     private final UserMapper userMapper;
     private final RandomPasswordGenerator randomPasswordGenerator;
     private final EmailService emailService;
@@ -62,7 +65,13 @@ public class UserServiceImpl implements UserService {
     public void deleteUsersByIds(final int[] usersIds) {
         final List<Long> usersIdsAsLong = convertIntIdsToLongIds(usersIds);
         reviewRepository.deleteReviewsByUsersIds(usersIdsAsLong);
+        final List<Article> articles = articleRepository.getArticlesByUserIds(usersIdsAsLong);
+        final List<Long> articlesIds = articles.stream().
+                map(Article::getId)
+                .collect(Collectors.toList());
+        commentRepository.deleteCommentsByArticlesIds(articlesIds);
         articleRepository.deleteArticlesByUsersIds(usersIdsAsLong);
+        commentRepository.deleteCommentsByUsersIds(usersIdsAsLong);
         userRepository.deleteUsersByIds(usersIdsAsLong);
     }
 

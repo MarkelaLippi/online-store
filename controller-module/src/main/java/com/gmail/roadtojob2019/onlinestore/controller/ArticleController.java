@@ -1,8 +1,10 @@
 package com.gmail.roadtojob2019.onlinestore.controller;
 
 import com.gmail.roadtojob2019.onlinestore.service.ArticleService;
+import com.gmail.roadtojob2019.onlinestore.service.CommentService;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ArticleDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ArticlesPageDto;
+import com.gmail.roadtojob2019.onlinestore.service.dto.CommentDto;
 import com.gmail.roadtojob2019.onlinestore.service.exception.OnlineMarketSuchArticleNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,7 @@ import java.util.List;
 public class ArticleController {
 
     private final ArticleService articleService;
+    private final CommentService commentService;
 
     @GetMapping("/articles")
     @ResponseStatus(HttpStatus.OK)
@@ -34,9 +37,11 @@ public class ArticleController {
 
     @GetMapping("/articles/{id}")
     @ResponseStatus(HttpStatus.OK)
-    String getArticleById(final Model model, @PathVariable(name = "id") final long articleId) throws OnlineMarketSuchArticleNotFoundException {
+    String getArticleByIdWithCommentsSortedByDateDesc(final Model model, @PathVariable(name = "id") final long articleId) throws OnlineMarketSuchArticleNotFoundException {
         final ArticleDto articleDto = articleService.getArticleById(articleId);
+        final List<CommentDto> commentDtos = commentService.getCommentsOnArticleSortedByDateDesc(articleId);
         model.addAttribute("article", articleDto);
+        model.addAttribute("comments", commentDtos);
         return "article";
     }
 }

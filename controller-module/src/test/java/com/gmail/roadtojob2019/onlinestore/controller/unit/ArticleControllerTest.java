@@ -3,8 +3,10 @@ package com.gmail.roadtojob2019.onlinestore.controller.unit;
 import com.gmail.roadtojob2019.onlinestore.controller.ArticleController;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.Role;
 import com.gmail.roadtojob2019.onlinestore.service.ArticleService;
+import com.gmail.roadtojob2019.onlinestore.service.CommentService;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ArticleDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ArticlesPageDto;
+import com.gmail.roadtojob2019.onlinestore.service.dto.CommentDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.UserDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,8 @@ public class ArticleControllerTest {
 
     @MockBean
     private ArticleService articleService;
+    @MockBean
+    private CommentService commentService;
 
     @Test
     void getPageOfArticlesSortedByDateDescTest() throws Exception {
@@ -55,11 +59,25 @@ public class ArticleControllerTest {
         final long articleId=1;
         final UserDto userDto = getUserDto();
         final ArticleDto articleDto = getArticleDto(userDto);
+        final List<CommentDto> commentDtos = List.of(getCommentDto());
         when(articleService.getArticleById(articleId)).thenReturn(articleDto);
+        when(commentService.getCommentsOnArticleSortedByDateDesc(articleId)).thenReturn(commentDtos);
         //when
         mockMvc.perform(get("/customer/articles/1"))
                 //then
                 .andExpect(status().isOk());
+        verify(articleService, times(1)).getArticleById(articleId);
+        verify(commentService, times(1)).getCommentsOnArticleSortedByDateDesc(articleId);
+    }
+
+    private CommentDto getCommentDto() {
+        return CommentDto.builder()
+                .id(1L)
+                .content("Content...")
+                .creationTime(LocalDateTime.of(2021, 1, 24, 17, 46, 21))
+                .user(getUserDto())
+                .article(getArticleDto(getUserDto()))
+                .build();
     }
 
     private UserDto getUserDto() {

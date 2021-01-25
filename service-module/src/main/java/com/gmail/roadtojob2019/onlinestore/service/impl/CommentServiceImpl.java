@@ -23,7 +23,6 @@ public class CommentServiceImpl implements CommentService {
         final List<Comment> comments = commentRepository.getCommentsByArticleIdSortedByDateDesc(articleId);
         return comments.stream()
                 .map(commentMapper::fromCommentToDto)
-          //      .sorted((comment1, comment2) -> comment2.getCreationTime().compareTo(comment1.getCreationTime()))
                 .collect(Collectors.toList());
     }
 }

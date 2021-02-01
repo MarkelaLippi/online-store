@@ -51,4 +51,13 @@ public class ArticleServiceImpl implements ArticleService {
                 .orElseThrow(() -> new OnlineMarketSuchArticleNotFoundException("Article with id = " + articleId + " was not found"));
         return articleMapper.fromArticleToDto(article);
     }
+
+    @Override
+    @Transactional
+    public List<ArticleDto> getArticles() {
+        final List<Article> articles = articleRepository.findAll();
+        return articles.stream()
+                .map(articleMapper::fromArticleToDto)
+                .collect(Collectors.toList());
+    }
 }

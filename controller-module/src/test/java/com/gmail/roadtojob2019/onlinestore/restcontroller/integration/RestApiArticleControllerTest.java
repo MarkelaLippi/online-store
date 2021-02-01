@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -19,7 +18,6 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -42,7 +40,8 @@ class RestApiArticleControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         final String result = mvcResult.getResponse().getContentAsString();
-        List<ArticleDto> articles = objectMapper.readValue(result, new TypeReference<>() {});
+        List<ArticleDto> articles = objectMapper.readValue(result, new TypeReference<>() {
+        });
         final ArticleDto articleDto = articles.get(0);
         assertThat(articles, hasSize(4));
         assertThat(articleDto, hasProperty("id", equalTo(1L)));

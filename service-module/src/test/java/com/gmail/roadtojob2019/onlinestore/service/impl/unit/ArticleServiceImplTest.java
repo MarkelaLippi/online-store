@@ -73,6 +73,24 @@ public class ArticleServiceImplTest {
         verify(articleMapper, times(1)).fromArticleToDto(article);
     }
 
+    @Test
+    void getArticlesTest() throws Exception {
+        //given
+        final Article article = getArticle();
+        final List<Article> articles = List.of(article);
+        when(articleRepository.findAll()).thenReturn(articles);
+        final ArticleDto articleDto = getArticleDto();
+        when(articleMapper.fromArticleToDto(article)).thenReturn(articleDto);
+        //when
+        final List<ArticleDto> actualArticles = articleService.getArticles();
+        //then
+        assertThat(actualArticles, hasSize(1));
+        assertThat(actualArticles.get(0).getTitle(), is("Title"));
+        assertThat(actualArticles.get(0).getSummary(), is("Summary..."));
+        verify(articleRepository, times(1)).findAll();
+        verify(articleMapper, times(1)).fromArticleToDto(article);
+    }
+
     private Article getArticle() {
         return Article.builder()
                 .id(1L)

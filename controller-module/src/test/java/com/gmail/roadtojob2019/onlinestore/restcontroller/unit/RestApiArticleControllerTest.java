@@ -1,6 +1,5 @@
 package com.gmail.roadtojob2019.onlinestore.restcontroller.unit;
 
-import com.gmail.roadtojob2019.onlinestore.controller.ArticleController;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.Role;
 import com.gmail.roadtojob2019.onlinestore.restcontroller.RestApiArticleController;
 import com.gmail.roadtojob2019.onlinestore.service.ArticleService;

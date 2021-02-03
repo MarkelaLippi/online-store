@@ -48,6 +48,20 @@ public class RestApiArticleControllerTest {
         verify(articleService, times(1)).getArticles();
     }
 
+    @Test
+    void getArticleByIdTest() throws Exception {
+        //given
+        final long articleId=1L;
+        final UserDto userDto = getUserDto();
+        final ArticleDto articleDto = getArticleDto(userDto);
+        when(articleService.getArticleById(articleId)).thenReturn(articleDto);
+        //when
+        mockMvc.perform(get("/secure/articles/1"))
+                //then
+                .andExpect(status().isOk());
+        verify(articleService, times(1)).getArticleById(articleId);
+    }
+
     private CommentDto getCommentDto() {
         return CommentDto.builder()
                 .id(1L)

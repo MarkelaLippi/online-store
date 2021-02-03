@@ -2,9 +2,7 @@ package com.gmail.roadtojob2019.onlinestore.restcontroller.integration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gmail.roadtojob2019.onlinestore.repository.entity.Role;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ArticleDto;
-import com.gmail.roadtojob2019.onlinestore.service.dto.UserDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -59,14 +57,28 @@ class RestApiArticleControllerTest {
         assertThat(articleDto, hasProperty("content", equalTo(expectedContent)));
     }
 
-    private UserDto getNewUserDto() {
-        return UserDto.builder()
-                .lastName("Statkevich")
-                .middleName("Viktorovich")
-                .firstName("Nikolay")
-                .role(Role.SALE)
-                .email("Statkevich@gmail.com")
-                .password("12345678")
-                .build();
+    @Test
+    void getArticleByIdTest() throws Exception {
+        //given
+        //when
+        final MvcResult mvcResult = mockMvc.perform(get("/secure/articles/1"))
+                //then
+                .andExpect(status().isOk())
+                .andReturn();
+        final String contentAsString = mvcResult.getResponse().getContentAsString();
+        final ArticleDto actualArticle = objectMapper.readValue(contentAsString, ArticleDto.class);
+        assertThat(actualArticle, hasProperty("id", equalTo(1L)));
+        assertThat(actualArticle, hasProperty("title", equalTo("The most popular products")));
+        final String expectedSummary = "In this article, the author analyzes" +
+                " customer requests for the last 3 months";
+        assertThat(actualArticle, hasProperty("summary", equalTo(expectedSummary)));
+        final String expectedContent = "These products are real legends of the " +
+                "modern market. Behind them are amazing, funny and " +
+                "often paradoxical stories of creation. " +
+                "The best-selling products in the world " +
+                "not only bring huge profits to brand " +
+                "owners, but also reflect the main " +
+                "preferences of consumers...";
+        assertThat(actualArticle, hasProperty("content", equalTo(expectedContent)));
     }
 }

@@ -2,20 +2,25 @@ package com.gmail.roadtojob2019.onlinestore.restcontroller.integration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gmail.roadtojob2019.onlinestore.repository.entity.Role;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ArticleDto;
+import com.gmail.roadtojob2019.onlinestore.service.dto.UserDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -78,5 +83,44 @@ class RestApiArticleControllerTest {
                 "by factors-natural (ambient temperature and road surface, precipitation, humidity), driving " +
                 "style (aggressive, calm), road quality, intensity of operation, temperature overboard...";
         assertThat(actualArticle, hasProperty("content", equalTo(expectedContent)));
+    }
+
+    @Test
+    void addArticleTest() throws Exception {
+        //given
+        final UserDto userDto = getUserDto();
+        final ArticleDto articleDto = getArticleDto(userDto);
+        //when
+        final MvcResult result = mockMvc.perform(post("/secure/articles")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(articleDto)))
+                //then
+                .andExpect(status().isCreated())
+                .andReturn();
+        final String contentAsString = result.getResponse().getContentAsString();
+        final Long actualId = objectMapper.readValue(contentAsString, Long.class);
+        assertThat(actualId, equalTo(5L));
+    }
+
+    private UserDto getUserDto() {
+        return UserDto.builder()
+                .id(1L)
+                .lastName("Markelov")
+                .middleName("Alexandrovich")
+                .firstName("Sergey")
+                .email("S_markelov@tut.by")
+                .password("12345678")
+                .role(Role.ADMINISTRATOR)
+                .build();
+    }
+
+    private ArticleDto getArticleDto(UserDto userDto) {
+        return ArticleDto.builder()
+                .creationTime(LocalDateTime.of(2020, 12, 20, 19, 48, 33))
+                .title("Title")
+                .summary("Summary")
+                .content("Content")
+                .user(userDto)
+                .build();
     }
 }

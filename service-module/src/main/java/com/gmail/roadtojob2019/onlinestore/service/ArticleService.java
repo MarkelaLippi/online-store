@@ -13,4 +13,6 @@ public interface ArticleService {
     ArticleDto getArticleById(long articleId) throws OnlineMarketSuchArticleNotFoundException;
 
     List<ArticleDto> getArticles();
+
+    Long addArticle(ArticleDto articleDto);
 }

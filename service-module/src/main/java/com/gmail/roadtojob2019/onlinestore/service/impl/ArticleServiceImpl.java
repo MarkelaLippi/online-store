@@ -60,4 +60,11 @@ public class ArticleServiceImpl implements ArticleService {
                 .map(articleMapper::fromArticleToDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    @Transactional
+    public Long addArticle(ArticleDto articleDto) {
+        final Article newArticle = articleMapper.fromDtoToArticle(articleDto);
+        return articleRepository.save(newArticle).getId();
+    }
 }

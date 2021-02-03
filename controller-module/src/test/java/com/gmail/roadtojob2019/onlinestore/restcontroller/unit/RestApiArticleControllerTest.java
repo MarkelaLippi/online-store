@@ -5,8 +5,6 @@ import com.gmail.roadtojob2019.onlinestore.restcontroller.RestApiArticleControll
 import com.gmail.roadtojob2019.onlinestore.service.ArticleService;
 import com.gmail.roadtojob2019.onlinestore.service.CommentService;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ArticleDto;
-import com.gmail.roadtojob2019.onlinestore.service.dto.ArticlesPageDto;
-import com.gmail.roadtojob2019.onlinestore.service.dto.CommentDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.UserDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +18,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = RestApiArticleController.class)
@@ -51,7 +50,7 @@ public class RestApiArticleControllerTest {
     @Test
     void getArticleByIdTest() throws Exception {
         //given
-        final long articleId=1L;
+        final long articleId = 1L;
         final UserDto userDto = getUserDto();
         final ArticleDto articleDto = getArticleDto(userDto);
         when(articleService.getArticleById(articleId)).thenReturn(articleDto);
@@ -62,14 +61,18 @@ public class RestApiArticleControllerTest {
         verify(articleService, times(1)).getArticleById(articleId);
     }
 
-    private CommentDto getCommentDto() {
-        return CommentDto.builder()
-                .id(1L)
-                .content("Content...")
-                .creationTime(LocalDateTime.of(2021, 1, 24, 17, 46, 21))
-                .user(getUserDto())
-                .article(getArticleDto(getUserDto()))
-                .build();
+    @Test
+    void addArticleTest() throws Exception {
+        //given
+        final UserDto userDto = getUserDto();
+        final ArticleDto articleDto = getArticleDto(userDto);
+        final Long createdArticleId=10L;
+        when(articleService.addArticle(articleDto)).thenReturn(createdArticleId);
+        //when
+        mockMvc.perform(post("/secure/articles"))
+                //then
+                .andExpect(status().isCreated());
+        verify(articleService, times(1)).addArticle(articleDto);
     }
 
     private UserDto getUserDto() {
@@ -91,14 +94,6 @@ public class RestApiArticleControllerTest {
                 .title("Title")
                 .summary("Content")
                 .user(userDto)
-                .build();
-    }
-
-    private ArticlesPageDto getArticlesPageDto(List<ArticleDto> articleDtos) {
-        return ArticlesPageDto.builder()
-                .totalNumberOfArticles(1)
-                .totalNumberOfPages(1)
-                .articles(articleDtos)
                 .build();
     }
 }

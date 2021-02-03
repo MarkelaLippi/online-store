@@ -27,4 +27,10 @@ public class RestApiArticleController {
     ArticleDto getArticleById(@PathVariable(name = "id") long articleId) throws OnlineMarketSuchArticleNotFoundException {
         return articleService.getArticleById(articleId);
     }
+
+    @PostMapping("/articles")
+    @ResponseStatus(HttpStatus.CREATED)
+    Long addArticle(@RequestBody ArticleDto articleDto) {
+        return articleService.addArticle(articleDto);
+    }
 }

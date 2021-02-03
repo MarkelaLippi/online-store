@@ -61,24 +61,22 @@ class RestApiArticleControllerTest {
     void getArticleByIdTest() throws Exception {
         //given
         //when
-        final MvcResult mvcResult = mockMvc.perform(get("/secure/articles/1"))
+        final MvcResult mvcResult = mockMvc.perform(get("/secure/articles/2"))
                 //then
                 .andExpect(status().isOk())
                 .andReturn();
         final String contentAsString = mvcResult.getResponse().getContentAsString();
         final ArticleDto actualArticle = objectMapper.readValue(contentAsString, ArticleDto.class);
-        assertThat(actualArticle, hasProperty("id", equalTo(1L)));
-        assertThat(actualArticle, hasProperty("title", equalTo("The most popular products")));
-        final String expectedSummary = "In this article, the author analyzes" +
-                " customer requests for the last 3 months";
+        assertThat(actualArticle, hasProperty("id", equalTo(2L)));
+        assertThat(actualArticle, hasProperty("title", equalTo("Choosing car tires")));
+        final String expectedSummary = "Expert buyer shares his experience with newcomers";
         assertThat(actualArticle, hasProperty("summary", equalTo(expectedSummary)));
-        final String expectedContent = "These products are real legends of the " +
-                "modern market. Behind them are amazing, funny and " +
-                "often paradoxical stories of creation. " +
-                "The best-selling products in the world " +
-                "not only bring huge profits to brand " +
-                "owners, but also reflect the main " +
-                "preferences of consumers...";
+        final String expectedContent = "The choice of tires is an important process, it depends on the handling of the car, dynamics, " +
+                "fuel consumption and other parameters. Gradation of automobile rubber is performed according " +
+                "to the established criteria and parameters. In the summer a single type of rubber, " +
+                "the other in winter. An important criterion is the wear resistance of tires. It is influenced " +
+                "by factors-natural (ambient temperature and road surface, precipitation, humidity), driving " +
+                "style (aggressive, calm), road quality, intensity of operation, temperature overboard...";
         assertThat(actualArticle, hasProperty("content", equalTo(expectedContent)));
     }
 }

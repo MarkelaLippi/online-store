@@ -91,6 +91,32 @@ public class ArticleServiceImplTest {
         verify(articleMapper, times(1)).fromArticleToDto(article);
     }
 
+    @Test
+    void addArticleTest() throws Exception {
+        //given
+        final ArticleDto articleDto = getArticleDto();
+        final Article article = getArticle();
+        when(articleMapper.fromDtoToArticle(articleDto)).thenReturn(article);
+        when(articleRepository.save(article)).thenReturn(article);
+        //when
+        final Long createdArticleId = articleService.addArticle(articleDto);
+        //then
+        assertThat(createdArticleId, is(1L));
+        verify(articleMapper, times(1)).fromDtoToArticle(articleDto);
+        verify(articleRepository, times(1)).save(article);
+    }
+
+    @Test
+    void deleteArticleByIdTest() throws Exception {
+        //given
+        final Long articleId = 4L;
+        doNothing().when(articleRepository).deleteById(articleId);
+        //when
+        articleService.deleteArticleById(articleId);
+        //then
+        verify(articleRepository, times(1)).deleteById(articleId);
+    }
+
     private Article getArticle() {
         return Article.builder()
                 .id(1L)

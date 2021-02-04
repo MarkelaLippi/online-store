@@ -19,8 +19,7 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -100,6 +99,15 @@ class RestApiArticleControllerTest {
         final String contentAsString = result.getResponse().getContentAsString();
         final Long actualId = objectMapper.readValue(contentAsString, Long.class);
         assertThat(actualId, equalTo(5L));
+    }
+
+    @Test
+    void deleteArticleByIdTest() throws Exception {
+        //given
+        //when
+        mockMvc.perform(delete("/secure/articles/3"))
+                //then
+                .andExpect(status().isOk());
     }
 
     private UserDto getUserDto() {

@@ -1,5 +1,6 @@
 package com.gmail.roadtojob2019.onlinestore.restcontroller.unit;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.Role;
 import com.gmail.roadtojob2019.onlinestore.restcontroller.RestApiArticleController;
 import com.gmail.roadtojob2019.onlinestore.service.ArticleService;
@@ -11,14 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = RestApiArticleController.class)
@@ -27,6 +28,9 @@ public class RestApiArticleControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @MockBean
     private ArticleService articleService;
@@ -66,13 +70,27 @@ public class RestApiArticleControllerTest {
         //given
         final UserDto userDto = getUserDto();
         final ArticleDto articleDto = getArticleDto(userDto);
-        final Long createdArticleId=10L;
+        final Long createdArticleId = 10L;
         when(articleService.addArticle(articleDto)).thenReturn(createdArticleId);
         //when
-        mockMvc.perform(post("/secure/articles"))
+        mockMvc.perform(post("/secure/articles")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(articleDto)))
                 //then
                 .andExpect(status().isCreated());
         verify(articleService, times(1)).addArticle(articleDto);
+    }
+
+    @Test
+    void deleteArticleByIdTest() throws Exception {
+        //given
+        final Long articleId = 4L;
+        doNothing().when(articleService).deleteArticleById(articleId);
+        //when
+        mockMvc.perform(delete("/secure/articles/4"))
+                //then
+                .andExpect(status().isOk());
+        verify(articleService, times(1)).deleteArticleById(articleId);
     }
 
     private UserDto getUserDto() {

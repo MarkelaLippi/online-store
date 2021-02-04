@@ -33,4 +33,10 @@ public class RestApiArticleController {
     Long addArticle(@RequestBody ArticleDto articleDto) {
         return articleService.addArticle(articleDto);
     }
+
+    @DeleteMapping("/articles/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    void deleteArticleById(@PathVariable(name = "id") long articleId) {
+        articleService.deleteArticleById(articleId);
+    }
 }

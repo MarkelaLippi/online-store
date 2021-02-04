@@ -67,4 +67,10 @@ public class ArticleServiceImpl implements ArticleService {
         final Article newArticle = articleMapper.fromDtoToArticle(articleDto);
         return articleRepository.save(newArticle).getId();
     }
+
+    @Override
+    @Transactional
+    public void deleteArticleById(Long articleId) {
+        articleRepository.deleteById(articleId);
+    }
 }

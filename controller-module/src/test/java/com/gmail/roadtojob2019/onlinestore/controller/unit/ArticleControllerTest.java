@@ -56,14 +56,14 @@ public class ArticleControllerTest {
     @Test
     void getArticleByIdWithCommentsSortedByDateDescTest() throws Exception {
         //given
-        final long articleId=1;
+        final long articleId = 1;
         final UserDto userDto = getUserDto();
         final ArticleDto articleDto = getArticleDto(userDto);
         final List<CommentDto> commentDtos = List.of(getCommentDto());
         when(articleService.getArticleById(articleId)).thenReturn(articleDto);
         when(commentService.getCommentsOnArticleSortedByDateDesc(articleId)).thenReturn(commentDtos);
         //when
-        mockMvc.perform(get("/customer/articles/"+articleId))
+        mockMvc.perform(get("/customer/articles/" + articleId))
                 //then
                 .andExpect(status().isOk());
         verify(articleService, times(1)).getArticleById(articleId);
@@ -73,14 +73,31 @@ public class ArticleControllerTest {
     @Test
     void deleteArticlesByIdsTest() throws Exception {
         //given
-        final long[] articlesIds={1, 3};
+        final long[] articlesIds = {1, 3};
         doNothing().when(articleService).deleteArticlesByIds(articlesIds);
         //when
         mockMvc.perform(post("/sale/articles/delete")
-        .param("articlesIds", "1 ,3"))
+                .param("articlesIds", "1 ,3"))
                 //then
                 .andExpect(status().isFound());
         verify(articleService, times(1)).deleteArticlesByIds(articlesIds);
+    }
+
+    @Test
+    void addArticleTest() throws Exception {
+        //given
+        final ArticleDto articleDto = getArticleDto(null);
+        final Long articleId = 10L;
+        when(articleService.addArticle(articleDto)).thenReturn(articleId);
+        //when
+        mockMvc.perform(post("/sale/articles/add")
+                .param("creationTime", articleDto.getCreationTime().toString())
+                .param("title", articleDto.getTitle())
+                .param("summary", articleDto.getSummary())
+                .param("content", articleDto.getContent()))
+                //then
+                .andExpect(status().isCreated());
+        verify(articleService, times(1)).addArticle(articleDto);
     }
 
     private CommentDto getCommentDto() {
@@ -107,10 +124,10 @@ public class ArticleControllerTest {
 
     private ArticleDto getArticleDto(UserDto userDto) {
         return ArticleDto.builder()
-                .id(1)
                 .creationTime(LocalDateTime.of(2020, 12, 20, 19, 48, 33))
                 .title("Title")
-                .summary("Content")
+                .summary("Summary")
+                .content("Content")
                 .user(userDto)
                 .build();
     }

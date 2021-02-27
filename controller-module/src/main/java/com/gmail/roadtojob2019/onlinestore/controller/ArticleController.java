@@ -5,6 +5,7 @@ import com.gmail.roadtojob2019.onlinestore.service.CommentService;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ArticleDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ArticlesPageDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.CommentDto;
+import com.gmail.roadtojob2019.onlinestore.service.dto.UserDto;
 import com.gmail.roadtojob2019.onlinestore.service.exception.OnlineMarketSuchArticleNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.List;
@@ -54,4 +56,11 @@ public class ArticleController {
         response.sendRedirect("/sale/articles");
     }
 
+    @PostMapping("sale/articles/add")
+    @ResponseStatus(HttpStatus.CREATED)
+    String addNewArticle(final @Valid @ModelAttribute(name = "article") ArticleDto articleDto, final Model model) {
+        final Long addedArticleId = articleService.addArticle(articleDto);
+        model.addAttribute("addedArticleId", addedArticleId);
+        return "success";
+    }
 }

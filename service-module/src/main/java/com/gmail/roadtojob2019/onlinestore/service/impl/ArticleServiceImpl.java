@@ -1,6 +1,7 @@
 package com.gmail.roadtojob2019.onlinestore.service.impl;
 
 import com.gmail.roadtojob2019.onlinestore.repository.ArticleRepository;
+import com.gmail.roadtojob2019.onlinestore.repository.CommentRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.Article;
 import com.gmail.roadtojob2019.onlinestore.service.ArticleService;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ArticleDto;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleRepository articleRepository;
+    private final CommentRepository commentRepository;
     private final ArticleMapper articleMapper;
 
     @Override
@@ -81,6 +83,7 @@ public class ArticleServiceImpl implements ArticleService {
         final List<Long> articlesIdsAsLong = Arrays.stream(articlesIds)
                 .boxed()
                 .collect(Collectors.toList());
+        commentRepository.deleteCommentsByArticlesIds(articlesIdsAsLong);
         articleRepository.deleteArticlesByIds(articlesIdsAsLong);
     }
 }

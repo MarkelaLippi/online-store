@@ -8,6 +8,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -39,5 +40,16 @@ public class ArticleControllerTest {
         mockMvc.perform(get("/customer/articles/" + articleId))
                 //then
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void deleteArticlesByIdsTest() throws Exception {
+        //given
+        final long[] articlesIds = {1, 3};
+        //when
+        mockMvc.perform(post("/sale/articles/delete")
+                .param("articlesIds", "1 ,3"))
+                //then
+                .andExpect(status().isFound());
     }
 }

@@ -12,17 +12,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotNull;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/customer")
 public class ArticleController {
 
     private final ArticleService articleService;
     private final CommentService commentService;
 
-    @GetMapping("/articles")
+    @GetMapping({"/customer/articles", "/sale/articles"})
     @ResponseStatus(HttpStatus.OK)
     String getPageOfArticlesSortedByDateDesc(final Model model,
                                              @RequestParam(name = "number", required = false, defaultValue = "0") final int pageNumber,
@@ -35,7 +37,7 @@ public class ArticleController {
         return "articles";
     }
 
-    @GetMapping("/articles/{id}")
+    @GetMapping({"/customer/articles/{id}", "/sale/articles/{id}"})
     @ResponseStatus(HttpStatus.OK)
     String getArticleByIdWithCommentsSortedByDateDesc(final Model model, @PathVariable(name = "id") final long articleId) throws OnlineMarketSuchArticleNotFoundException {
         final ArticleDto articleDto = articleService.getArticleById(articleId);
@@ -44,4 +46,12 @@ public class ArticleController {
         model.addAttribute("comments", commentDtos);
         return "article";
     }
+
+    @PostMapping("/sale/articles/delete")
+    @ResponseStatus(HttpStatus.FOUND)
+    void deleteArticlesByIds(@RequestParam @NotNull final long[] articlesIds, final HttpServletResponse response) throws IOException {
+        articleService.deleteArticlesByIds(articlesIds);
+        response.sendRedirect("/sale/articles");
+    }
+
 }

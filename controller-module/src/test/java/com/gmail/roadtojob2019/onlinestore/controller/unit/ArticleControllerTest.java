@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = ArticleController.class)
@@ -63,11 +63,24 @@ public class ArticleControllerTest {
         when(articleService.getArticleById(articleId)).thenReturn(articleDto);
         when(commentService.getCommentsOnArticleSortedByDateDesc(articleId)).thenReturn(commentDtos);
         //when
-        mockMvc.perform(get("/customer/articles/1"))
+        mockMvc.perform(get("/customer/articles/"+articleId))
                 //then
                 .andExpect(status().isOk());
         verify(articleService, times(1)).getArticleById(articleId);
         verify(commentService, times(1)).getCommentsOnArticleSortedByDateDesc(articleId);
+    }
+
+    @Test
+    void deleteArticlesByIdsTest() throws Exception {
+        //given
+        final long[] articlesIds={1, 3};
+        doNothing().when(articleService).deleteArticlesByIds(articlesIds);
+        //when
+        mockMvc.perform(post("/sale/articles/delete")
+        .param("articlesIds", "1 ,3"))
+                //then
+                .andExpect(status().isFound());
+        verify(articleService, times(1)).deleteArticlesByIds(articlesIds);
     }
 
     private CommentDto getCommentDto() {

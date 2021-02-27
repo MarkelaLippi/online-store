@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -72,5 +73,14 @@ public class ArticleServiceImpl implements ArticleService {
     @Transactional
     public void deleteArticleById(Long articleId) {
         articleRepository.deleteById(articleId);
+    }
+
+    @Transactional
+    @Override
+    public void deleteArticlesByIds(long[] articlesIds) {
+        final List<Long> articlesIdsAsLong = Arrays.stream(articlesIds)
+                .boxed()
+                .collect(Collectors.toList());
+        articleRepository.deleteArticlesByIds(articlesIdsAsLong);
     }
 }

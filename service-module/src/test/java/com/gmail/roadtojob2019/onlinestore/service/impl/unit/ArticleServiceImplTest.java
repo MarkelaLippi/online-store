@@ -1,6 +1,7 @@
 package com.gmail.roadtojob2019.onlinestore.service.impl.unit;
 
 import com.gmail.roadtojob2019.onlinestore.repository.ArticleRepository;
+import com.gmail.roadtojob2019.onlinestore.repository.CommentRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.Article;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.User;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ArticleDto;
@@ -18,19 +19,25 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
 public class ArticleServiceImplTest {
 
     @Mock
     private ArticleRepository articleRepository;
+    @Mock
+    private CommentRepository commentRepository;
     @Mock
     private ArticleMapper articleMapper;
     @InjectMocks
@@ -115,6 +122,22 @@ public class ArticleServiceImplTest {
         articleService.deleteArticleById(articleId);
         //then
         verify(articleRepository, times(1)).deleteById(articleId);
+    }
+
+    @Test
+    void deleteArticlesByIdsTest() {
+        //given
+        final long[] articlesIds = {1, 3};
+        final List<Long> articlesIdsAsLong = Arrays.stream(articlesIds)
+                .boxed()
+                .collect(Collectors.toList());
+        doNothing().when(commentRepository).deleteCommentsByArticlesIds(articlesIdsAsLong);
+        doNothing().when(articleRepository).deleteArticlesByIds(articlesIdsAsLong);
+        //when
+        articleService.deleteArticlesByIds(articlesIds);
+                //then
+        verify(commentRepository, times(1)).deleteCommentsByArticlesIds(articlesIdsAsLong);
+        verify(articleRepository, times(1)).deleteArticlesByIds(articlesIdsAsLong);
     }
 
     private Article getArticle() {

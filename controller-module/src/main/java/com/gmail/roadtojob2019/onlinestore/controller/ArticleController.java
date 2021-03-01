@@ -2,6 +2,7 @@ package com.gmail.roadtojob2019.onlinestore.controller;
 
 import com.gmail.roadtojob2019.onlinestore.service.ArticleService;
 import com.gmail.roadtojob2019.onlinestore.service.CommentService;
+import com.gmail.roadtojob2019.onlinestore.service.UserService;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ArticleDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ArticlesPageDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.CommentDto;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -25,6 +27,7 @@ public class ArticleController {
 
     private final ArticleService articleService;
     private final CommentService commentService;
+    private final UserService userService;
 
     @GetMapping({"/customer/articles", "/sale/articles"})
     @ResponseStatus(HttpStatus.OK)
@@ -56,9 +59,17 @@ public class ArticleController {
         response.sendRedirect("/sale/articles");
     }
 
+    @GetMapping("sale/articles/form")
+    @ResponseStatus(HttpStatus.OK)
+    String getNewArticleForm() {
+        return "articleform";
+    }
+
     @PostMapping("sale/articles/add")
     @ResponseStatus(HttpStatus.CREATED)
-    String addNewArticle(final @Valid @ModelAttribute(name = "article") ArticleDto articleDto, final Model model) {
+    String addNewArticle(final @Valid @ModelAttribute(name = "article") ArticleDto articleDto, final Model model, Principal principal) {
+        final UserDto userDto = userService.getUserByEmail(principal.getName());
+        articleDto.setUser(userDto);
         final Long addedArticleId = articleService.addArticle(articleDto);
         model.addAttribute("addedArticleId", addedArticleId);
         return "success";

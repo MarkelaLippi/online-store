@@ -113,9 +113,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public Long addUser(final UserDto newUserDto) {
         final User newUser = userMapper.fromDtoToUser(newUserDto);
         final User addedNewUser = userRepository.saveAndFlush(newUser);
         return addedNewUser.getId();
+    }
+
+    @Override
+    @Transactional
+    public UserDto getUserByEmail(String email) {
+        final User user = userRepository.findUserByEmail(email);
+        return userMapper.fromUserToDto(user);
     }
 }

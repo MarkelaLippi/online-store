@@ -14,4 +14,6 @@ public interface UserService {
     boolean changeUserRole(Long userId, String userRole) throws OnlineMarketSuchUserNotFoundException;
 
     Long addUser(UserDto newUser);
+
+    UserDto getUserByEmail(String email);
 }

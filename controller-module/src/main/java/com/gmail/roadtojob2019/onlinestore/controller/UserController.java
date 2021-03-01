@@ -59,9 +59,7 @@ public class UserController {
 
     @GetMapping("/users/form")
     @ResponseStatus(HttpStatus.OK)
-    String getNewUserForm(final Model model) {
-        final UserDto user = new UserDto();
-        model.addAttribute("user", user);
+    String getNewUserForm() {
         return "user";
     }
 

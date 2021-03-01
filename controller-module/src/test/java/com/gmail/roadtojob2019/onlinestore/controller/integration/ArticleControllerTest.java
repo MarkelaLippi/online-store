@@ -52,4 +52,17 @@ public class ArticleControllerTest {
                 //then
                 .andExpect(status().isFound());
     }
+
+    @Test
+    void addArticleTest() throws Exception {
+        //given
+        //when
+        mockMvc.perform(post("/sale/articles/add")
+                .param("creationTime", "2020-12-20T19:48:33")
+                .param("title", "Title")
+                .param("summary", "Summary")
+                .param("content", "Content"))
+                //then
+                .andExpect(status().isCreated());
+    }
 }

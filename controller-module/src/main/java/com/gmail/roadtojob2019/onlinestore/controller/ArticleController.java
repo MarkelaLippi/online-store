@@ -67,7 +67,7 @@ public class ArticleController {
 
     @PostMapping("sale/articles/add")
     @ResponseStatus(HttpStatus.CREATED)
-    String addNewArticle(final @Valid @ModelAttribute(name = "article") ArticleDto articleDto, final Model model, Principal principal) {
+    String addNewArticle(final @Valid @ModelAttribute(name = "article") ArticleDto articleDto, final Model model, final Principal principal) {
         final UserDto userDto = userService.getUserByEmail(principal.getName());
         articleDto.setUser(userDto);
         final Long addedArticleId = articleService.addArticle(articleDto);

@@ -36,6 +36,15 @@
         <a th:if="${hiddenReviewId}" th:href="@{/admin/reviews}" class="alert-link">Go back to the page "All
             reviews"</a>.
     </th:block>
+    <th:block>
+        <span th:text="${addedArticleId} ? 'Article with ID' : '' " class="letter"></span>
+        <span class="letter" th:text="${addedArticleId}"></span>
+        <span th:text="${addedArticleId} ? 'was created.' : '' " class="letter"></span>
+    </th:block>
+    <th:block th:if="${addedArticleId}">
+        <a th:if="${addedArticleId}" th:href="@{/sale/articles}" class="alert-link">Go back to the page "All
+            articles"</a>.
+    </th:block>
 </div>
 </body>
 </html>

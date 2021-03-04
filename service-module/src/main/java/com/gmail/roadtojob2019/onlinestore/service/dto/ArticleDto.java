@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Builder(toBuilder = true)
 public class ArticleDto {
     private long id;
-    @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @NotNull(message = "Creation date must not be null")
     private LocalDateTime creationTime;
     @NotBlank(message = "Title must not be null and must contain at least one non-whitespace character")

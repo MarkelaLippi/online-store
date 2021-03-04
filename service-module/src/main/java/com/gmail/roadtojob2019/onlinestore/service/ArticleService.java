@@ -19,4 +19,6 @@ public interface ArticleService {
     void deleteArticleById(Long articleId);
 
     void deleteArticlesByIds(long[] articlesIds);
+
+    Long changeArticle(ArticleDto articleDto);
 }

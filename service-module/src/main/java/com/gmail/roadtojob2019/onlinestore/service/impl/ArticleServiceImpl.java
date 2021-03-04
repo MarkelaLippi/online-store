@@ -89,4 +89,9 @@ public class ArticleServiceImpl implements ArticleService {
         commentRepository.deleteCommentsByArticlesIds(articlesIdsAsLong);
         articleRepository.deleteArticlesByIds(articlesIdsAsLong);
     }
+
+    @Override
+    public Long changeArticle(ArticleDto articleDto) {
+        return null;
+    }
 }

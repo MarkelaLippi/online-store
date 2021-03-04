@@ -4,6 +4,7 @@ import com.gmail.roadtojob2019.onlinestore.controller.ArticleController;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.Role;
 import com.gmail.roadtojob2019.onlinestore.service.ArticleService;
 import com.gmail.roadtojob2019.onlinestore.service.CommentService;
+import com.gmail.roadtojob2019.onlinestore.service.UserService;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ArticleDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ArticlesPageDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.CommentDto;
@@ -33,6 +34,8 @@ public class ArticleControllerTest {
     private ArticleService articleService;
     @MockBean
     private CommentService commentService;
+    @MockBean
+    private UserService userService;
 
     @Test
     void getPageOfArticlesSortedByDateDescTest() throws Exception {
@@ -98,6 +101,25 @@ public class ArticleControllerTest {
                 //then
                 .andExpect(status().isCreated());
         verify(articleService, times(1)).addArticle(articleDto);
+    }
+
+    @Test
+    void changeArticleTest() throws Exception {
+        //given
+        final ArticleDto articleDto = getArticleDto(null);
+        articleDto.setId(1L);
+        final Long articleId = 1L;
+        when(articleService.changeArticle(articleDto)).thenReturn(articleId);
+        //when
+        mockMvc.perform(post("/sale/articles/change")
+                .param("id", String.valueOf(articleDto.getId()))
+                .param("creationTime", articleDto.getCreationTime().toString())
+                .param("title", articleDto.getTitle())
+                .param("summary", articleDto.getSummary())
+                .param("content", articleDto.getContent()))
+                //then
+                .andExpect(status().isOk());
+        verify(articleService, times(1)).changeArticle(articleDto);
     }
 
     private CommentDto getCommentDto() {

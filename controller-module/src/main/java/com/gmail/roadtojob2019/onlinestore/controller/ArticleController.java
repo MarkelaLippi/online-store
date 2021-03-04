@@ -74,4 +74,12 @@ public class ArticleController {
         model.addAttribute("addedArticleId", addedArticleId);
         return "success";
     }
+
+    @PostMapping("sale/articles/change")
+    @ResponseStatus(HttpStatus.OK)
+    String changeArticle(final @Valid @ModelAttribute(name = "article") ArticleDto articleDto, final Model model) {
+        final Long changedArticleId = articleService.changeArticle(articleDto);
+        model.addAttribute("changedArticleId", changedArticleId);
+        return "success";
+    }
 }

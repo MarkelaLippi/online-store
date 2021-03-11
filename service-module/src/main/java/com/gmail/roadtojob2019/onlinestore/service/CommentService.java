@@ -8,4 +8,6 @@ public interface CommentService {
 
     List<CommentDto> getCommentsOnArticleSortedByDateDesc(long articleId);
 
+    void deleteCommentById(long commentId);
 }
+

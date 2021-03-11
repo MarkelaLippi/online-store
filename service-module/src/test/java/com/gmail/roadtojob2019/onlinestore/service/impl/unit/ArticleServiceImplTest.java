@@ -138,6 +138,23 @@ public class ArticleServiceImplTest {
         verify(articleRepository, times(1)).deleteArticlesByIds(articlesIdsAsLong);
     }
 
+    @Test
+    void changeArticleTest() throws Exception {
+        //given
+        final ArticleDto articleDto = getArticleDto();
+        final Long articleId = 1L;
+        final Article article = getArticle();
+        final Optional<Article> articleOptional = Optional.of(article);
+        when(articleRepository.findById(articleId)).thenReturn(articleOptional);
+        when(articleRepository.save(article)).thenReturn(article);
+        //when
+        final Long changeArticleId = articleService.changeArticle(articleDto);
+        //then
+        assertThat(changeArticleId, is(1L));
+        verify(articleRepository, times(1)).findById(articleId);
+        verify(articleRepository, times(1)).save(article);
+    }
+
     private Article getArticle() {
         return Article.builder()
                 .id(1L)

@@ -20,5 +20,5 @@ public interface ArticleService {
 
     void deleteArticlesByIds(long[] articlesIds);
 
-    Long changeArticle(ArticleDto articleDto);
+    Long changeArticle(ArticleDto articleDto) throws OnlineMarketSuchArticleNotFoundException;
 }

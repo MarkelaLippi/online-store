@@ -18,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -91,7 +92,15 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Long changeArticle(ArticleDto articleDto) {
-        return null;
+    public Long changeArticle(ArticleDto articleDto) throws OnlineMarketSuchArticleNotFoundException {
+        final long articleId = articleDto.getId();
+        final Article editableArticle = articleRepository.findById(articleId)
+                .orElseThrow(() -> new OnlineMarketSuchArticleNotFoundException("Article with id = " + articleId + " was not found"));
+        editableArticle.setTitle(articleDto.getTitle());
+        editableArticle.setSummary(articleDto.getSummary());
+        editableArticle.setContent(articleDto.getContent());
+        editableArticle.setCreationTime(LocalDateTime.now());
+        final Article modifiedArticle = articleRepository.save(editableArticle);
+        return modifiedArticle.getId();
     }
 }

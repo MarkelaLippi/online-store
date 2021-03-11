@@ -77,7 +77,7 @@ public class ArticleController {
 
     @PostMapping("sale/articles/change")
     @ResponseStatus(HttpStatus.OK)
-    String changeArticle(final @Valid @ModelAttribute(name = "article") ArticleDto articleDto, final Model model) {
+    String changeArticle(final @Valid @ModelAttribute(name = "article") ArticleDto articleDto, final Model model) throws OnlineMarketSuchArticleNotFoundException {
         final Long changedArticleId = articleService.changeArticle(articleDto);
         model.addAttribute("changedArticleId", changedArticleId);
         return "success";

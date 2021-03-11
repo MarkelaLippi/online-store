@@ -65,4 +65,18 @@ public class ArticleControllerTest {
                 //then
                 .andExpect(status().isCreated());
     }
+
+    @Test
+    void changeArticleTest() throws Exception {
+        //given
+        //when
+        mockMvc.perform(post("/sale/articles/change")
+                .param("id", "1")
+                .param("creationTime", "2020-12-20T19:48:33")
+                .param("title", "New title")
+                .param("summary", "New summary")
+                .param("content", "New content"))
+                //then
+                .andExpect(status().isOk());
+    }
 }

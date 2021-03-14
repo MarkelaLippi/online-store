@@ -8,6 +8,7 @@ import com.gmail.roadtojob2019.onlinestore.service.mapper.CommentMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +20,7 @@ public class CommentServiceImpl implements CommentService {
     private final CommentMapper commentMapper;
 
     @Override
+    @Transactional
     public List<CommentDto> getCommentsOnArticleSortedByDateDesc(long articleId) {
         final List<Comment> comments = commentRepository.getCommentsByArticleIdSortedByDateDesc(articleId);
         return comments.stream()
@@ -27,7 +29,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public void deleteCommentById(long commentId) {
-
+        commentRepository.deleteById(commentId);
     }
 }

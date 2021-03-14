@@ -92,6 +92,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    @Transactional
     public Long changeArticle(ArticleDto articleDto) throws OnlineMarketSuchArticleNotFoundException {
         final long articleId = articleDto.getId();
         final Article editableArticle = articleRepository.findById(articleId)

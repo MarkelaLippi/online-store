@@ -1,9 +1,7 @@
 package com.gmail.roadtojob2019.onlinestore.controller.unit;
 
 import com.gmail.roadtojob2019.onlinestore.controller.CommentController;
-import com.gmail.roadtojob2019.onlinestore.service.ArticleService;
 import com.gmail.roadtojob2019.onlinestore.service.CommentService;
-import com.gmail.roadtojob2019.onlinestore.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -23,11 +21,7 @@ public class CommentControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private ArticleService articleService;
-    @MockBean
     private CommentService commentService;
-    @MockBean
-    private UserService userService;
 
     @Test
     void deleteCommentByIdTest() throws Exception {

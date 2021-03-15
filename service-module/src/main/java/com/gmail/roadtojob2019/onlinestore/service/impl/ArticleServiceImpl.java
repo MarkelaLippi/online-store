@@ -3,7 +3,6 @@ package com.gmail.roadtojob2019.onlinestore.service.impl;
 import com.gmail.roadtojob2019.onlinestore.repository.ArticleRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.CommentRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.Article;
-import com.gmail.roadtojob2019.onlinestore.repository.entity.User;
 import com.gmail.roadtojob2019.onlinestore.service.ArticleService;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ArticleDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ArticlesPageDto;
@@ -13,8 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;

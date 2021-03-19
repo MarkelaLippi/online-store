@@ -2,7 +2,6 @@ package com.gmail.roadtojob2019.onlinestore.controller.unit;
 
 import com.gmail.roadtojob2019.onlinestore.controller.ItemController;
 import com.gmail.roadtojob2019.onlinestore.service.ItemService;
-import com.gmail.roadtojob2019.onlinestore.service.UserService;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ItemDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ItemsPageDto;
 import org.junit.jupiter.api.Test;

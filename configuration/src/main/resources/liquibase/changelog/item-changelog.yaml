@@ -1,0 +1,119 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: CREATE-TABLE-ITEMS
+      author: RoadToJob2019@gmail.com
+      changes:
+        - createTable:
+            tableName: ITEMS
+            remarks: Товары
+            columns:
+              - column:
+                  name: ID
+                  type: varchar(36)
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: item_pk
+                    nullable: false
+              - column:
+                  name: NAME
+                  type: varchar(100)
+                  remarks: Наименование товара
+                  constraints:
+                    nullable: false
+              - column:
+                  name: BRIEF_DESCRIPTION
+                  type: varchar(255)
+                  remarks: Краткое описание товара
+                  constraints:
+                    nullable: true
+              - column:
+                  name: CURRENCY
+                  type: varchar(3)
+                  remarks: Код валюты
+                  constraints:
+                    nullable: false
+              - column:
+                  name: AMOUNT
+                  type: decimal(20,2)
+                  remarks: Количество валюты
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: FILL-TABLE-ITEMS
+      author: RoadToJob2019@gmail.com
+      changes:
+        - insert:
+            tableName: ITEMS
+            columns:
+              - column:
+                  name: ID
+                  value: 123e4567-e89b-12d3-a456-556642440000
+              - column:
+                  name: NAME
+                  value: Tyres Cordiant Road Runner 205/55R16 94H
+              - column:
+                  name: BRIEF_DESCRIPTION
+                  value: Summer, for passenger cars
+              - column:
+                  name: CURRENCY
+                  value: USD
+              - column:
+                  name: AMOUNT
+                  value: 41.65
+        - insert:
+            tableName: ITEMS
+            columns:
+              - column:
+                  name: ID
+                  value: e65a4017-a3d9-4986-8e4a-f2ad9dda077b
+              - column:
+                  name: NAME
+                  value: Tyres Tigar High Performance 205/55R16 94V
+              - column:
+                  name: BRIEF_DESCRIPTION
+                  value: Summer, for passenger cars
+              - column:
+                  name: CURRENCY
+                  value: USD
+              - column:
+                  name: AMOUNT
+                  value: 33.72
+        - insert:
+            tableName: ITEMS
+            columns:
+              - column:
+                  name: ID
+                  value: 702db5e6-b61a-4e64-99ea-8081a3ae73bd
+              - column:
+                  name: NAME
+                  value: Tyres Continental PremiumContact 6 205/55R16 91V
+              - column:
+                  name: BRIEF_DESCRIPTION
+                  value: Summer, for passenger cars
+              - column:
+                  name: CURRENCY
+                  value: USD
+              - column:
+                  name: AMOUNT
+                  value: 62.40
+        - insert:
+            tableName: ITEMS
+            columns:
+              - column:
+                  name: ID
+                  value: 137b71bb-b0ae-4aaa-9e22-ab937b2387c4
+              - column:
+                  name: NAME
+                  value: Tyres Goodyear Eagle Sport 205/55R16 91V
+              - column:
+                  name: BRIEF_DESCRIPTION
+                  value: Summer, for passenger cars
+              - column:
+                  name: CURRENCY
+                  value: USD
+              - column:
+                  name: AMOUNT
+                  value: 62.40

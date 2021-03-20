@@ -1,7 +1,6 @@
 package com.gmail.roadtojob2019.onlinestore.repository.entity;
 
 import com.gmail.roadtojob2019.onlinestore.repository.converter.CurrencyConverter;
-import com.gmail.roadtojob2019.onlinestore.repository.converter.RoleConverter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

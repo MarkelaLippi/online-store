@@ -25,7 +25,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     @Transactional
-    public ItemsPageDto getPageOfItemsSortedByTitle(int pageNumber, int pageSize) {
+    public ItemsPageDto getPageOfItemsSortedByName(int pageNumber, int pageSize) {
         final String SORTING_PARAMETER = "name";
         final Sort.Direction SORTING_DIRECTION = Sort.Direction.ASC;
         final PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, SORTING_DIRECTION, SORTING_PARAMETER);

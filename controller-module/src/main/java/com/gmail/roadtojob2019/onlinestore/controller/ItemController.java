@@ -26,7 +26,7 @@ public class ItemController {
     String getPageOfItemsSortedByName(final Model model,
                                              @RequestParam(name = "number", required = false, defaultValue = "0") final int pageNumber,
                                              @RequestParam(name = "size", required = false, defaultValue = "3") final int pageSize) {
-        final ItemsPageDto itemsPageDto = itemService.getPageOfItemsSortedByTitle(pageNumber, pageSize);
+        final ItemsPageDto itemsPageDto = itemService.getPageOfItemsSortedByName(pageNumber, pageSize);
         final List<ItemDto> itemsOnPage = itemsPageDto.getItems();
         final int totalNumberOfPages = itemsPageDto.getTotalNumberOfPages();
         model.addAttribute("items", itemsOnPage);

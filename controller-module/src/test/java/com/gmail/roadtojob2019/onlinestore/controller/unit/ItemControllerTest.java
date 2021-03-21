@@ -30,21 +30,21 @@ public class ItemControllerTest {
     private ItemService itemService;
 
     @Test
-    void getPageOfItemsSortedByTitleTest() throws Exception {
+    void getPageOfItemsSortedByNameTest() throws Exception {
         //given
         final int pageNumber = 0;
         final int pageSize = 10;
         final ItemDto itemDto = getItemDto();
         final List<ItemDto> itemDtos = List.of(itemDto);
         final ItemsPageDto itemsPageDto = getItemsPageDto(itemDtos);
-        when(itemService.getPageOfItemsSortedByTitle(pageNumber, pageSize)).thenReturn(itemsPageDto);
+        when(itemService.getPageOfItemsSortedByName(pageNumber, pageSize)).thenReturn(itemsPageDto);
         //when
         mockMvc.perform(get("/sale/items")
                 .param("number", String.valueOf(pageNumber))
                 .param("size", String.valueOf(pageSize)))
                 //then
                 .andExpect(status().isOk());
-        verify(itemService, times(1)).getPageOfItemsSortedByTitle(pageNumber, pageSize);
+        verify(itemService, times(1)).getPageOfItemsSortedByName(pageNumber, pageSize);
     }
 
     private ItemDto getItemDto() {

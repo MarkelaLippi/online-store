@@ -53,7 +53,7 @@ public class ItemControllerTest {
                 .name("Name of item")
                 .briefDescription("Brief description of item")
                 .currency("USD")
-                .price(new BigDecimal("42.50"))
+                .amount(new BigDecimal("42.50"))
                 .build();
     }
 

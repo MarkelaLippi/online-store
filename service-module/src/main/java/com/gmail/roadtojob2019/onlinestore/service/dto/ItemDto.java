@@ -17,5 +17,5 @@ public class ItemDto {
     private String name;
     private String briefDescription;
     private String currency;
-    private BigDecimal price;
+    private BigDecimal amount;
 }

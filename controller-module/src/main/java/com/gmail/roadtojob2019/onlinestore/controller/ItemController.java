@@ -23,7 +23,7 @@ public class ItemController {
 
     @GetMapping("/items")
     @ResponseStatus(HttpStatus.OK)
-    String getPageOfItemsSortedByTitle(final Model model,
+    String getPageOfItemsSortedByName(final Model model,
                                              @RequestParam(name = "number", required = false, defaultValue = "0") final int pageNumber,
                                              @RequestParam(name = "size", required = false, defaultValue = "3") final int pageSize) {
         final ItemsPageDto itemsPageDto = itemService.getPageOfItemsSortedByTitle(pageNumber, pageSize);

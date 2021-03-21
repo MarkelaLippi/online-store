@@ -1,15 +1,45 @@
 package com.gmail.roadtojob2019.onlinestore.service.impl;
 
+import com.gmail.roadtojob2019.onlinestore.repository.ItemRepository;
+import com.gmail.roadtojob2019.onlinestore.repository.entity.Item;
 import com.gmail.roadtojob2019.onlinestore.service.ItemService;
+import com.gmail.roadtojob2019.onlinestore.service.dto.ItemDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ItemsPageDto;
+import com.gmail.roadtojob2019.onlinestore.service.mapper.ItemMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ItemServiceImpl implements ItemService {
+
+    private final ItemRepository itemRepository;
+    private final ItemMapper itemMapper;
+
     @Override
+    @Transactional
     public ItemsPageDto getPageOfItemsSortedByTitle(int pageNumber, int pageSize) {
-        return null;
+        final String SORTING_PARAMETER = "name";
+        final Sort.Direction SORTING_DIRECTION = Sort.Direction.ASC;
+        final PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, SORTING_DIRECTION, SORTING_PARAMETER);
+        final Page<Item> pageOfItems = itemRepository.findAll(pageRequest);
+        final long totalNumberOfItems = pageOfItems.getTotalElements();
+        final int totalNumberOfPages = pageOfItems.getTotalPages();
+        final List<ItemDto> itemsOnPage = pageOfItems.stream()
+                .map(itemMapper::fromItemToDto)
+                .collect(Collectors.toList());
+        return ItemsPageDto.
+                builder()
+                .totalNumberOfItems(totalNumberOfItems)
+                .totalNumberOfPages(totalNumberOfPages)
+                .items(itemsOnPage)
+                .build();
     }
 }

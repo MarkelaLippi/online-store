@@ -1,6 +1,7 @@
 package com.gmail.roadtojob2019.onlinestore.repository.entity;
 
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -13,6 +14,7 @@ import java.util.UUID;
 @Table(name = "ITEMS")
 public class Item {
     @Id
+    @Type(type="uuid-char")
     @GeneratedValue
     @Setter(value = AccessLevel.NONE)
     private UUID id;

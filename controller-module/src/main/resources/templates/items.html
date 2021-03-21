@@ -14,32 +14,31 @@
     <thead class="thead-dark">
     <tr>
         <th scope="col">#</th>
-        <th scope="col">Creation time</th>
-        <th scope="col">Title</th>
-        <th scope="col">Author's last name</th>
-        <th scope="col">Author's first name</th>
-        <th scope="col">Summary</th>
+        <th scope="col">Name</th>
+        <th scope="col">ID</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Currency</th>
+        <th scope="col"></th>
         <th scope="col"></th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="article, itemStat: ${articles}">
+    <tr th:each="item, itemStat: ${items}">
         <th scope="row" th:text="${itemStat.index}+1"/>
-        <td th:text="${article.creationTime}"/>
-        <td th:text="${article.title}"/>
-        <td th:text="${article.user.lastName}"/>
-        <td th:text="${article.user.firstName}"/>
-        <td th:text="${article.summary}"/>
+        <td th:text="${item.name}"/>
+        <td th:text="${item.id}"/>
+        <td th:text="${item.amount}"/>
+        <td th:text="${item.currency}"/>
         <td>
-            <a th:href="@{/customer/articles/{id}(id=${article.id})}">More detailed...</a>.
+            <a th:href="@{/sale/items/{id}(id=${item.id})}">More detailed...</a>.
         </td>
         <td>
             <div class="form-check">
                 <input class="form-check-input" type="checkbox"
-                       name="articlesIds" th:value="${article.id}" id="deleteArticleCheckBox"
-                       form="Delete articles">
-                <label class="form-check-label" for="deleteArticleCheckBox">
-                    Delete articles
+                       name="itemsIds" th:value="${item.id}" id="deleteItemCheckBox"
+                       form="Delete items">
+                <label class="form-check-label" for="deleteItemCheckBox">
+                    Delete items
                 </label>
             </div>
         </td>
@@ -49,13 +48,13 @@
 <div>
     <th:block th:if="${pages}>0"
               th:each="pageNumber:${#numbers.sequence(1,pages)}">
-        <a th:href="@{/customer/articles?number={page}(page=${pageNumber-1})}">
+        <a th:href="@{/sale/items?number={page}(page=${pageNumber-1})}">
             <span th:text="${pageNumber}">...</span></a>
     </th:block>
 </div>
-<form id="Delete articles" action="/sale/articles/delete" method="post">
+<form id="Delete items" action="/sale/items/delete" method="post">
     <button type="submit" class="btn btn-primary">
-        Delete selected articles
+        Delete selected items
     </button>
 </form>
 </body>

@@ -17,14 +17,16 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -56,6 +58,20 @@ public class ItemServiceImplTest {
         assertThat(itemsPageDto.getTotalNumberOfPages(), is(1));
         assertThat(itemsPageDto.getTotalNumberOfItems(), is(1L));
         verify(itemRepository, times(1)).findAll(pageRequest);
+    }
+
+    @Test
+    void deleteItemsByIdsTest() throws Exception {
+        //given
+        final String[] itemsIdsAsString={"123e4567-e89b-12d3-a456-556642440000", "e65a4017-a3d9-4986-8e4a-f2ad9dda077b"};
+        final List<UUID> itemsIds = Arrays.stream(itemsIdsAsString)
+                .map(UUID::fromString)
+                .collect(Collectors.toList());
+        doNothing().when(itemRepository).deleteItemsByIds(itemsIds);
+        //when
+        itemService.deleteItemsByIds(itemsIdsAsString);
+                //then
+        verify(itemRepository, times(1)).deleteItemsByIds(itemsIds);
     }
 
     @Test

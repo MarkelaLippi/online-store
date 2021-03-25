@@ -9,6 +9,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -28,6 +29,18 @@ public class ItemControllerTest {
         mockMvc.perform(get("/sale/items")
                 .param("number", String.valueOf(pageNumber))
                 .param("size", String.valueOf(pageSize)))
+                //then
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void deleteItemsByIdsTest() throws Exception {
+        //given
+        final String[] itemsIds = {"123e4567-e89b-12d3-a456-556642440000", "e65a4017-a3d9-4986-8e4a-f2ad9dda077b"};
+        //when
+        mockMvc.perform(post("/sale/items/delete")
+                .param("itemsIds", itemsIds[0])
+                .param("itemsIds", itemsIds[1]))
                 //then
                 .andExpect(status().isOk());
     }

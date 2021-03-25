@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Controller
@@ -33,8 +34,15 @@ public class ItemController {
 
     @GetMapping("/items/delete/{itemId}")
     @ResponseStatus(HttpStatus.OK)
-    String deleteItemById(@PathVariable final String itemId) {
+    String deleteItemById(@PathVariable @NotNull final String itemId) {
         itemService.deleteItemById(itemId);
+        return "forward:/items";
+    }
+
+    @PostMapping("/items/delete")
+    @ResponseStatus(HttpStatus.OK)
+    String deleteItemsByIds(@RequestParam @NotNull final String [] itemsIds) {
+        itemService.deleteItemsByIds(itemsIds);
         return "forward:/items";
     }
 }

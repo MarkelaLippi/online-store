@@ -6,4 +6,6 @@ public interface ItemService {
     ItemsPageDto getPageOfItemsSortedByName(int pageNumber, int pageSize);
 
     void deleteItemById(String itemId);
+
+    void deleteItemsByIds(String[] itemsIds);
 }

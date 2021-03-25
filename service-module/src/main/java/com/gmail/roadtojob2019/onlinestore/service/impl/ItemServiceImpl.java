@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -49,5 +50,14 @@ public class ItemServiceImpl implements ItemService {
     public void deleteItemById(final String itemId) {
         final UUID itemIdAsUUID = UUID.fromString(itemId);
         itemRepository.deleteItemById(itemIdAsUUID);
+    }
+
+    @Override
+    @Transactional
+    public void deleteItemsByIds(String[] itemsIdsAsString) {
+        final List<UUID> itemsIds = Arrays.stream(itemsIdsAsString)
+                .map(UUID::fromString)
+                .collect(Collectors.toList());
+        itemRepository.deleteItemsByIds(itemsIds);
     }
 }

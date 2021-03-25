@@ -58,7 +58,7 @@ public class ItemControllerTest {
                 .param("itemsIds", itemsIds[0])
                 .param("itemsIds", itemsIds[1]))
                 //then
-                .andExpect(status().isOk());
+                .andExpect(status().isFound());
         verify(itemService, times(1)).deleteItemsByIds(itemsIds);
     }
 

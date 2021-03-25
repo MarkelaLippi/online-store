@@ -9,7 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -40,9 +42,9 @@ public class ItemController {
     }
 
     @PostMapping("/items/delete")
-    @ResponseStatus(HttpStatus.OK)
-    String deleteItemsByIds(@RequestParam @NotNull final String [] itemsIds) {
+    @ResponseStatus(HttpStatus.FOUND)
+    void deleteItemsByIds(@RequestParam @NotNull final String [] itemsIds, final HttpServletResponse response) throws IOException {
         itemService.deleteItemsByIds(itemsIds);
-        return "forward:/items";
+        response.sendRedirect("/sale/items");
     }
 }

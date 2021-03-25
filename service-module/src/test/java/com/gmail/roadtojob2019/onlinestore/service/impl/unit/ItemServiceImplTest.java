@@ -24,6 +24,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
 public class ItemServiceImplTest {
@@ -54,6 +56,18 @@ public class ItemServiceImplTest {
         assertThat(itemsPageDto.getTotalNumberOfPages(), is(1));
         assertThat(itemsPageDto.getTotalNumberOfItems(), is(1L));
         verify(itemRepository, times(1)).findAll(pageRequest);
+    }
+
+    @Test
+    void deleteItemByIdTest() throws Exception {
+        //given
+        final String itemIdAsString = "e65a4017-a3d9-4986-8e4a-f2ad9dda077b";
+        final UUID itemId = UUID.fromString(itemIdAsString);
+        doNothing().when(itemRepository).deleteItemById(itemId);
+        //when
+        itemService.deleteItemById(itemIdAsString);
+        //then
+        verify(itemRepository, times(1)).deleteItemById(itemId);
     }
 
     private Item getItem() {

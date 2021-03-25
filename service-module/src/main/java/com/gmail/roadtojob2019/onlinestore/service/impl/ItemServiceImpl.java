@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,7 +26,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     @Transactional
-    public ItemsPageDto getPageOfItemsSortedByName(int pageNumber, int pageSize) {
+    public ItemsPageDto getPageOfItemsSortedByName(final int pageNumber, final int pageSize) {
         final String SORTING_PARAMETER = "name";
         final Sort.Direction SORTING_DIRECTION = Sort.Direction.ASC;
         final PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, SORTING_DIRECTION, SORTING_PARAMETER);
@@ -41,5 +42,12 @@ public class ItemServiceImpl implements ItemService {
                 .totalNumberOfPages(totalNumberOfPages)
                 .items(itemsOnPage)
                 .build();
+    }
+
+    @Override
+    @Transactional
+    public void deleteItemById(final String itemId) {
+        final UUID itemIdAsUUID = UUID.fromString(itemId);
+        itemRepository.deleteItemById(itemIdAsUUID);
     }
 }

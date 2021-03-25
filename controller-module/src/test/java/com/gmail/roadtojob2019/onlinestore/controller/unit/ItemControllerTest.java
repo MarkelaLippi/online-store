@@ -47,6 +47,18 @@ public class ItemControllerTest {
         verify(itemService, times(1)).getPageOfItemsSortedByName(pageNumber, pageSize);
     }
 
+    @Test
+    void deleteItemByIdTest() throws Exception {
+        //given
+        final String itemId = "e65a4017-a3d9-4986-8e4a-f2ad9dda077b";
+        doNothing().when(itemService).deleteItemById(itemId);
+        //when
+        mockMvc.perform(get("/sale/items/delete/"+itemId))
+                //then
+                .andExpect(status().isOk());
+        verify(itemService, times(1)).deleteItemById(itemId);
+    }
+
     private ItemDto getItemDto() {
         return ItemDto.builder()
                 .id(UUID.randomUUID())

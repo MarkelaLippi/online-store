@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -27,6 +28,16 @@ public class ItemControllerTest {
         mockMvc.perform(get("/sale/items")
                 .param("number", String.valueOf(pageNumber))
                 .param("size", String.valueOf(pageSize)))
+                //then
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void deleteItemByIdTest() throws Exception {
+        //given
+        final String itemId = "e65a4017-a3d9-4986-8e4a-f2ad9dda077b";
+        //when
+        mockMvc.perform(get("/sale/items/delete/" + itemId))
                 //then
                 .andExpect(status().isOk());
     }

@@ -74,9 +74,22 @@ public class ItemControllerTest {
         verify(itemService, times(1)).deleteItemById(itemId);
     }
 
+    @Test
+    void getItemByIdTest() throws Exception {
+        //given
+        final String itemId = "e65a4017-a3d9-4986-8e4a-f2ad9dda077b";
+        final ItemDto itemDto = getItemDto();
+        when(itemService.getItemById(itemId)).thenReturn(itemDto);
+        //when
+        mockMvc.perform(get("/sale/items/"+itemId))
+                //then
+                .andExpect(status().isOk());
+        verify(itemService, times(1)).getItemById(itemId);
+    }
+
     private ItemDto getItemDto() {
         return ItemDto.builder()
-                .id(UUID.randomUUID())
+                .id(UUID.fromString("e65a4017-a3d9-4986-8e4a-f2ad9dda077b"))
                 .name("Name of item")
                 .briefDescription("Brief description of item")
                 .currency("USD")

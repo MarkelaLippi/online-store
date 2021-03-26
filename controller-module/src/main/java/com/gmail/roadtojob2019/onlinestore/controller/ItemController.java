@@ -47,4 +47,12 @@ public class ItemController {
         itemService.deleteItemsByIds(itemsIds);
         response.sendRedirect("/sale/items");
     }
+
+    @GetMapping("/items/{itemId}")
+    @ResponseStatus(HttpStatus.OK)
+    String getItemById(@PathVariable final String itemId, final Model model) {
+        final ItemDto itemDto = itemService.getItemById(itemId);
+        model.addAttribute("item", itemDto);
+        return "item";
+    }
 }

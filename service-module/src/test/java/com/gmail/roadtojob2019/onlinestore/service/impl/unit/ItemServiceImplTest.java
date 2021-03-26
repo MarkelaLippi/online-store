@@ -4,6 +4,7 @@ import com.gmail.roadtojob2019.onlinestore.repository.ItemRepository;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.Currency;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.Item;
 import com.gmail.roadtojob2019.onlinestore.repository.entity.Price;
+import com.gmail.roadtojob2019.onlinestore.service.dto.ItemDto;
 import com.gmail.roadtojob2019.onlinestore.service.dto.ItemsPageDto;
 import com.gmail.roadtojob2019.onlinestore.service.impl.ItemServiceImpl;
 import com.gmail.roadtojob2019.onlinestore.service.mapper.ItemMapper;
@@ -26,8 +27,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
 public class ItemServiceImplTest {
@@ -86,9 +85,30 @@ public class ItemServiceImplTest {
         verify(itemRepository, times(1)).deleteItemById(itemId);
     }
 
+    @Test
+    void getItemByIdTest() throws Exception {
+        //given
+        final String itemIdAsString = "e65a4017-a3d9-4986-8e4a-f2ad9dda077b";
+        final UUID itemId = UUID.fromString(itemIdAsString);
+        final Item item = getItem();
+        when(itemRepository.getItemById(itemId)).thenReturn(item);
+        final ItemDto itemDto = getItemDto();
+        when(itemMapper.fromItemToDto(item)).thenReturn(itemDto);
+        //when
+        final ItemDto actualItemDto = itemService.getItemById(itemIdAsString);
+        //then
+        assertThat(actualItemDto.getId(), is(UUID.fromString(itemIdAsString)));
+        assertThat(actualItemDto.getName(), is("Name of item"));
+        assertThat(actualItemDto.getBriefDescription(), is("Brief description of item"));
+        assertThat(actualItemDto.getAmount(), is(new BigDecimal("42.50")));
+        assertThat(actualItemDto.getCurrency(), is(Currency.USD.name()));
+        verify(itemRepository, times(1)).getItemById(itemId);
+    }
+
+
     private Item getItem() {
         return Item.builder()
-                .id(UUID.randomUUID())
+                .id(UUID.fromString("e65a4017-a3d9-4986-8e4a-f2ad9dda077b"))
                 .name("Name of item")
                 .briefDescription("Brief description of item")
                 .price(getPrice())
@@ -99,6 +119,16 @@ public class ItemServiceImplTest {
         return Price.builder()
                 .currency(Currency.USD)
                 .amount(new BigDecimal("42.50"))
+                .build();
+    }
+
+    private ItemDto getItemDto() {
+        return ItemDto.builder()
+                .id(UUID.fromString("e65a4017-a3d9-4986-8e4a-f2ad9dda077b"))
+                .name("Name of item")
+                .briefDescription("Brief description of item")
+                .amount(new BigDecimal("42.50"))
+                .currency(Currency.USD.name())
                 .build();
     }
 }

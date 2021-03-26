@@ -17,4 +17,5 @@ public interface ItemRepository extends JpaRepository<Item,Long> {
     @Modifying
     void deleteItemsByIds(@Param(value = "itemsIds") Collection<UUID> itemsIds);
 
+    Item getItemById(UUID itemId);
 }

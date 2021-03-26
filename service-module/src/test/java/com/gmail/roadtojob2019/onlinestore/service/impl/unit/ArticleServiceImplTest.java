@@ -71,9 +71,9 @@ public class ArticleServiceImplTest {
         final ArticleDto articleDto = getArticleDto();
         when(articleMapper.fromArticleToDto(article)).thenReturn(articleDto);
         //when
-        final ArticleDto expectedArticleDto = articleService.getArticleById(articleId);
+        final ArticleDto actualArticleDto = articleService.getArticleById(articleId);
         //then
-        assertThat(expectedArticleDto.getSummary(), is("Summary..."));
+        assertThat(actualArticleDto.getSummary(), is("Summary..."));
         verify(articleRepository, times(1)).findById(articleId);
         verify(articleMapper, times(1)).fromArticleToDto(article);
     }

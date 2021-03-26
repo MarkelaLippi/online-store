@@ -54,10 +54,17 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     @Transactional
-    public void deleteItemsByIds(String[] itemsIdsAsString) {
+    public void deleteItemsByIds(final String[] itemsIdsAsString) {
         final List<UUID> itemsIds = Arrays.stream(itemsIdsAsString)
                 .map(UUID::fromString)
                 .collect(Collectors.toList());
         itemRepository.deleteItemsByIds(itemsIds);
+    }
+
+    @Override
+    @Transactional
+    public ItemDto getItemById(final String itemId) {
+        final Item item = itemRepository.getItemById(UUID.fromString(itemId));
+        return itemMapper.fromItemToDto(item);
     }
 }

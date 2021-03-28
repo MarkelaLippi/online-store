@@ -67,4 +67,12 @@ public class ItemServiceImpl implements ItemService {
         final Item item = itemRepository.getItemById(UUID.fromString(itemId));
         return itemMapper.fromItemToDto(item);
     }
+
+    @Override
+    public List<ItemDto> getItems() {
+        final List<Item> items = itemRepository.findAll();
+        return items.stream()
+                .map(itemMapper::fromItemToDto)
+                .collect(Collectors.toList());
+    }
 }

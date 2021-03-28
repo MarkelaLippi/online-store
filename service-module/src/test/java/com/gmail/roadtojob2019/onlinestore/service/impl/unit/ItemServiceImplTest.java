@@ -39,7 +39,7 @@ public class ItemServiceImplTest {
     private ItemServiceImpl itemService;
 
     @Test
-    void getPageOfItemsSortedByNameTest() throws Exception {
+    void getPageOfItemsSortedByNameTest() {
         //given
         final int pageNumber = 0;
         final int pageSize = 10;
@@ -60,7 +60,7 @@ public class ItemServiceImplTest {
     }
 
     @Test
-    void deleteItemsByIdsTest() throws Exception {
+    void deleteItemsByIdsTest() {
         //given
         final String[] itemsIdsAsString={"123e4567-e89b-12d3-a456-556642440000", "e65a4017-a3d9-4986-8e4a-f2ad9dda077b"};
         final List<UUID> itemsIds = Arrays.stream(itemsIdsAsString)
@@ -74,7 +74,7 @@ public class ItemServiceImplTest {
     }
 
     @Test
-    void deleteItemByIdTest() throws Exception {
+    void deleteItemByIdTest() {
         //given
         final String itemIdAsString = "e65a4017-a3d9-4986-8e4a-f2ad9dda077b";
         final UUID itemId = UUID.fromString(itemIdAsString);
@@ -86,7 +86,7 @@ public class ItemServiceImplTest {
     }
 
     @Test
-    void getItemByIdTest() throws Exception {
+    void getItemByIdTest() {
         //given
         final String itemIdAsString = "e65a4017-a3d9-4986-8e4a-f2ad9dda077b";
         final UUID itemId = UUID.fromString(itemIdAsString);

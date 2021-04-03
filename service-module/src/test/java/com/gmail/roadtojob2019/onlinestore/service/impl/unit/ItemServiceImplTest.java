@@ -105,6 +105,25 @@ public class ItemServiceImplTest {
         verify(itemRepository, times(1)).getItemById(itemId);
     }
 
+    @Test
+    void getItemsTest() {
+        //given
+        final Item item = getItem();
+        final List<Item> items = List.of(item);
+        when(itemRepository.findAll()).thenReturn(items);
+        final ItemDto itemDto = getItemDto();
+        when(itemMapper.fromItemToDto(item)).thenReturn(itemDto);
+        //when
+        final List<ItemDto> itemDtos = itemService.getItems();
+        //then
+        final ItemDto actualItemDto = itemDtos.get(0);
+        assertThat(actualItemDto.getId(), is(UUID.fromString("e65a4017-a3d9-4986-8e4a-f2ad9dda077b")));
+        assertThat(actualItemDto.getName(), is("Name of item"));
+        assertThat(actualItemDto.getBriefDescription(), is("Brief description of item"));
+        assertThat(actualItemDto.getAmount(), is(new BigDecimal("42.50")));
+        assertThat(actualItemDto.getCurrency(), is(Currency.USD.name()));
+        verify(itemRepository, times(1)).findAll();
+    }
 
     private Item getItem() {
         return Item.builder()

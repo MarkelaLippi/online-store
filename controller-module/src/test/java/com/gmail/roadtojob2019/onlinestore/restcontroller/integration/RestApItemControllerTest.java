@@ -50,4 +50,27 @@ class RestApItemControllerTest {
         assertThat(itemDto, hasProperty("currency", equalTo("USD")));
         assertThat(itemDto, hasProperty("amount", equalTo(BigDecimal.valueOf(41.65))));
     }
+
+    @Test
+    void getItemByIdTest() throws Exception {
+        //given
+        final String itemId = "123e4567-e89b-12d3-a456-556642440000";
+        //when
+        final MvcResult mvcResult = mockMvc.perform(get("/secure/items/" + itemId))
+                //then
+                .andExpect(status().isOk())
+                .andReturn();
+        final String actualItemDtoAsString = mvcResult.getResponse().getContentAsString();
+        final ItemDto actualItemDto = objectMapper.readValue(actualItemDtoAsString, ItemDto.class);
+        final UUID expectedId = UUID.fromString(itemId);
+        final String expectedName = "Tyres Cordiant Road Runner 205/55R16 94H";
+        final String expectedBriefDescription = "Summer, for passenger cars";
+        final String expectedCurrency = "USD";
+        final BigDecimal expectedAmount = BigDecimal.valueOf(41.65);
+        assertThat(actualItemDto, hasProperty("id", equalTo(expectedId)));
+        assertThat(actualItemDto, hasProperty("name", equalTo(expectedName)));
+        assertThat(actualItemDto, hasProperty("briefDescription", equalTo(expectedBriefDescription)));
+        assertThat(actualItemDto, hasProperty("currency", equalTo(expectedCurrency)));
+        assertThat(actualItemDto, hasProperty("amount", equalTo(expectedAmount)));
+    }
 }

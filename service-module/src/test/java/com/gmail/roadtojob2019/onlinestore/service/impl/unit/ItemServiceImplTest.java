@@ -86,26 +86,6 @@ public class ItemServiceImplTest {
     }
 
     @Test
-    void getItemByIdTest() {
-        //given
-        final String itemIdAsString = "e65a4017-a3d9-4986-8e4a-f2ad9dda077b";
-        final UUID itemId = UUID.fromString(itemIdAsString);
-        final Item item = getItem();
-        when(itemRepository.getItemById(itemId)).thenReturn(item);
-        final ItemDto itemDto = getItemDto();
-        when(itemMapper.fromItemToDto(item)).thenReturn(itemDto);
-        //when
-        final ItemDto actualItemDto = itemService.getItemById(itemIdAsString);
-        //then
-        assertThat(actualItemDto.getId(), is(UUID.fromString(itemIdAsString)));
-        assertThat(actualItemDto.getName(), is("Name of item"));
-        assertThat(actualItemDto.getBriefDescription(), is("Brief description of item"));
-        assertThat(actualItemDto.getAmount(), is(new BigDecimal("42.50")));
-        assertThat(actualItemDto.getCurrency(), is(Currency.USD.name()));
-        verify(itemRepository, times(1)).getItemById(itemId);
-    }
-
-    @Test
     void getItemsTest() {
         //given
         final Item item = getItem();
@@ -123,6 +103,31 @@ public class ItemServiceImplTest {
         assertThat(actualItemDto.getAmount(), is(new BigDecimal("42.50")));
         assertThat(actualItemDto.getCurrency(), is(Currency.USD.name()));
         verify(itemRepository, times(1)).findAll();
+    }
+
+    @Test
+    void getItemByIdTest() {
+        //given
+        final String itemIdAsString = "e65a4017-a3d9-4986-8e4a-f2ad9dda077b";
+        final UUID itemId = UUID.fromString(itemIdAsString);
+        final Item item = getItem();
+        when(itemRepository.getItemById(itemId)).thenReturn(item);
+        final ItemDto itemDto = getItemDto();
+        when(itemMapper.fromItemToDto(item)).thenReturn(itemDto);
+        //when
+        final ItemDto actualItemDto = itemService.getItemById(itemIdAsString);
+        //then
+        final UUID expectedItemId = UUID.fromString(itemIdAsString);
+        final String expectedName = "Name of item";
+        final String expectedBriefDescription = "Brief description of item";
+        final BigDecimal expectedAmount = new BigDecimal("42.50");
+        final String expectedCurrency = Currency.USD.name();
+        assertThat(actualItemDto.getId(), is(expectedItemId));
+        assertThat(actualItemDto.getName(), is(expectedName));
+        assertThat(actualItemDto.getBriefDescription(), is(expectedBriefDescription));
+        assertThat(actualItemDto.getAmount(), is(expectedAmount));
+        assertThat(actualItemDto.getCurrency(), is(expectedCurrency));
+        verify(itemRepository, times(1)).getItemById(itemId);
     }
 
     private Item getItem() {

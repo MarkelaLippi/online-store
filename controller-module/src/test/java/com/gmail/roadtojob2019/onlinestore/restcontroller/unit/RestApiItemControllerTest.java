@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
@@ -17,6 +18,7 @@ import java.util.UUID;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = RestApiItemController.class)
@@ -56,6 +58,22 @@ public class RestApiItemControllerTest {
                 //then
                 .andExpect(status().isOk());
         verify(itemService, times(1)).getItemById(itemId);
+    }
+
+    @Test
+    void addItemTest() throws Exception {
+        //given
+        final ItemDto itemDto = getItemDto();
+        itemDto.setId(null);
+        final String addedItemId = "e65a4017-a3d9-4986-8e4a-f2ad9dda077b";
+        when(itemService.addItem(itemDto)).thenReturn(addedItemId);
+        //when
+        mockMvc.perform(post("/secure/items")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(itemDto)))
+                //then
+                .andExpect(status().isCreated());
+        verify(itemService, times(1)).addItem(itemDto);
     }
 
     private ItemDto getItemDto() {

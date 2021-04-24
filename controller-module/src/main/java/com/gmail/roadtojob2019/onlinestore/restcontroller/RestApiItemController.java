@@ -26,4 +26,10 @@ public class RestApiItemController {
     ItemDto getItemById(@PathVariable final String itemId) {
         return itemService.getItemById(itemId);
     }
+
+    @PostMapping("items")
+    @ResponseStatus(HttpStatus.CREATED)
+    String addItem(@RequestBody ItemDto itemDto) {
+        return itemService.addItem(itemDto);
+    }
 }

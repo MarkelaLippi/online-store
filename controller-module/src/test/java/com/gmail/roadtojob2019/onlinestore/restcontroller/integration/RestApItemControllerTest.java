@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -18,6 +19,7 @@ import java.util.UUID;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -72,5 +74,26 @@ class RestApItemControllerTest {
         assertThat(actualItemDto, hasProperty("briefDescription", equalTo(expectedBriefDescription)));
         assertThat(actualItemDto, hasProperty("currency", equalTo(expectedCurrency)));
         assertThat(actualItemDto, hasProperty("amount", equalTo(expectedAmount)));
+    }
+
+    @Test
+    void addItemTest() throws Exception {
+        //given
+        final ItemDto itemDto = getItemDto();
+        //when
+        mockMvc.perform(post("/secure/items")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(itemDto)))
+                //then
+                .andExpect(status().isCreated());
+    }
+
+    private ItemDto getItemDto() {
+        return ItemDto.builder()
+                .name("Name of item")
+                .briefDescription("Brief description of item")
+                .currency("USD")
+                .amount(new BigDecimal("42.50"))
+                .build();
     }
 }

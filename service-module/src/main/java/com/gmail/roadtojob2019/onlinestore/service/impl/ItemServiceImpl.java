@@ -69,10 +69,18 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    @Transactional
     public List<ItemDto> getItems() {
         final List<Item> items = itemRepository.findAll();
         return items.stream()
                 .map(itemMapper::fromItemToDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public String addItem(ItemDto itemDto) {
+        final Item item = itemMapper.fromDtoToItem(itemDto);
+        return itemRepository.save(item).getId().toString();
     }
 }

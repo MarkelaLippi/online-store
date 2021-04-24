@@ -15,4 +15,6 @@ public interface ItemService {
     ItemDto getItemById(String itemId);
 
     List<ItemDto> getItems();
+
+    String addItem(ItemDto itemDto);
 }

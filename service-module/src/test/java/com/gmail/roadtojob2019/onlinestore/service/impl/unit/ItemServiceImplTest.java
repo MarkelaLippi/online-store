@@ -62,14 +62,14 @@ public class ItemServiceImplTest {
     @Test
     void deleteItemsByIdsTest() {
         //given
-        final String[] itemsIdsAsString={"123e4567-e89b-12d3-a456-556642440000", "e65a4017-a3d9-4986-8e4a-f2ad9dda077b"};
+        final String[] itemsIdsAsString = {"123e4567-e89b-12d3-a456-556642440000", "e65a4017-a3d9-4986-8e4a-f2ad9dda077b"};
         final List<UUID> itemsIds = Arrays.stream(itemsIdsAsString)
                 .map(UUID::fromString)
                 .collect(Collectors.toList());
         doNothing().when(itemRepository).deleteItemsByIds(itemsIds);
         //when
         itemService.deleteItemsByIds(itemsIdsAsString);
-                //then
+        //then
         verify(itemRepository, times(1)).deleteItemsByIds(itemsIds);
     }
 
@@ -128,6 +128,21 @@ public class ItemServiceImplTest {
         assertThat(actualItemDto.getAmount(), is(expectedAmount));
         assertThat(actualItemDto.getCurrency(), is(expectedCurrency));
         verify(itemRepository, times(1)).getItemById(itemId);
+    }
+
+    @Test
+    void addItemTest() {
+        //given
+        final Item item = getItem();
+        when(itemRepository.save(item)).thenReturn(item);
+        final ItemDto itemDto = getItemDto();
+        when(itemMapper.fromDtoToItem(itemDto)).thenReturn(item);
+        //when
+        final String actualItemId = itemService.addItem(itemDto);
+        final String expectedItemId = "e65a4017-a3d9-4986-8e4a-f2ad9dda077b";
+        assertThat(actualItemId, is(expectedItemId));
+        verify(itemRepository, times(1)).save(item);
+        verify(itemMapper, times(1)).fromDtoToItem(itemDto);
     }
 
     private Item getItem() {

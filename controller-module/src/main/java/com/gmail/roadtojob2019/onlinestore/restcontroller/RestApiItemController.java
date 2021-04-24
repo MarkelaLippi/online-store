@@ -32,4 +32,10 @@ public class RestApiItemController {
     String addItem(@RequestBody ItemDto itemDto) {
         return itemService.addItem(itemDto);
     }
+
+    @DeleteMapping("/items/{itemId}")
+    @ResponseStatus(HttpStatus.OK)
+    void deleteItemById(@PathVariable final String itemId) {
+        itemService.deleteItemById(itemId);
+    }
 }

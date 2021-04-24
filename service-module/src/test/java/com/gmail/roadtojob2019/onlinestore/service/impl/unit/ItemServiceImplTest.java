@@ -145,6 +145,17 @@ public class ItemServiceImplTest {
         verify(itemMapper, times(1)).fromDtoToItem(itemDto);
     }
 
+    @Test
+    void deleteItemById() {
+        //given
+        final String itemIdAsString = "e65a4017-a3d9-4986-8e4a-f2ad9dda077b";
+        final UUID itemId = UUID.fromString("e65a4017-a3d9-4986-8e4a-f2ad9dda077b");
+        doNothing().when(itemRepository).deleteItemById(itemId);
+        //when
+        itemService.deleteItemById(itemIdAsString);
+        verify(itemRepository, times(1)).deleteItemById(itemId);
+    }
+
     private Item getItem() {
         return Item.builder()
                 .id(UUID.fromString("e65a4017-a3d9-4986-8e4a-f2ad9dda077b"))

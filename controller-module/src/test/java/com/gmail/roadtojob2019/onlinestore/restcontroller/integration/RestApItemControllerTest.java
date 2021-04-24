@@ -18,8 +18,7 @@ import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -86,6 +85,16 @@ class RestApItemControllerTest {
                 .content(objectMapper.writeValueAsString(itemDto)))
                 //then
                 .andExpect(status().isCreated());
+    }
+
+    @Test
+    void deleteItemById() throws Exception {
+        //given
+        final String itemId = "e65a4017-a3d9-4986-8e4a-f2ad9dda077b";
+        //when
+        mockMvc.perform(delete("/secure/items/" + itemId))
+                //then
+                .andExpect(status().isOk());
     }
 
     private ItemDto getItemDto() {
